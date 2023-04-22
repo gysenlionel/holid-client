@@ -1,3 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700;1,800&family=Figtree:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    body {
+        @apply text-white bg-background text-lg font-body !scrollbar-thin !scrollbar-track-transparent
+        !scrollbar-thumb-orangeMain select-none;
+    }
+
+    header {
+        @apply fixed top-0 z-50 flex w-full items-center justify-between
+        px-4 py-4 transition-all lg:px-10 lg:py-6 select-none;
+    }
+
+    footer {
+        @apply select-none
+    }
+    
+}
+
+@layer components {
+    .link {
+        @apply relative cursor-pointer text-lg font-medium before:absolute before:inset-x-0 
+        before:-bottom-1.5 before:h-0.5 before:origin-left before:scale-x-0 before:transform 
+        before:rounded-bl before:bg-orangeMain before:transition-all before:duration-200 
+        hover:before:scale-x-100;
+    }
+
+    .gradientBooking {
+        @apply bg-gradient-to-t from-backgroundFrom to-backgroundTo;
+    }
+
+    .title1 {
+        @apply lg:text-xl text-orangeMain font-bold font-heading text-lg mb-6;
+    }
+
+    .title2 {
+        @apply lg:text-lg font-semibold font-heading text-base text-white;
+    }
+
+    .title2Hero {
+        @apply lg:text-2xl font-bold font-heading tracking-widest lg:leading-8 leading-6 text-xl;
+    }
+
+    .includesTaxes {
+        @apply text-sm font-body font-extralight text-white/50 ;
+    }
+
+    .gutters {
+        @apply mx-2 sm:mx-12 lg:mx-24;
+    }
+}
