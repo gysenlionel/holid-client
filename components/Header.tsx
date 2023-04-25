@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import logo from "../public/assets/logo/logo.svg";
 import {
   ShoppingBagIcon,
   UserIcon,
@@ -48,7 +49,7 @@ const Header: React.FunctionComponent<IHeaderProps> = (props) => {
           withCredentials: true,
         }
       );
-
+      // console.log(response);
       router.push("/stays");
     } catch (err) {
       console.error(err);
@@ -111,7 +112,7 @@ const Header: React.FunctionComponent<IHeaderProps> = (props) => {
       <div className="flex items-center space-x-2 md:space-x-10">
         <Link href="/">
           <img
-            src="/assets/logo/logo.svg"
+            src={logo.src}
             width={120}
             height={120}
             className="cursor-pointer object-contain"
