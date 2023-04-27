@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-// import logo from "../public/assets/logo/logo.svg";
 import {
   ShoppingBagIcon,
   UserIcon,
@@ -113,7 +112,7 @@ const Header: React.FunctionComponent<IHeaderProps> = (props) => {
       <div className="flex items-center space-x-2 md:space-x-10">
         <Link href="/">
           <Image
-            src="/assets/logo/logo.svg"
+            src="/logo.svg"
             alt="logo"
             width={120}
             height={120}
