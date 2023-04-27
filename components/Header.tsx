@@ -13,6 +13,7 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import { environment } from "../lib/environment";
 import { useUser } from "../contexts/user-context";
+import Image from "next/image";
 
 interface IHeaderProps {}
 
@@ -111,7 +112,7 @@ const Header: React.FunctionComponent<IHeaderProps> = (props) => {
       </ModalUi>
       <div className="flex items-center space-x-2 md:space-x-10">
         <Link href="/">
-          <img
+          <Image
             src="/assets/logo/logo.svg"
             alt="logo"
             width={120}
