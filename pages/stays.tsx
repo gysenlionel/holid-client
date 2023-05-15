@@ -9,6 +9,7 @@ import axios from "axios";
 import { Hotel } from "../types";
 import StaysCard from "../components/StaysCard";
 import { getUser } from "../lib/getUser-ssr";
+import { environment } from "../lib/environment";
 
 interface IStaysProps {
   properties: Hotel[];
@@ -67,7 +68,7 @@ export default Stays;
 export const getServerSideProps = async (context) => {
   // &min=${min}&max=${max}
   const properties = await axios.get(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/hotels?city=${context.query.destination}&min=550&max=550`,
+    `${environment.apiUrl}/api/hotels?city=${context.query.destination}&min=550&max=550`,
     { withCredentials: true }
   );
 

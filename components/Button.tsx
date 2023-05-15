@@ -5,6 +5,7 @@ import {
   UserPlusIcon,
   ArrowRightOnRectangleIcon,
 } from "@heroicons/react/24/outline";
+import SpinnerSVG from "./SVG/Spinner";
 
 interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   isLoading?: boolean;
@@ -44,7 +45,9 @@ const SolidButton = forwardRef<HTMLInputElement, IButtonProps>(
         {...rest}
       >
         <span className="flex w-auto items-center justify-center">
-          {isLoading ? "loading" : undefined}
+          {isLoading ? (
+            <SpinnerSVG color="#fff" height={24} width={24} className="mr-1" />
+          ) : undefined}
           {icon ? iconObject[icon] : undefined}
           {parse(children as string)}
         </span>
@@ -69,7 +72,9 @@ const OutlineButton = forwardRef<HTMLInputElement, IButtonProps>(
         {...rest}
       >
         <span className="flex w-auto items-center justify-center">
-          {isLoading ? "loading" : undefined}
+          {isLoading ? (
+            <SpinnerSVG color="#fff" height={24} width={24} className="mr-1" />
+          ) : undefined}
           {icon ? iconObject[icon] : undefined}
           {parse(children as string)}
         </span>

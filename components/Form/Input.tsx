@@ -11,6 +11,7 @@ interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
   placeholder?: string;
   className?: string;
   errors?: string | string[];
+  globalError?: boolean;
   required?: boolean;
   variant?: InputStyles;
   autoComplete?: "on" | "off";
@@ -30,6 +31,7 @@ const InputNormal = forwardRef<HTMLInputElement, IInputProps>(
       placeholder,
       className,
       errors,
+      globalError,
       required,
       rounded,
       classNameInputContainer,
@@ -39,10 +41,14 @@ const InputNormal = forwardRef<HTMLInputElement, IInputProps>(
   ) {
     return (
       <div className={`${classNameContainer}`}>
-        <Label className="mb-4 ml-2 text-base text-white/75">{label}</Label>
+        <Label className="mb-4 ml-2 font-heading text-base text-white/75">
+          {label}
+        </Label>
         <div
           className={`w-full bg-white ${rounded} ${
-            errors ? "border-2 border-red-500 placeholder-red-500" : ""
+            errors || globalError
+              ? "border-2 border-red-500 placeholder-red-500"
+              : ""
           } ${classNameInputContainer}`}
         >
           <input
@@ -52,7 +58,7 @@ const InputNormal = forwardRef<HTMLInputElement, IInputProps>(
             name={name}
             id={id}
             placeholder={required ? `${placeholder}*` : placeholder}
-            className={`h-8 ${rounded} text-base text-black ${className} ml-4 outline-none placeholder:select-none 
+            className={`h-8 ${rounded} font-heading text-base text-black ${className} ml-4 outline-none placeholder:select-none 
             focus:placeholder:invisible`}
             required={required}
           />
@@ -95,6 +101,7 @@ const Input = forwardRef<HTMLInputElement, IInputProps>(function Button(
     placeholder,
     required,
     errors,
+    globalError,
     variant,
     label,
     rounded,
@@ -114,6 +121,7 @@ const Input = forwardRef<HTMLInputElement, IInputProps>(function Button(
           className={className}
           placeholder={placeholder}
           ref={ref}
+          globalError={globalError}
         />
       );
 
@@ -134,6 +142,7 @@ const Input = forwardRef<HTMLInputElement, IInputProps>(function Button(
           rounded={rounded}
           classNameInputContainer={classNameInputContainer}
           classNameContainer={classNameContainer}
+          globalError={globalError}
         />
       );
   }

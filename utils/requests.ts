@@ -1,8 +1,8 @@
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
+import { environment } from "../lib/environment"
 
 const requests = {
-    fetchCaribbeanHotels: `${BASE_URL}/api/hotels?type=hotel&limit=6&region=caribbean`,
-    fetchPropertyTypes: `${BASE_URL}/api/hotels/countbytype`
+    fetchCaribbeanHotels: `${environment.apiUrl}/api/hotels?type=hotel&limit=6&region=caribbean`,
+    fetchPropertyTypes: `${environment.apiUrl}/api/hotels/countbytype`
 }
 
 export default requests

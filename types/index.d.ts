@@ -11,7 +11,7 @@ export interface Hotel {
     photos: [Photo],
     title: string,
     desc: string,
-    rating: Number,
+    rating: number,
     rooms: [string],
     cheapestPrice: number,
     featured: Boolean,
@@ -31,4 +31,9 @@ export interface Photo {
 export interface PropertyTypes {
         type: string;
         count: number  
+}
+
+export interface Error {
+    status?: number;
+    message?: string | string[];
 }

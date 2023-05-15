@@ -1,61 +1,24 @@
 import React, { useEffect, useState } from "react";
-import {
-  ShoppingBagIcon,
-  UserIcon,
-  Bars3Icon,
-} from "@heroicons/react/24/outline";
 import Button from "./Button";
 import Link from "next/link";
-import Input from "./Form/Input";
 import ModalUi from "./Modal/ModalUi";
-import { useRouter } from "next/router";
-import axios from "axios";
-import { environment } from "../lib/environment";
 import { useUser } from "../contexts/user-context";
 import Image from "next/image";
+import AvatarIcon from "./AvatarIcon";
+import { MdOutlineFlight } from "react-icons/md";
+import BurgerMenu from "./BurgerMenu";
+import LoginModal from "./Modal/LoginModal";
+import SignUpModal from "./Modal/SignUpModal";
 
 interface IHeaderProps {}
 
-interface ICredentials {
-  username: string | undefined;
-  password: string | undefined;
-}
-
 const Header: React.FunctionComponent<IHeaderProps> = (props) => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-  const [credentials, setCredentials] = useState<ICredentials>({
-    username: undefined,
-    password: undefined,
-  });
-
-  const router = useRouter();
+  const [isShowModalLogin, setIsShowModalLogin] = useState(false);
+  const [isShowModalSign, setIsShowModalSign] = useState(false);
+  const [isShowMenu, setIsShowMenu] = useState(false);
   const { user } = useUser();
-  // const user = false;
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));
-  };
-
-  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-
-    try {
-      const response = await axios.post(
-        `${environment.apiUrl}/api/auth/login`,
-        credentials,
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }
-      );
-      // console.log(response);
-      router.push("/stays");
-    } catch (err) {
-      console.error(err);
-    }
-  };
-  // console.log(user);
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 0) {
@@ -74,41 +37,14 @@ const Header: React.FunctionComponent<IHeaderProps> = (props) => {
 
   return (
     <header className={`${isScrolled && "bg-backgroundHeader"} select-none`}>
-      <ModalUi showModal={showModal} onClose={setShowModal} title="Login">
-        <Input
-          name="username"
-          type="text"
-          id="username"
-          onChange={handleChange}
-          placeholder="Username"
-          errors={""}
-          rounded="rounded-2xl"
-          className="py-1"
-          classNameInputContainer="py-1"
-          classNameContainer="pb-2"
-        />
-        <Input
-          name="password"
-          type="password"
-          id="password"
-          onChange={handleChange}
-          placeholder="Password"
-          errors={""}
-          rounded="rounded-2xl"
-          className="py-1"
-          classNameInputContainer="py-1"
-          classNameContainer="pb-4"
-        />
-        <Button
-          children="Sign In"
-          className="rounded-2xl py-2"
-          size="full"
-          onClick={handleSubmit}
-        />
-        <div className="m-auto mb-2 mt-4 w-max cursor-pointer border-b border-dotted font-body text-white/60 hover:text-white/80">
-          Forgotten password ?
-        </div>
-      </ModalUi>
+      <LoginModal
+        setIsShowModal={setIsShowModalLogin}
+        isShowModal={isShowModalLogin}
+      />
+      <SignUpModal
+        setIsShowModal={setIsShowModalSign}
+        isShowModal={isShowModalSign}
+      />
       <div className="flex items-center space-x-2 md:space-x-10">
         <Link href="/">
           <Image
@@ -137,20 +73,42 @@ const Header: React.FunctionComponent<IHeaderProps> = (props) => {
               icon="LOG"
               variant="outline"
               size="small"
-              onClick={() => setShowModal(true)}
+              onClick={() => setIsShowModalLogin(true)}
             />
-            <Button children="Sign Up" icon="SIGN" size="small" />
+            <Button
+              children="Sign Up"
+              icon="SIGN"
+              size="small"
+              onClick={() => setIsShowModalSign(true)}
+            />
           </>
         )}
         {user && (
           <>
-            <ShoppingBagIcon className="h-6 w-6 cursor-pointer text-orangeMain" />
-            <UserIcon className="h-6 w-6 cursor-pointer text-orangeMain" />
+            <MdOutlineFlight className="h-8 w-8 cursor-pointer text-orangeMain" />
+            <AvatarIcon
+              iconURL={`${user?.img?.url}`}
+              className="cursor-pointer"
+            />
           </>
         )}
       </div>
-      <div className="flex md:hidden">
-        <Bars3Icon className="h-6 w-6 text-white" />
+      <div className="flex items-center md:hidden">
+        {user && (
+          <>
+            <MdOutlineFlight className="h-8 w-8 cursor-pointer text-white" />
+            <AvatarIcon
+              iconURL={`${user?.img?.url}`}
+              className="ml-3 !h-8 !w-8 cursor-pointer border"
+            />
+          </>
+        )}
+        <BurgerMenu
+          isShowMenu={isShowMenu}
+          setIsShowMenu={setIsShowMenu}
+          setIsShowModal={setIsShowModalLogin}
+          setIsShowModalSign={setIsShowModalSign}
+        />
       </div>
     </header>
   );
