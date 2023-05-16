@@ -24,7 +24,10 @@ export default async function handler(
             }),
             cookie.serialize('accessToken', '', {
               maxAge: -1,
-              domain: 'holid-server.xyz'
+              domain: '.holid-server.xyz',
+              httpOnly: true,
+              secure: true,
+              sameSite: 'none',
             })
           ]);
           res.status(200).json(response.data)
