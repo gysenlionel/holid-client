@@ -70,7 +70,7 @@ const BurgerMenu: React.FunctionComponent<IBurgerMenuProps> = ({
       )}
 
       <div
-        className={`fixed top-0 right-0 h-full w-screen bg-grayCard pl-6 ${
+        className={`fixed top-0 right-0 h-full w-screen bg-grayCard ${
           isShowMenu ? "translate-x-0" : "translate-x-full"
         } duration-300 ease-in-out`}
       >
