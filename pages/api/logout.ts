@@ -17,16 +17,16 @@ export default async function handler(
             }
           );
 
-          res.setHeader('Set-cookie', [
-            cookie.serialize('jwt', '', {
-              maxAge: -1,
-            }),
-            cookie.serialize('accessToken', '', {
-              maxAge: -1,
-            })
+          // res.setHeader('Set-cookie', [
+          //   cookie.serialize('jwt', '', {
+          //     maxAge: -1,
+          //   }),
+          //   cookie.serialize('accessToken', '', {
+          //     maxAge: -1,
+          //   })
 
-          ]);
-          res.setHeader("Set-Cookie", response.headers['set-cookie'])
+          // ]);
+          res.setHeader('Set-Cookie', 'jwt=deleted; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT')
           res.status(200).json('logout')
     }catch(err)
     {

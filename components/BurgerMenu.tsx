@@ -97,7 +97,6 @@ const BurgerMenu: React.FunctionComponent<IBurgerMenuProps> = ({
                   children="Logout"
                   onClick={async () => {
                     const response = await fetchGetJSON("/api/logout");
-                    console.log(response);
                     setIsShowMenu(false);
                     router.push("/");
                   }}
