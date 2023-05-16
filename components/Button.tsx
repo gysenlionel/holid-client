@@ -39,7 +39,9 @@ const SolidButton = forwardRef<HTMLInputElement, IButtonProps>(
     return (
       <button
         className={`${globalStyle} ${buttonSize[size]} ${className}
-    ${isLoading ? "flex items-center justify-center" : undefined}`}
+    ${
+      isLoading ? "flex items-center justify-center" : undefined
+    } hover:saturate-200`}
         ref={forwardedRef}
         type={type}
         {...rest}

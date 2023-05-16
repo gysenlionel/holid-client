@@ -2,6 +2,7 @@
 import axios from 'axios';
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { environment } from '../../lib/environment';
+import cookie from "cookie";
 
 export default async function handler(
     req: NextApiRequest,
@@ -15,7 +16,17 @@ export default async function handler(
               withCredentials: true,
             }
           );
-          res.setHeader("Set-Cookie", response.headers['set-cookie'])
+
+          res.setHeader('Set-cookie', [
+            cookie.serialize('jwt', '', {
+              maxAge: -1,
+              path: '/'
+            }),
+            cookie.serialize('accessToken', '', {
+              maxAge: -1,
+              path: '/'
+            })
+          ]);
           res.status(200).json(response.data)
     }catch(err)
     {
