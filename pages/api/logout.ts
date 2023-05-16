@@ -20,14 +20,11 @@ export default async function handler(
           res.setHeader('Set-cookie', [
             cookie.serialize('jwt', '', {
               maxAge: -1,
-              path: '/'
             }),
             cookie.serialize('accessToken', '', {
               maxAge: -1,
-              path: '/'
             })
           ]);
-          res.writeHead(302, { Location: '/' });
           res.status(200).json(response.data)
     }catch(err)
     {
