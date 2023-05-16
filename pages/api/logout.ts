@@ -24,8 +24,10 @@ export default async function handler(
             cookie.serialize('accessToken', '', {
               maxAge: -1,
             })
+
           ]);
-          res.status(200).json(response.data)
+          res.setHeader("Set-Cookie", response.headers['set-cookie'])
+          res.status(200).json('logout')
     }catch(err)
     {
         res.status(500).json({statusCode:500, message:err?.response?.data})
