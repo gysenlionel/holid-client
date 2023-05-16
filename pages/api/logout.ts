@@ -26,7 +26,7 @@ export default async function handler(
             })
 
           ]);
-          // res.setHeader("Set-Cookie", response.headers['set-cookie'])
+          res.setHeader("Set-Cookie", response.headers['set-cookie'])
           res.status(200).json('logout')
     }catch(err)
     {
