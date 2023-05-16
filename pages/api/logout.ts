@@ -29,6 +29,7 @@ export default async function handler(
           res.setHeader("Set-Cookie", [
             `jwt=deleted; Max-Age=0`,
             `accessToken=deleted; Max-Age=0`])
+            
           res.status(200).json('logout')
     }catch(err)
     {
