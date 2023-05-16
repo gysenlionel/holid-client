@@ -20,11 +20,11 @@ export default async function handler(
           res.setHeader('Set-cookie', [
             cookie.serialize('jwt', '', {
               maxAge: -1,
-              path: '/'
+              domain: 'holid-server.xyz'
             }),
             cookie.serialize('accessToken', '', {
               maxAge: -1,
-              path: '/'
+              domain: 'holid-server.xyz'
             })
           ]);
           res.status(200).json(response.data)
