@@ -16,16 +16,6 @@ export default async function handler(
               withCredentials: true,
             }
           );
-
-          res.setHeader('Set-cookie', [
-            cookie.serialize('jwt', '', {
-              maxAge: -1,
-            }),
-            cookie.serialize('accessToken', '', {
-              maxAge: -1,
-            })
-
-          ]);
           res.setHeader("Set-Cookie", response.headers['set-cookie'])
           res.status(200).json('logout')
     }catch(err)
