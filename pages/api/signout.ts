@@ -7,16 +7,25 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse
   ) {
-    if (req.method === "POST"){
+    // if (req.method === "POST"){
         try {
-            const response = await axios.post(
-                `${environment.apiUrl}/api/auth/signout`,
-                {},
+            // const response = await axios.post(
+            //     `${environment.apiUrl}/api/auth/signout`,
+            //     {},
+            //     {
+            //       withCredentials: true,
+            //       headers: { cookie: req.headers.cookie },
+            //     }
+            //   );
+
+            const response = await axios.get(
+                `${environment.apiUrl}/api/auth/logout`,
                 {
-                  withCredentials: true,
                   headers: { cookie: req.headers.cookie },
+                  withCredentials: true,
                 }
               );
+              
               res.setHeader("Set-Cookie", response.headers['set-cookie'])
 
               res.status(200).json(response.data)
@@ -25,5 +34,5 @@ export default async function handler(
             res.status(500).json({statusCode:500, message:err?.response?.data})
         }
     }
-  }
+//   }
   
