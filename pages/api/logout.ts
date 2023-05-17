@@ -17,18 +17,16 @@ export default async function handler(
             }
           );
 
-          // res.setHeader('Set-cookie', [
-          //   cookie.serialize('jwt', '', {
-          //     maxAge: -1,
-          //   }),
-          //   cookie.serialize('accessToken', '', {
-          //     maxAge: -1,
-          //   })
+          res.setHeader('Set-cookie', [
+            cookie.serialize('jwt', '', {
+              maxAge: -1,
+            }),
+            cookie.serialize('accessToken', '', {
+              maxAge: -1,
+            })
 
-          // ]);
-          res.setHeader("Set-Cookie", [
-            `jwt=deleted; Max-Age=0`,
-            `accessToken=deleted; Max-Age=0`])
+          ]);
+      
           res.status(200).json('logout')
     }catch(err)
     {

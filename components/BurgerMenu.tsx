@@ -8,7 +8,7 @@ import {
   ArrowRightOnRectangleIcon,
 } from "@heroicons/react/24/outline";
 import Image from "next/image";
-import { fetchGetJSON, fetchPostJSON } from "../utils/helpers/api-helpers";
+import { fetchPostJSON } from "../utils/helpers/api-helpers";
 
 interface IBurgerMenuProps {
   isShowMenu: boolean;
@@ -96,7 +96,6 @@ const BurgerMenu: React.FunctionComponent<IBurgerMenuProps> = ({
                 <MenuItem
                   children="Logout"
                   onClick={async () => {
-                    // const response = await fetchGetJSON("/api/logout");
                     const response = await fetchPostJSON("/api/signout");
                     setIsShowMenu(false);
                     router.push("/");
