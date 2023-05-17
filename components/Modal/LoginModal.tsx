@@ -52,7 +52,6 @@ const LoginModal: React.FunctionComponent<ILoginModalProps> = ({
     const response = await fetchPostJSON("/api/login", {
       credentials: credentials,
     });
-    console.log(response);
     if ((response as any)?.statusCode === 500) {
       setIsLoading(false);
       console.error(response?.message);
