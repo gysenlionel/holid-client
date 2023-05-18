@@ -25,7 +25,7 @@ const BurgerMenu: React.FunctionComponent<IBurgerMenuProps> = ({
 }) => {
   const { user } = useUser();
   const router = useRouter();
-
+  const path = useRouter().asPath;
   const MenuItem: React.FC<{
     children: string;
     onClick?: React.MouseEventHandler<HTMLParagraphElement>;
@@ -99,7 +99,11 @@ const BurgerMenu: React.FunctionComponent<IBurgerMenuProps> = ({
                     e.preventDefault();
                     const response = await fetchPostJSON("/api/signout");
                     setIsShowMenu(false);
-                    router.replace("/").then(() => router.reload());
+                    if (path === "/") {
+                      router.replace("/stays").then(() => router.reload());
+                    } else {
+                      router.replace("/").then(() => router.reload());
+                    }
                   }}
                 />
               </>
