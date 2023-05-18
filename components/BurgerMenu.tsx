@@ -32,7 +32,7 @@ const BurgerMenu: React.FunctionComponent<IBurgerMenuProps> = ({
   }> = ({ children, onClick }) => {
     return (
       <p
-        className="w-full cursor-pointer border-b border-dotted py-8 text-center"
+        className="w-full cursor-pointer border-b border-dotted py-8 text-center hover:text-orangeMain"
         onClick={onClick}
       >
         {children}
@@ -47,17 +47,17 @@ const BurgerMenu: React.FunctionComponent<IBurgerMenuProps> = ({
           {!user && (
             <>
               <ArrowRightOnRectangleIcon
-                className="mr-3 h-6 w-6 cursor-pointer"
+                className="mr-3 h-6 w-6 cursor-pointer md:hidden"
                 onClick={() => setIsShowModal(true)}
               />
               <UserPlusIcon
-                className="h-6 w-6 cursor-pointer"
+                className="h-6 w-6 cursor-pointer md:hidden"
                 onClick={() => setIsShowModalSign(true)}
               />
             </>
           )}
           <Bars3Icon
-            className="ml-3 h-6 w-6 cursor-pointer text-white"
+            className="ml-3 h-6 w-6 cursor-pointer text-white md:hidden"
             onClick={() => setIsShowMenu(!isShowMenu)}
           />
         </div>
@@ -81,13 +81,13 @@ const BurgerMenu: React.FunctionComponent<IBurgerMenuProps> = ({
           <div className="mx-4 mt-24 flex flex-col items-center justify-center text-white">
             {user ? (
               <>
-                <Link href="/" className="w-full">
+                <Link href="/" className="w-full hover:text-orangeMain">
                   <MenuItem
                     children="Home"
                     onClick={() => setIsShowMenu(false)}
                   />
                 </Link>
-                <Link href="/stays" className="w-full">
+                <Link href="/stays" className="w-full hover:text-orangeMain">
                   <MenuItem
                     children="Stays"
                     onClick={() => setIsShowMenu(false)}
@@ -99,19 +99,20 @@ const BurgerMenu: React.FunctionComponent<IBurgerMenuProps> = ({
                     e.preventDefault();
                     const response = await fetchPostJSON("/api/signout");
                     setIsShowMenu(false);
-                    router.replace("/");
+                    // router.replace("/")
+                    router.reload();
                   }}
                 />
               </>
             ) : (
               <>
-                <Link href="/" className="w-full">
+                <Link href="/" className="w-full hover:text-orangeMain">
                   <MenuItem
                     children="Home"
                     onClick={() => setIsShowMenu(false)}
                   />
                 </Link>
-                <Link href="/stays" className="w-full">
+                <Link href="/stays" className="w-full hover:text-orangeMain">
                   <MenuItem
                     children="Stays"
                     onClick={() => setIsShowMenu(false)}

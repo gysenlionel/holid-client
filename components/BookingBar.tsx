@@ -58,7 +58,7 @@ const BookingBarClassic: React.FunctionComponent<IBookingBarProps> = ({
     inputRef.current.focus();
   }, []);
 
-  const handleChange = (name, value) => {
+  const handleChange = (name: keyof IData, value: string): void => {
     setData({
       ...data,
       [name]: value,
@@ -217,7 +217,7 @@ const BookingBarFilters: React.FunctionComponent<IBookingBarProps> = ({
     inputRef.current.focus();
   }, []);
 
-  const handleChange = (name, value) => {
+  const handleChange = (name: keyof IData, value: string): void => {
     setData({
       ...data,
       [name]: value,

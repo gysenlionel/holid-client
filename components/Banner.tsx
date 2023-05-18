@@ -77,7 +77,10 @@ const Banner: React.FunctionComponent<IBannerProps> = ({
             src={array[index].src}
             alt="banner"
             fill
+            sizes="100vw"
             className="object-cover"
+            placeholder="blur"
+            blurDataURL={array[index].src}
             priority
           />
         </div>

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Button from "./Button";
 import Link from "next/link";
-import ModalUi from "./Modal/ModalUi";
 import { useUser } from "../contexts/user-context";
 import Image from "next/image";
 import AvatarIcon from "./AvatarIcon";
@@ -52,7 +51,7 @@ const Header: React.FunctionComponent<IHeaderProps> = (props) => {
             alt="logo"
             width={120}
             height={120}
-            className="cursor-pointer object-contain"
+            className="h-auto cursor-pointer object-contain"
           />
         </Link>
       </div>
@@ -89,9 +88,17 @@ const Header: React.FunctionComponent<IHeaderProps> = (props) => {
             <AvatarIcon
               iconURL={`${user?.img?.url}`}
               className="cursor-pointer"
+              isShowModal={isShowMenu}
+              setIsShowModal={setIsShowMenu}
             />
           </>
         )}
+        <BurgerMenu
+          isShowMenu={isShowMenu}
+          setIsShowMenu={setIsShowMenu}
+          setIsShowModal={setIsShowModalLogin}
+          setIsShowModalSign={setIsShowModalSign}
+        />
       </div>
       <div className="flex items-center md:hidden">
         {user && (

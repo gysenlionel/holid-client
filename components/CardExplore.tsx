@@ -28,6 +28,7 @@ const CardExplore: React.FunctionComponent<ICardExploreProps> = ({
       <Image
         src={caribbeanHotel.photos[0]?.url}
         alt={`photo ${caribbeanHotel.name}`}
+        sizes="50vw"
         fill
         className="!w-[calc(7rem + 10vw) !h-[13rem] rounded-lg object-cover"
       />
