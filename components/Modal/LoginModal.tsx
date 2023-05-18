@@ -89,7 +89,7 @@ const LoginModal: React.FunctionComponent<ILoginModalProps> = ({
           placeholder="Username"
           globalError={errors?.status === 400 && true}
           rounded="rounded-2xl"
-          className="py-1"
+          className="!ml-0 w-full py-1 pl-4"
           classNameInputContainer="py-1"
           classNameContainer="pb-2"
           required={true}
@@ -102,13 +102,13 @@ const LoginModal: React.FunctionComponent<ILoginModalProps> = ({
           placeholder="Password"
           errors={errors?.message?.includes("password") && errors?.message}
           rounded="rounded-2xl"
-          className="py-1"
+          className="!ml-0 w-full py-1 pl-4"
           classNameInputContainer="py-1"
           classNameContainer="pb-4"
           required={true}
         />
         <Button
-          children="Sign In"
+          children="Log In"
           className="rounded-2xl py-2"
           size="full"
           onClick={handleSubmit}

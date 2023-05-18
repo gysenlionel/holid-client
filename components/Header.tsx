@@ -60,8 +60,12 @@ const Header: React.FunctionComponent<IHeaderProps> = (props) => {
           user ? "w-[10rem]" : "w-5"
         } items-center  space-x-10 font-heading text-base font-semibold text-white md:flex`}
       >
-        <li className="link">Home</li>
-        <li className="link">Stays</li>
+        <Link href="/">
+          <li className="link">Home</li>
+        </Link>
+        <Link href="/stays">
+          <li className="link">Stays</li>
+        </Link>
       </ul>
 
       <div className="hidden items-center space-x-4 md:flex">

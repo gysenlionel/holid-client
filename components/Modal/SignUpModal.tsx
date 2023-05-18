@@ -95,14 +95,14 @@ const SignUpModal: React.FunctionComponent<ISignUpModalProps> = ({
           type="text"
           id="lastname"
           onChange={handleChange}
-          placeholder="lastname"
+          placeholder="Lastname"
           errors={
             Array.isArray(errors?.message)
               ? errors?.message.find((mess) => mess.includes("Lastname"))
               : errors?.message?.includes("Lastname") && errors?.message
           }
           rounded="rounded-2xl"
-          className="py-1"
+          className="!ml-0 w-full py-1 pl-4"
           classNameInputContainer="py-1"
           classNameContainer="pb-2"
           required={true}
@@ -112,14 +112,14 @@ const SignUpModal: React.FunctionComponent<ISignUpModalProps> = ({
           type="text"
           id="firstname"
           onChange={handleChange}
-          placeholder="firstname"
+          placeholder="Firstname"
           errors={
             Array.isArray(errors?.message)
               ? errors?.message.find((mess) => mess.includes("Firstname"))
               : errors?.message?.includes("Firstname") && errors?.message
           }
           rounded="rounded-2xl"
-          className="py-1"
+          className="!ml-0 w-full py-1 pl-4"
           classNameInputContainer="py-1"
           classNameContainer="pb-2"
           required={true}
@@ -129,14 +129,14 @@ const SignUpModal: React.FunctionComponent<ISignUpModalProps> = ({
           type="email"
           id="email"
           onChange={handleChange}
-          placeholder="email"
+          placeholder="Email"
           errors={
             Array.isArray(errors?.message)
               ? errors?.message.find((mess) => mess.includes("Email"))
               : errors?.message?.includes("Email") && errors?.message
           }
           rounded="rounded-2xl"
-          className="py-1"
+          className="!ml-0 w-full py-1 pl-4"
           classNameInputContainer="py-1"
           classNameContainer="pb-2"
           required={true}
@@ -153,7 +153,7 @@ const SignUpModal: React.FunctionComponent<ISignUpModalProps> = ({
               : errors?.message?.includes("Username") && errors?.message
           }
           rounded="rounded-2xl"
-          className="py-1"
+          className="!ml-0 w-full py-1 pl-4"
           classNameInputContainer="py-1"
           classNameContainer="pb-2"
           required={true}
@@ -170,13 +170,13 @@ const SignUpModal: React.FunctionComponent<ISignUpModalProps> = ({
               : errors?.message?.includes("Password") && errors?.message
           }
           rounded="rounded-2xl"
-          className="py-1"
+          className="!ml-0 w-full py-1 pl-4"
           classNameInputContainer="py-1"
           classNameContainer="pb-2"
           required={true}
         />
         <Button
-          children="Sign In"
+          children="Sign Up"
           className="rounded-2xl py-2"
           size="full"
           onClick={handleSubmit}

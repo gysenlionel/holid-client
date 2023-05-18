@@ -58,7 +58,7 @@ const InputNormal = forwardRef<HTMLInputElement, IInputProps>(
             name={name}
             id={id}
             placeholder={required ? `${placeholder}*` : placeholder}
-            className={`h-8 w-full ${rounded} font-heading text-base text-black ${className} pl-4 outline-none 
+            className={`h-8 ${rounded} font-heading text-base text-black ${className} ml-4 outline-none 
             placeholder:select-none focus:placeholder:invisible`}
             required={required}
           />
