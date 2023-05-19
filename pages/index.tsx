@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Image from "next/image";
 import Banner from "../components/Banner";
 import Input from "../components/Form/Input";
 import Header from "../components/Header";
@@ -35,7 +34,6 @@ const Home: React.FunctionComponent<IIndexProps> = ({
       [name]: value,
     });
   };
-
   return (
     <div className={`h-screen lg:h-[140vh]`}>
       <HeadSEO

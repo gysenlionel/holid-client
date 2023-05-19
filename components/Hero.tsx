@@ -1,10 +1,15 @@
 import Image from "next/image";
 import React from "react";
 import Button from "./Button";
+import { selectTravelState, setTravelState } from "../store/travelSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 interface IHeroProps {}
 
 const Hero: React.FunctionComponent<IHeroProps> = (props) => {
+  const travelState = useSelector(selectTravelState);
+  const dispatch = useDispatch();
+  console.log(travelState);
   return (
     <div className="flex items-center justify-center space-x-10">
       <div className="flex flex-col">
@@ -16,7 +21,16 @@ const Hero: React.FunctionComponent<IHeroProps> = (props) => {
           Find inspiration, then compare and book your holiday <br /> with more
           flexibility and enjoyment.
         </p>
-        <Button size="lg" children="RESERVE" className="mt-8 self-center" />
+        <Button
+          size="lg"
+          children="RESERVE"
+          className="mt-8 self-center"
+          onClick={() =>
+            travelState
+              ? dispatch(setTravelState(false))
+              : dispatch(setTravelState(true))
+          }
+        />
       </div>
       <div className="relative hidden h-[310px] w-[420px] md:block">
         <Image
