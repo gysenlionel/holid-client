@@ -23,7 +23,7 @@ const BurgerMenu: React.FunctionComponent<IBurgerMenuProps> = ({
   setIsShowModal,
   setIsShowModalSign,
 }) => {
-  const { user } = useUser();
+  const { user, setUser } = useUser();
   const router = useRouter();
   const path = useRouter().asPath;
   const MenuItem: React.FC<{
@@ -99,11 +99,8 @@ const BurgerMenu: React.FunctionComponent<IBurgerMenuProps> = ({
                     e.preventDefault();
                     const response = await fetchPostJSON("/api/signout");
                     setIsShowMenu(false);
-                    if (path === "/") {
-                      router.replace("/stays").then(() => router.reload());
-                    } else {
-                      router.replace("/").then(() => router.reload());
-                    }
+                    setUser(null);
+                    // router.replace("/");
                   }}
                 />
               </>
