@@ -63,7 +63,7 @@ const Header: React.FunctionComponent<IHeaderProps> = (props) => {
         <Link href="/">
           <li className="link">Home</li>
         </Link>
-        <Link href="/stays">
+        <Link href={{ pathname: "/stays", query: { destination: "" } }}>
           <li className="link">Stays</li>
         </Link>
       </ul>

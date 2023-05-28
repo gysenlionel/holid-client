@@ -25,11 +25,12 @@ module.exports = {
         'body': ['EB Garamond', 'serif'],
         'heading': ['Figtree', 'sans-serif']
       }
-    },
+    }
   },
   plugins: [
     require('tailwind-scrollbar-hide'),
     require('tailwind-scrollbar'),
     require('@tailwindcss/line-clamp'),
+    require("@tailwindcss/forms")
   ],
 }

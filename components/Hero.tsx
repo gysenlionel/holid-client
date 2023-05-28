@@ -1,6 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import Button from "./Button";
+import { useDispatch, useSelector } from "react-redux";
 
 interface IHeroProps {}
 
@@ -16,7 +17,12 @@ const Hero: React.FunctionComponent<IHeroProps> = (props) => {
           Find inspiration, then compare and book your holiday <br /> with more
           flexibility and enjoyment.
         </p>
-        <Button size="lg" children="RESERVE" className="mt-8 self-center" />
+        <Button
+          size="lg"
+          children="RESERVE"
+          className="mt-8 self-center"
+          // onClick={() =>}
+        />
       </div>
       <div className="relative hidden h-[310px] w-[420px] md:block">
         <Image

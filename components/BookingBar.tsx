@@ -15,10 +15,18 @@ import Button from "./Button";
 import OutsideClick from "./OutsideClick/OutsideClick";
 import CompFamModal from "./Modal/CompFamModal";
 import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
+import {
+  selectDatesState,
+  selectDestinationState,
+  selectOptionsState,
+} from "../store/travelSlice";
 
 interface IBookingBarProps {
   className?: string;
   variant?: "bookingBarFilters" | "bookingBarClassic";
+  isLoading?: boolean;
+  setIsLoading?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface IData {
@@ -66,7 +74,7 @@ const BookingBarClassic: React.FunctionComponent<IBookingBarProps> = ({
   };
 
   const handleSearch = () => {
-    // TODO: save in redux
+    // TODO: save in redux classic bookingBar too ?
     let dateForm = {
       startDate: format(dates[0].startDate, "dd-MM-yyyy"),
       endDate: format(dates[0].endDate, "dd-MM-yyyy"),
@@ -150,7 +158,7 @@ const BookingBarClassic: React.FunctionComponent<IBookingBarProps> = ({
               onClick={() => setShowModal(true)}
             >
               <p className={`my-4 lg:my-0`}>
-                {options.adult === 1
+                {options.adult === 1 || typeof options.adult == "undefined"
                   ? `${options.adult} Adult`
                   : `${options.adult} Adults `}{" "}
                 • {options.children} children •{" "}
@@ -186,29 +194,43 @@ const BookingBarClassic: React.FunctionComponent<IBookingBarProps> = ({
 
 const BookingBarFilters: React.FunctionComponent<IBookingBarProps> = ({
   className,
+  isLoading,
+  setIsLoading,
 }) => {
+  const destinationState = useSelector(selectDestinationState);
+  const datesState = useSelector(selectDatesState);
+  const optionsState = useSelector(selectOptionsState);
   const router = useRouter();
   const [openDate, setOpenDate] = useState(false);
   const [data, setData] = useState<IData>({
-    city: "",
+    city: null,
     min: null,
     max: null,
   });
-
   const [showModal, setShowModal] = useState(false);
+
+  // Split date string to convert in date time
+  const datePartStartDate = JSON.parse(datesState).startDate.split("-");
+  const datePartEndDate = JSON.parse(datesState).endDate.split("-");
+  const startDate = new Date(
+    `${datePartStartDate[2]}/${datePartStartDate[1]}/${datePartStartDate[0]}`
+  );
+  const endDate = new Date(
+    `${datePartEndDate[2]}/${datePartEndDate[1]}/${datePartEndDate[0]}`
+  );
 
   const [dates, setDates] = useState([
     {
-      startDate: new Date(),
-      endDate: new Date(),
+      startDate: startDate,
+      endDate: endDate,
       key: "selection",
     },
   ]);
 
   const [options, setOptions] = useState({
-    adult: 1,
-    children: 0,
-    room: 1,
+    adult: JSON.parse(optionsState).adult,
+    children: JSON.parse(optionsState).children,
+    room: JSON.parse(optionsState).room,
   });
 
   const inputRef = useRef(null);
@@ -225,7 +247,7 @@ const BookingBarFilters: React.FunctionComponent<IBookingBarProps> = ({
   };
 
   const handleSearch = () => {
-    // TODO: save in redux
+    setIsLoading(true);
     let dateForm = {
       startDate: format(dates[0].startDate, "dd-MM-yyyy"),
       endDate: format(dates[0].endDate, "dd-MM-yyyy"),
@@ -238,9 +260,12 @@ const BookingBarFilters: React.FunctionComponent<IBookingBarProps> = ({
           destination: data.city,
           dates: JSON.stringify(dateForm),
           options: JSON.stringify(options),
+          isLoading: isLoading,
+          min: data.min,
+          max: data.max,
         },
-      },
-      "/stays" // hide query from url
+      }
+      // "/stays" // hide query from url
     );
   };
 
@@ -264,6 +289,7 @@ const BookingBarFilters: React.FunctionComponent<IBookingBarProps> = ({
             label="votre nom"
             className="my-4"
             ref={inputRef}
+            defaultValue={destinationState}
           />
         </div>
         <div className="relative flex h-full grow items-center space-x-2 border-b border-dotted border-white/50 px-4">
@@ -338,8 +364,9 @@ const BookingBarFilters: React.FunctionComponent<IBookingBarProps> = ({
                 name="min"
                 type="number"
                 onChange={(e) => handleChange("min", e.target.value)}
-                className="w-16"
+                className="ml-0 w-20"
                 rounded="rounded-sm"
+                defaultValue={data.min}
               />
             </div>
           </div>
@@ -355,8 +382,9 @@ const BookingBarFilters: React.FunctionComponent<IBookingBarProps> = ({
                 name="min"
                 type="number"
                 onChange={(e) => handleChange("max", e.target.value)}
-                className="w-16"
+                className="ml-0 w-20"
                 rounded="rounded-sm"
+                defaultValue={data.max}
               />
             </div>
           </div>
@@ -366,6 +394,7 @@ const BookingBarFilters: React.FunctionComponent<IBookingBarProps> = ({
             children="Search"
             className="w-2/3"
             onClick={handleSearch}
+            isLoading={isLoading}
           />
         </div>
       </div>
@@ -375,11 +404,19 @@ const BookingBarFilters: React.FunctionComponent<IBookingBarProps> = ({
 
 const BookingBar: React.FunctionComponent<IBookingBarProps> = ({
   className,
+  isLoading,
+  setIsLoading,
   variant,
 }) => {
   switch (variant) {
     case "bookingBarFilters":
-      return <BookingBarFilters className={className} />;
+      return (
+        <BookingBarFilters
+          className={className}
+          isLoading={isLoading}
+          setIsLoading={setIsLoading}
+        />
+      );
 
     case "bookingBarClassic":
     default:
