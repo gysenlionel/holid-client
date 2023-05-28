@@ -20,8 +20,24 @@
     footer {
         @apply select-none
     }
-    
 }
+
+    /* input[type="radio"]:checked {
+    @apply bg-orangeMain text-orangeMain checked:bg-orangeMain
+    } */
+
+    input[type="radio"] {
+    @apply !w-5 !h-5
+    }
+
+    input {
+     --tw-ring-color: transparent !important;
+
+    }
+
+    legend h2 {
+        padding-bottom: 0
+      }
 
 @layer components {
     .link {

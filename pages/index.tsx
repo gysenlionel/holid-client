@@ -14,6 +14,7 @@ import Button from "../components/Button";
 import Footer from "../components/Footer";
 import { getUser } from "../lib/getUser-ssr";
 import { GetServerSideProps } from "next";
+import { wrapper } from "../store/store";
 
 interface IIndexProps {
   caribbeanHotels: Hotel[];
@@ -87,7 +88,7 @@ const Home: React.FunctionComponent<IIndexProps> = ({
               <Button
                 size="long"
                 children="Subscribe"
-                className="mt-2 sm:mt-0"
+                className="mt-2 sm:ml-4 sm:mt-0"
               />
             </div>
           </div>
@@ -100,24 +101,31 @@ const Home: React.FunctionComponent<IIndexProps> = ({
 
 export default Home;
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { req, res } = context;
-  const [caribbeanHotels, propertyTypes] = await Promise.all([
-    axios
-      .get(requests.fetchCaribbeanHotels, { withCredentials: true })
-      .then((res) => res.data),
-    axios
-      .get(requests.fetchPropertyTypes, { withCredentials: true })
-      .then((res) => res.data),
-  ]);
+export const getServerSideProps: GetServerSideProps =
+  wrapper.getServerSideProps((store) => async (context) => {
+    const { req, res } = context;
+    const [caribbeanHotels, propertyTypes] = await Promise.all([
+      axios
+        .get(requests.fetchCaribbeanHotels, { withCredentials: true })
+        .then((res) => res.data),
+      axios
+        .get(requests.fetchPropertyTypes, { withCredentials: true })
+        .then((res) => res.data),
+    ]);
 
-  const [error, user] = await getUser(req, res);
+    const [error, user] = await getUser(req, res);
 
-  return {
-    props: {
-      caribbeanHotels: caribbeanHotels,
-      propertyTypes: propertyTypes,
-      user,
-    },
-  };
-};
+    // use redux-persist in server-side:
+    // await store.dispatch(setTravelState(false));
+    // console.log("State on server", store.getState());
+
+    return {
+      props: {
+        caribbeanHotels: caribbeanHotels,
+        propertyTypes: propertyTypes,
+        user,
+        // travelState: false,
+        // destintaion: null
+      },
+    };
+  });

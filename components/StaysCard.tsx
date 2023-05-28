@@ -3,6 +3,7 @@ import Image from "next/image";
 import * as React from "react";
 import { Hotel } from "../types";
 import Currency from "./Currency";
+import { capitalizeFirstLetter } from "../utils/helpers/firstLetterUpperCase";
 
 interface IStaysCardProps {
   property: Hotel;
@@ -19,8 +20,9 @@ const StaysCard: React.FunctionComponent<IStaysCardProps> = ({ property }) => {
 
   return (
     <div
-      className="h-auto w-full space-x-4 rounded-lg 
-      bg-grayCard pb-4 xl:grid xl:h-[15rem]  xl:grid-cols-3 xl:px-6 xl:pb-0"
+      className="mb-4 h-auto w-full cursor-pointer 
+      space-x-4 rounded-lg bg-grayCard pb-4  xl:grid xl:h-[15rem] xl:grid-cols-3 xl:px-6 
+      xl:pb-0"
     >
       <div className=" xl:static xl:flex xl:items-center">
         <Image
@@ -35,6 +37,9 @@ const StaysCard: React.FunctionComponent<IStaysCardProps> = ({ property }) => {
           <div className="mr-4">
             <h1 className="title2">{property.name}</h1>
             <div className="mt-1 flex">{asterisks}</div>
+            <div className="text-base font-medium text-white/60">
+              {capitalizeFirstLetter(property.city)}
+            </div>
           </div>
           <div>
             <Currency

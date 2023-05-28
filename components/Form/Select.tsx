@@ -43,10 +43,12 @@ const Select: FCWithClassName<Select> = forwardRef<HTMLSelectElement, Select>(
     const showEmptyDefaultValue = !options.some((option) => option.checked);
 
     return (
-      <div className={`${classNameContainer}`}>
-        <Label>{label}</Label>
+      <div
+        className={`flex flex-col items-center justify-center ${classNameContainer} ${rounded}`}
+      >
+        <Label className="">{label}</Label>
         <div
-          className={`w-full bg-white ${rounded} ${
+          className={`w-32 bg-white ${rounded} ${
             errors ? "border-2 border-red-500 placeholder-red-500" : ""
           } ${classNameInputContainer}`}
         >
@@ -55,9 +57,10 @@ const Select: FCWithClassName<Select> = forwardRef<HTMLSelectElement, Select>(
             id={id}
             ref={ref}
             placeholder={placeholder}
-            className={`w-full ${className} ${
+            className={`${className} ${
               errors ? "!border-red-500" : ""
-            }  appearance-none truncate overflow-ellipsis focus:outline-none`}
+            }  block w-32 appearance-none rounded border border-gray-200
+            bg-gray-200 py-3 px-4 pr-8 leading-tight text-gray-700 focus:border-gray-500 focus:bg-white focus:outline-none`}
             onChange={onChange}
             onBlur={onBlur}
           >
@@ -66,7 +69,7 @@ const Select: FCWithClassName<Select> = forwardRef<HTMLSelectElement, Select>(
               <option
                 key={option.name}
                 value={option.name}
-                className="truncate overflow-ellipsis !text-ellipsis"
+                className="text-black"
               >
                 {option.label}
               </option>

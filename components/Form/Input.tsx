@@ -58,8 +58,8 @@ const InputNormal = forwardRef<HTMLInputElement, IInputProps>(
             name={name}
             id={id}
             placeholder={required ? `${placeholder}*` : placeholder}
-            className={`h-8 ${rounded} font-heading text-base text-black ${className} ml-4 outline-none 
-            placeholder:select-none focus:placeholder:invisible`}
+            className={`h-8 ${rounded} appearance-none font-heading text-base text-black ${className} ml-4 border-0 
+            outline-none placeholder:select-none focus:border-0 focus:placeholder:invisible`}
             required={required}
           />
         </div>
@@ -71,7 +71,16 @@ const InputNormal = forwardRef<HTMLInputElement, IInputProps>(
 
 const InputBooking = forwardRef<HTMLInputElement, IInputProps>(
   function InputBooking(
-    { type, onChange, name, id, placeholder, className, autoComplete = "off" },
+    {
+      type,
+      onChange,
+      name,
+      id,
+      placeholder,
+      className,
+      defaultValue,
+      autoComplete = "off",
+    },
     ref
   ) {
     return (
@@ -83,8 +92,10 @@ const InputBooking = forwardRef<HTMLInputElement, IInputProps>(
           name={name}
           id={id}
           placeholder={placeholder}
-          className={`w-full rounded-sm bg-transparent text-base text-white placeholder:text-white ${className} !outline-none`}
+          className={`w-full appearance-none rounded-sm bg-transparent text-base text-white placeholder:text-white 
+          focus:border-0 ${className} border-0 border-none !outline-none`}
           autoComplete={autoComplete}
+          defaultValue={defaultValue}
         />
       </div>
     );
@@ -107,6 +118,7 @@ const Input = forwardRef<HTMLInputElement, IInputProps>(function Button(
     rounded,
     classNameInputContainer,
     classNameContainer,
+    defaultValue,
   },
   ref
 ) {
@@ -122,6 +134,7 @@ const Input = forwardRef<HTMLInputElement, IInputProps>(function Button(
           placeholder={placeholder}
           ref={ref}
           globalError={globalError}
+          defaultValue={defaultValue}
         />
       );
 

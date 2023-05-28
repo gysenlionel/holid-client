@@ -1,44 +1,106 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Banner from "../components/Banner";
 import Header from "../components/Header";
 import HeadSEO from "../components/HeadSEO";
 import siteMetadata from "../data/siteMetadata";
 import { useRouter } from "next/router";
 import BookingBar from "../components/BookingBar";
-import axios from "axios";
 import { Hotel } from "../types";
 import StaysCard from "../components/StaysCard";
 import { getUser } from "../lib/getUser-ssr";
-import { environment } from "../lib/environment";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectDatesState,
+  selectDestinationState,
+  selectOptionsState,
+  setDatesState,
+  setDestinationState,
+  setOptionsState,
+} from "../store/travelSlice";
+import { GetServerSideProps } from "next";
+import { wrapper } from "../store/store";
+import { fetchGetJSON } from "../utils/helpers/api-helpers";
+import Footer from "../components/Footer";
+import Radio from "../components/Form/Radio";
 
-interface IStaysProps {
-  properties: Hotel[];
-}
+interface IStaysProps {}
 
-const Stays: React.FunctionComponent<IStaysProps> = ({ properties }) => {
+const Stays: React.FunctionComponent<IStaysProps> = ({}) => {
+  const [properties, setProperties] = useState<Hotel[]>(null);
+  const destinationState = useSelector(selectDestinationState);
+  const datesState = useSelector(selectDatesState);
+  const optionsState = useSelector(selectOptionsState);
+  const dispatch = useDispatch();
   const { query } = useRouter();
-  const [destination, setDestination] = useState(
-    (query.destination as string) ?? ""
-  );
+  const [isLoading, setIsLoading] = useState(false);
+  const sorts = ["none", "asc", "desc"];
+  const [checkedStateChoix, setCheckedStateChoix] = useState<number>(0);
+  // Session Storate
+  dispatch(setDestinationState(query.destination ?? destinationState));
+  dispatch(setDatesState(query.dates ?? datesState));
+  dispatch(setOptionsState(query.options ?? optionsState));
 
-  const [dates, setDates] = useState(
-    query.dates
-      ? JSON.parse(query.dates as string)
-      : [{ startDate: new Date(), endDate: new Date() }]
-  );
+  useEffect(() => {
+    const getStays = async () => {
+      const response = await fetchGetJSON(
+        `/api/getStays?destination=${destinationState}${
+          typeof query.min !== "undefined" ? "&min=" + query.min : "&min="
+        }${typeof query.max !== "undefined" ? "&max=" + query.max : "&max="}${
+          typeof query.type !== "undefined" ? "&type=" + query.type : "&type="
+        }`
+      );
+      return response;
+    };
 
-  const [options, setOptions] = useState(
-    query.options
-      ? JSON.parse(query.options as string)
-      : {
-          adults: 1,
-          children: 0,
-          room: 1,
-        }
-  );
-  console.log(properties);
+    const hotels = getStays();
+    hotels.then(function (result) {
+      if (checkedStateChoix === 0) {
+        setProperties(result);
+      } else if (checkedStateChoix === 1) {
+        let hotels = result.sort((a, b) => {
+          return a.cheapestPrice - b.cheapestPrice;
+        });
+        setProperties(hotels);
+      } else {
+        let hotels = result.sort((a, b) => {
+          return a.cheapestPrice - b.cheapestPrice;
+        });
+        setProperties(hotels.reverse());
+      }
+      setIsLoading(false);
+    });
+  }, [query.destination, query.min, query.max, query.type, checkedStateChoix]);
+
+  useEffect(() => {
+    if (query.destination === destinationState) setIsLoading(false);
+  }, [query]);
+
+  const OrderBy = ({ className }) => {
+    return (
+      <div className={`flex items-center justify-center ${className} text-sm`}>
+        <fieldset className="flex rounded-md border border-orangeMain px-4 pb-1">
+          <legend className="text-center">
+            <h3 className="px-4">Order By</h3>
+          </legend>
+          {sorts.map((sort, index) => (
+            <li key={sort} className="list-none">
+              <Radio
+                name={sort}
+                label={sort}
+                wrapperClassName={`mx-2`}
+                checkedStateChoix={checkedStateChoix}
+                setCheckedStateChoix={setCheckedStateChoix}
+                index={index}
+                defaultChecked={checkedStateChoix === index ? true : false}
+              />
+            </li>
+          ))}
+        </fieldset>
+      </div>
+    );
+  };
   return (
-    <div className={`h-screen lg:h-[340vh]`}>
+    <div className={`h-screen`}>
       <HeadSEO
         title={`Stays | ${siteMetadata.siteUrl}`}
         description="Holi'D Stays Page, Check you bookings, looks for holidays"
@@ -48,40 +110,43 @@ const Stays: React.FunctionComponent<IStaysProps> = ({ properties }) => {
       <Header />
       <main className="mb-8">
         <Banner variant="bookingBarFilters" hiddenBook />
-        <section className="gutters !mt-8 h-[340vh] lg:flex">
+
+        <section className="gutters mt-8 h-auto lg:!mt-36 lg:flex">
           <div>
-            <BookingBar variant="bookingBarFilters" />
+            <BookingBar
+              variant="bookingBarFilters"
+              isLoading={isLoading}
+              setIsLoading={setIsLoading}
+            />
           </div>
-          <div className="">
-            {properties.map((property) => (
-              <StaysCard property={property} key={property._id} />
-            ))}
+          <OrderBy className="pb-8 lg:hidden" />
+          <div className="pb-2">
+            <div className="relative">
+              <OrderBy className="absolute left-0 z-40 hidden -translate-y-28 lg:block" />
+              {properties?.map((property) => (
+                <StaysCard property={property} key={property._id} />
+              ))}
+            </div>
           </div>
         </section>
       </main>
+      <Footer />
     </div>
   );
 };
 
 export default Stays;
 
-export const getServerSideProps = async (context) => {
-  // &min=${min}&max=${max}
-  const properties = await axios.get(
-    `${environment.apiUrl}/api/hotels?city=${context.query.destination}&min=550&max=550`,
-    { withCredentials: true }
-  );
+export const getServerSideProps: GetServerSideProps =
+  wrapper.getServerSideProps((store) => async (context) => {
+    const { req, res } = context;
 
-  const { req, res } = context;
+    const [error, user] = await getUser(req, res);
+    // if (!user) return { redirect: { statusCode: 307, destination: "/" } };
 
-  const [error, user] = await getUser(req, res);
-  console.log(user);
-  // if (!user) return { redirect: { statusCode: 307, destination: "/" } };
-
-  return {
-    props: {
-      properties: properties.data,
-      user: user,
-    },
-  };
-};
+    return {
+      props: {
+        user: user,
+      },
+    };
+  });
