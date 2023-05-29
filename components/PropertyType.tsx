@@ -50,6 +50,7 @@ const PropertyType: React.FunctionComponent<IPropertyTypeProps> = ({
       </div>
       {photos.map((photo, index) => (
         <Link
+          key={index}
           href={{
             pathname: "/stays",
             query: { type: propertyTypes[index].type.slice(0, -1) },

@@ -253,7 +253,7 @@ const BookingBarFilters: React.FunctionComponent<IBookingBarProps> = ({
       endDate: format(dates[0].endDate, "dd-MM-yyyy"),
       key: dates[0].key,
     };
-    router.push(
+    router.replace(
       {
         pathname: "/stays",
         query: {
@@ -264,10 +264,8 @@ const BookingBarFilters: React.FunctionComponent<IBookingBarProps> = ({
           min: data.min,
           max: data.max,
         },
-      },
+      }
       // "/stays" // hide query from url
-      null,
-      { shallow: true }
     );
   };
 

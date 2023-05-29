@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Banner from "../components/Banner";
 import Header from "../components/Header";
 import HeadSEO from "../components/HeadSEO";
@@ -32,6 +32,7 @@ const Stays: React.FunctionComponent<IStaysProps> = ({}) => {
   const optionsState = useSelector(selectOptionsState);
   const dispatch = useDispatch();
   const { query } = useRouter();
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const sorts = ["none", "asc", "desc"];
   const [checkedStateChoix, setCheckedStateChoix] = useState<number>(0);
@@ -40,8 +41,11 @@ const Stays: React.FunctionComponent<IStaysProps> = ({}) => {
   dispatch(setDatesState(query.dates ?? datesState));
   dispatch(setOptionsState(query.options ?? optionsState));
 
+  // const ReloadQuery = useMemo(() => {
+  //   if (query.destination !== destinationState) router.reload();
+  // }, [query]);
+
   useEffect(() => {
-    console.log("before fecth");
     const getStays = async () => {
       const response = await fetchGetJSON(
         `/api/getStays?destination=${destinationState}${
@@ -52,7 +56,7 @@ const Stays: React.FunctionComponent<IStaysProps> = ({}) => {
       );
       return response;
     };
-    console.log("after fecth");
+
     const hotels = getStays();
     hotels.then(function (result) {
       if (checkedStateChoix === 0) {
@@ -70,7 +74,6 @@ const Stays: React.FunctionComponent<IStaysProps> = ({}) => {
       }
       setIsLoading(false);
     });
-    console.log("hotels dans useffect", properties);
   }, [query.destination, query.min, query.max, query.type, checkedStateChoix]);
 
   useEffect(() => {
@@ -85,7 +88,7 @@ const Stays: React.FunctionComponent<IStaysProps> = ({}) => {
             <h3 className="px-4">Order By</h3>
           </legend>
           {sorts.map((sort, index) => (
-            <li key={sort} className="list-none">
+            <li key={`${sort}-${index}`} className="list-none">
               <Radio
                 name={sort}
                 label={sort}
