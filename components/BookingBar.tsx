@@ -264,8 +264,10 @@ const BookingBarFilters: React.FunctionComponent<IBookingBarProps> = ({
           min: data.min,
           max: data.max,
         },
-      }
+      },
       // "/stays" // hide query from url
+      null,
+      { shallow: true }
     );
   };
 
