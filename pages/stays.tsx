@@ -46,6 +46,7 @@ const Stays: React.FunctionComponent<IStaysProps> = ({}) => {
   // }, [query]);
 
   useEffect(() => {
+    console.log("pass on useEffect destination state", destinationState);
     const getStays = async () => {
       const response = await fetchGetJSON(
         `/api/getStays?destination=${destinationState}${
@@ -59,6 +60,7 @@ const Stays: React.FunctionComponent<IStaysProps> = ({}) => {
 
     const hotels = getStays();
     hotels.then(function (result) {
+      console.log("response in useEffect", result);
       if (checkedStateChoix === 0) {
         setProperties(result);
       } else if (checkedStateChoix === 1) {
@@ -74,7 +76,7 @@ const Stays: React.FunctionComponent<IStaysProps> = ({}) => {
       }
       setIsLoading(false);
     });
-  }, [query.destination, query.min, query.max, query.type, checkedStateChoix]);
+  }, [checkedStateChoix, query, destinationState]);
 
   useEffect(() => {
     if (query.destination === destinationState) setIsLoading(false);
