@@ -38,18 +38,13 @@ const Stays: React.FunctionComponent<IStaysProps> = ({}) => {
   const [checkedStateChoix, setCheckedStateChoix] = useState<number>(0);
   // Session Storate
 
-  const Query = useMemo(() => {
-    return query;
+  const DestinationQuery = useMemo(() => {
+    dispatch(setDestinationState(query.destination ?? destinationState));
+    dispatch(setDatesState(query.dates ?? datesState));
+    dispatch(setOptionsState(query.options ?? optionsState));
   }, [query]);
 
-  dispatch(setDestinationState(Query.destination ?? destinationState));
-  dispatch(setDatesState(Query.dates ?? datesState));
-  dispatch(setOptionsState(Query.options ?? optionsState));
-
-  console.log("query", query.destination);
-
   useEffect(() => {
-    console.log("pass on useEffect destination state", destinationState);
     const getStays = async () => {
       const response = await fetchGetJSON(
         `/api/getStays?destination=${destinationState}${
@@ -63,7 +58,6 @@ const Stays: React.FunctionComponent<IStaysProps> = ({}) => {
 
     const hotels = getStays();
     hotels.then(function (result) {
-      console.log("response in useEffect", result);
       if (checkedStateChoix === 0) {
         setProperties(result);
       } else if (checkedStateChoix === 1) {
