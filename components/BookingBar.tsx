@@ -253,20 +253,22 @@ const BookingBarFilters: React.FunctionComponent<IBookingBarProps> = ({
       endDate: format(dates[0].endDate, "dd-MM-yyyy"),
       key: dates[0].key,
     };
-    router.replace(
-      {
-        pathname: "/stays",
-        query: {
-          destination: data.city,
-          dates: JSON.stringify(dateForm),
-          options: JSON.stringify(options),
-          isLoading: isLoading,
-          min: data.min,
-          max: data.max,
-        },
-      }
-      // "/stays" // hide query from url
-    );
+    router
+      .replace(
+        {
+          pathname: "/stays",
+          query: {
+            destination: data.city,
+            dates: JSON.stringify(dateForm),
+            options: JSON.stringify(options),
+            isLoading: isLoading,
+            min: data.min,
+            max: data.max,
+          },
+        }
+        // "/stays" // hide query from url
+      )
+      .then(() => router.reload());
   };
 
   return (
