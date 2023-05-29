@@ -40,7 +40,7 @@ const Stays: React.FunctionComponent<IStaysProps> = ({}) => {
   dispatch(setDestinationState(query.destination ?? destinationState));
   dispatch(setDatesState(query.dates ?? datesState));
   dispatch(setOptionsState(query.options ?? optionsState));
-
+  console.log("query", query.destination);
   // const ReloadQuery = useMemo(() => {
   //   if (query.destination !== destinationState) router.reload();
   // }, [query]);
