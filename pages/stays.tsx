@@ -76,7 +76,7 @@ const Stays: React.FunctionComponent<IStaysProps> = ({}) => {
       }
       setIsLoading(false);
     });
-  }, [checkedStateChoix, query, destinationState]);
+  }, [checkedStateChoix, query]);
 
   useEffect(() => {
     if (query.destination === destinationState) setIsLoading(false);
