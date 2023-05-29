@@ -17,7 +17,7 @@ export default async function handler(
               withCredentials: true,
             }
           );
-         
+         console.log('server data', response.data)
          res.status(200).json(response.data)
     }catch(err)
     {

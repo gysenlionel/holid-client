@@ -41,6 +41,7 @@ const Stays: React.FunctionComponent<IStaysProps> = ({}) => {
   dispatch(setOptionsState(query.options ?? optionsState));
 
   useEffect(() => {
+    console.log("before fecth");
     const getStays = async () => {
       const response = await fetchGetJSON(
         `/api/getStays?destination=${destinationState}${
@@ -51,7 +52,7 @@ const Stays: React.FunctionComponent<IStaysProps> = ({}) => {
       );
       return response;
     };
-
+    console.log("after fecth");
     const hotels = getStays();
     hotels.then(function (result) {
       if (checkedStateChoix === 0) {
@@ -69,6 +70,7 @@ const Stays: React.FunctionComponent<IStaysProps> = ({}) => {
       }
       setIsLoading(false);
     });
+    console.log("hotels dans useffect", properties);
   }, [query.destination, query.min, query.max, query.type, checkedStateChoix]);
 
   useEffect(() => {
