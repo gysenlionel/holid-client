@@ -37,22 +37,16 @@ const Stays: React.FunctionComponent<IStaysProps> = ({}) => {
   const sorts = ["none", "asc", "desc"];
   const [checkedStateChoix, setCheckedStateChoix] = useState<number>(0);
   // Session Storate
-  const DestinationQuery = useMemo(() => {
-    dispatch(setDestinationState(query.destination ?? destinationState));
-  }, [query.destination]);
-  const DatesQuery = useMemo(() => {
-    dispatch(setDatesState(query.dates ?? datesState));
-  }, [query.dates]);
-  const OptionsQuery = useMemo(() => {
-    dispatch(setOptionsState(query.options ?? optionsState));
-  }, [query.options]);
-  // dispatch(setDestinationState(query.destination ?? destinationState));
-  // dispatch(setDatesState(query.dates ?? datesState));
-  // dispatch(setOptionsState(query.options ?? optionsState));
+
+  const Query = useMemo(() => {
+    return query;
+  }, [query]);
+
+  dispatch(setDestinationState(Query.destination ?? destinationState));
+  dispatch(setDatesState(Query.dates ?? datesState));
+  dispatch(setOptionsState(Query.options ?? optionsState));
+
   console.log("query", query.destination);
-  // const ReloadQuery = useMemo(() => {
-  //   if (query.destination !== destinationState) router.reload();
-  // }, [query]);
 
   useEffect(() => {
     console.log("pass on useEffect destination state", destinationState);
