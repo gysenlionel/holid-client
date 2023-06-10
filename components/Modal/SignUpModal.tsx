@@ -75,7 +75,6 @@ const SignUpModal: React.FunctionComponent<ISignUpModalProps> = ({
       duration: 8000,
       style: toastStyle,
     });
-    console.log("response", response);
     setTimeout(() => {
       setIsShowModal(false);
       toast.dismiss();
