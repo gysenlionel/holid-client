@@ -11,7 +11,6 @@ export type Radio = {
   labelClassName?: string;
   onBlur?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   wrapperClassName?: string;
-  // alternativeRadio
   setCheckedStateChoix?: React.Dispatch<React.SetStateAction<number>>;
   index?: number;
   lastArrayLength?: number;

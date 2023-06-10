@@ -27,6 +27,11 @@ const makeConfiguredStore = () =>
   configureStore({
     reducer: rootReducer,
     devTools: true,
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({
+          immutableCheck: false,
+          serializableCheck: false,
+        }),
   });
 
 export const makeStore = () => {
@@ -50,6 +55,7 @@ export const makeStore = () => {
       devTools: process.env.NODE_ENV !== "production",
       middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
+          immutableCheck: false,
           serializableCheck: {
           ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
           },

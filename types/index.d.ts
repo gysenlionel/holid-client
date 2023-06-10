@@ -8,7 +8,7 @@ export interface Hotel {
     region: string,
     address: string,
     distance: string,
-    photos: [Photo],
+    photos: Photo[],
     title: string,
     desc: string,
     rating: number,
@@ -16,6 +16,7 @@ export interface Hotel {
     cheapestPrice: number,
     featured: Boolean,
     _id: string,
+    slug: string,
     createdAt: string,
     updatedAt: string
 }

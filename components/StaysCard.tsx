@@ -3,7 +3,8 @@ import Image from "next/image";
 import * as React from "react";
 import { Hotel } from "../types";
 import Currency from "./Currency";
-import { capitalizeFirstLetter } from "../utils/helpers/firstLetterUpperCase";
+import { capitalizeFirstLetter } from "../utils/helpers/stringTransform";
+import Link from "next/link";
 
 interface IStaysCardProps {
   property: Hotel;
@@ -19,44 +20,46 @@ const StaysCard: React.FunctionComponent<IStaysCardProps> = ({ property }) => {
   }
 
   return (
-    <div
-      className="mb-4 h-auto w-full cursor-pointer 
+    <Link href={`/hotel/${property.slug}`}>
+      <div
+        className="mb-4 h-auto w-full cursor-pointer 
       space-x-4 rounded-lg bg-grayCard pb-4  xl:grid xl:h-[15rem] xl:grid-cols-3 xl:px-6 
       xl:pb-0"
-    >
-      <div className=" xl:static xl:flex xl:items-center">
-        <Image
-          src={property.photos[0]?.url}
-          alt={`photo ${property.name}`}
-          fill
-          className="!relative !h-52 w-full rounded-lg !object-cover xl:!w-64"
-        />
-      </div>
-      <div className="col-span-2 mt-3 pr-4 xl:pr-0">
-        <div className="flex justify-between">
-          <div className="mr-4">
-            <h1 className="title2">{property.name}</h1>
-            <div className="mt-1 flex">{asterisks}</div>
-            <div className="text-base font-medium text-white/60">
-              {capitalizeFirstLetter(property.city)}
+      >
+        <div className="xl:flex xl:flex-1 xl:items-center">
+          <Image
+            src={property.photos[0]?.url}
+            alt={`photo ${property.name}`}
+            fill
+            className="!relative !h-52 w-full rounded-lg !object-cover xl:!flex-1"
+          />
+        </div>
+        <div className="col-span-2 mt-3 pr-4 xl:pr-0">
+          <div className="flex justify-between">
+            <div className="mr-4">
+              <h1 className="title2">{property.name}</h1>
+              <div className="mt-1 flex">{asterisks}</div>
+              <div className="text-base font-medium text-white/60">
+                {capitalizeFirstLetter(property.city)}
+              </div>
+            </div>
+            <div>
+              <Currency
+                price={property.cheapestPrice}
+                currency="usd"
+                className="font-semibold"
+              />
+              <p className="includesTaxes">
+                <span>Includes</span>
+                <br />
+                <span>taxes</span>
+              </p>
             </div>
           </div>
-          <div>
-            <Currency
-              price={property.cheapestPrice}
-              currency="usd"
-              className="font-semibold"
-            />
-            <p className="includesTaxes">
-              <span>Includes</span>
-              <br />
-              <span>taxes</span>
-            </p>
-          </div>
+          <p className="mt-2 text-justify line-clamp-4">{property.desc}</p>
         </div>
-        <p className="mt-2 text-justify line-clamp-4">{property.desc}</p>
       </div>
-    </div>
+    </Link>
   );
 };
 

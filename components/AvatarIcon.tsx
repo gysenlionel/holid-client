@@ -16,7 +16,7 @@ const AvatarIcon: React.FunctionComponent<IAvatarIconProps> = ({
   setIsShowModal,
 }) => {
   return (
-    <div onClick={() => setIsShowModal(!isShowModal)}>
+    <div>
       {iconURL == "undefined" ? (
         <UserCircleIcon className="ml-1 h-8 w-8 cursor-pointer text-white sm:w-10 md:h-10 md:text-orangeMain" />
       ) : (

@@ -57,7 +57,7 @@ const BurgerMenu: React.FunctionComponent<IBurgerMenuProps> = ({
             </>
           )}
           <Bars3Icon
-            className="ml-3 h-6 w-6 cursor-pointer text-white md:hidden"
+            className="ml-3 h-6 w-6 cursor-pointer text-white md:ml-1"
             onClick={() => setIsShowMenu(!isShowMenu)}
           />
         </div>

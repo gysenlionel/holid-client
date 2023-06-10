@@ -46,7 +46,7 @@ const CompFamModal: React.FunctionComponent<ICompFamModalProps> = ({
   return (
     <OutsideClick setIsOpen={onClose}>
       <div
-        className={`absolute left-0 right-0 top-40 flex lg:left-auto lg:right-52 lg:top-14 lg:w-64 ${className}`}
+        className={`absolute left-0 right-0 top-44 flex lg:left-auto lg:right-52 lg:top-14 lg:w-64 ${className}`}
       >
         <div className="relative flex w-96 flex-col max-[400px]:w-72 max-[315px]:w-64">
           <div className="rounded bg-white p-2 py-4 font-heading text-base text-black">

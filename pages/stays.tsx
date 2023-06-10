@@ -36,14 +36,13 @@ const Stays: React.FunctionComponent<IStaysProps> = ({}) => {
   const [isLoading, setIsLoading] = useState(false);
   const sorts = ["none", "asc", "desc"];
   const [checkedStateChoix, setCheckedStateChoix] = useState<number>(0);
-  // Session Storate
 
+  // Session Storate
   const DestinationQuery = useMemo(() => {
     dispatch(setDestinationState(query.destination ?? destinationState));
     dispatch(setDatesState(query.dates ?? datesState));
     dispatch(setOptionsState(query.options ?? optionsState));
   }, [query]);
-
   useEffect(() => {
     const getStays = async () => {
       const response = await fetchGetJSON(
@@ -127,9 +126,16 @@ const Stays: React.FunctionComponent<IStaysProps> = ({}) => {
           <div className="pb-2">
             <div className="relative">
               <OrderBy className="absolute left-0 z-40 hidden -translate-y-28 lg:block" />
-              {properties?.map((property) => (
-                <StaysCard property={property} key={property._id} />
-              ))}
+              {properties?.length > 0 ? (
+                properties?.map((property) => (
+                  <StaysCard property={property} key={property._id} />
+                ))
+              ) : (
+                <p className="text-center">
+                  Unfortunately, we do not have any accommodation in this city.
+                  <br /> Try Paris, Brussels, Spring Rises instead
+                </p>
+              )}
             </div>
           </div>
         </section>

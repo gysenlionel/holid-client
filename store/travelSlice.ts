@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { AppState } from "./store";
 import { HYDRATE } from "next-redux-wrapper";
 import { format } from "date-fns";
+import { diff } from "jsondiffpatch";
 
 // Type for our state
 export interface TravelState {
@@ -48,11 +49,20 @@ export const travelSlice = createSlice({
   // Special reducer for hydrating the state. Special case for next-redux-wrapper
   extraReducers: {
     [HYDRATE]: (state, action) => {
-      return {
-        ...state,
-        ...action.payload.travel,
-      };
+      // return {
+      //   ...state,
+      //   ...action.payload.travel,
+      // };
+      // Check is data change in server side if not use state. 
+      // To not merge state with initial value when we use Link in next.js
+      const stateDiff = diff(state, action.payload);
+      const isdiff1 = stateDiff?.server?.[0]?.travel;
+      state = isdiff1 ? action.payload.server.travel : state;
     },
+    // Use this to reload my state by action.payload if i use thunk and fetch data. 
+    // [TestFetch.fulfilled]: (state, action) => {
+    //   state = action.payload.travel;
+    // },
   },
 });
 

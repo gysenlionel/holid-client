@@ -24,7 +24,10 @@ import {
 
 interface IBookingBarProps {
   className?: string;
-  variant?: "bookingBarFilters" | "bookingBarClassic";
+  variant?:
+    | "bookingBarFilters"
+    | "bookingBarAvailability"
+    | "bookingBarClassic";
   isLoading?: boolean;
   setIsLoading?: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -39,6 +42,19 @@ const BookingBarClassic: React.FunctionComponent<IBookingBarProps> = ({
   className,
 }) => {
   const router = useRouter();
+  const datesState = useSelector(selectDatesState);
+  const optionsState = JSON.parse(useSelector(selectOptionsState));
+  const destinationState = useSelector(selectDestinationState);
+  // Split date string to convert in date time
+  const datePartStartDate = JSON.parse(datesState).startDate.split("-");
+  const datePartEndDate = JSON.parse(datesState).endDate.split("-");
+  const startDate = new Date(
+    `${datePartStartDate[2]}/${datePartStartDate[1]}/${datePartStartDate[0]}`
+  );
+  const endDate = new Date(
+    `${datePartEndDate[2]}/${datePartEndDate[1]}/${datePartEndDate[0]}`
+  );
+
   const [openDate, setOpenDate] = useState(false);
   const [data, setData] = useState({
     city: "",
@@ -48,16 +64,16 @@ const BookingBarClassic: React.FunctionComponent<IBookingBarProps> = ({
 
   const [dates, setDates] = useState([
     {
-      startDate: new Date(),
-      endDate: new Date(),
+      startDate: startDate,
+      endDate: endDate,
       key: "selection",
     },
   ]);
 
   const [options, setOptions] = useState({
-    adult: 1,
-    children: 0,
-    room: 1,
+    adult: optionsState.adult,
+    children: optionsState.children,
+    room: optionsState.room,
   });
 
   const inputRef = useRef(null);
@@ -74,7 +90,6 @@ const BookingBarClassic: React.FunctionComponent<IBookingBarProps> = ({
   };
 
   const handleSearch = () => {
-    // TODO: save in redux classic bookingBar too ?
     let dateForm = {
       startDate: format(dates[0].startDate, "dd-MM-yyyy"),
       endDate: format(dates[0].endDate, "dd-MM-yyyy"),
@@ -102,7 +117,7 @@ const BookingBarClassic: React.FunctionComponent<IBookingBarProps> = ({
         className="relative flex w-auto flex-col 
      justify-around lg:h-full lg:w-full lg:flex-row lg:items-center"
       >
-        <div className="flex h-full grow items-center space-x-2 border-b border-dotted border-white/50 px-4 lg:justify-center lg:border-b-0 lg:border-r lg:border-solid lg:border-r-orangeMain lg:px-0">
+        <div className="flex h-full grow items-center border-b border-dotted border-white/50 px-4 lg:justify-center lg:space-x-2 lg:border-b-0 lg:border-r lg:border-solid lg:border-r-orangeMain lg:px-0">
           <BuildingOffice2Icon className="my-4 h-6 w-6 text-white/50 lg:my-0" />
           <Input
             variant="inputBooking"
@@ -113,6 +128,7 @@ const BookingBarClassic: React.FunctionComponent<IBookingBarProps> = ({
             label="votre nom"
             className="my-4 lg:my-0"
             ref={inputRef}
+            defaultValue={destinationState}
           />
         </div>
         <div
@@ -267,7 +283,6 @@ const BookingBarFilters: React.FunctionComponent<IBookingBarProps> = ({
       }
       // "/stays" // hide query from url
     );
-    // .then(() => router.reload());
   };
 
   return (
@@ -403,6 +418,146 @@ const BookingBarFilters: React.FunctionComponent<IBookingBarProps> = ({
   );
 };
 
+const BookingBarAvailability: React.FunctionComponent<IBookingBarProps> = ({
+  className,
+}) => {
+  const datesState = useSelector(selectDatesState);
+  const optionsState = JSON.parse(useSelector(selectOptionsState));
+  const router = useRouter();
+  const [openDate, setOpenDate] = useState(false);
+
+  const [showModal, setShowModal] = useState(false);
+  // Split date string to convert in date time
+  const datePartStartDate = JSON.parse(datesState).startDate.split("-");
+  const datePartEndDate = JSON.parse(datesState).endDate.split("-");
+  const startDate = new Date(
+    `${datePartStartDate[2]}/${datePartStartDate[1]}/${datePartStartDate[0]}`
+  );
+  const endDate = new Date(
+    `${datePartEndDate[2]}/${datePartEndDate[1]}/${datePartEndDate[0]}`
+  );
+
+  const [dates, setDates] = useState([
+    {
+      startDate: startDate,
+      endDate: endDate,
+      key: "selection",
+    },
+  ]);
+
+  const [options, setOptions] = useState({
+    adult: optionsState.adult,
+    children: optionsState.children,
+    room: optionsState.room,
+  });
+
+  const handleSearch = () => {
+    let dateForm = {
+      startDate: format(dates[0].startDate, "dd-MM-yyyy"),
+      endDate: format(dates[0].endDate, "dd-MM-yyyy"),
+      key: dates[0].key,
+    };
+    router.push(
+      {
+        pathname: "/stays",
+        query: {
+          dates: JSON.stringify(dateForm),
+          options: JSON.stringify(options),
+        },
+      },
+      "/stays" // hide query from url
+    );
+  };
+
+  return (
+    <div
+      className={`${className} gradientBooking relative mt-6 flex h-auto  flex-col rounded-md border 
+    border-orangeMain pb-4 font-body text-base font-medium lg:h-14 lg:max-w-max lg:flex-row lg:pb-0`}
+    >
+      <div
+        className="relative flex flex-col 
+         items-center lg:h-full lg:w-full lg:flex-row lg:items-center"
+      >
+        <div
+          className="relative flex w-[17rem] flex-col space-x-2 border-b border-dotted border-white/50 px-4 max-[285px]:w-auto lg:h-full lg:w-auto lg:items-center lg:justify-center 
+          lg:border-b-0 lg:border-r lg:border-solid lg:border-r-orangeMain lg:px-10"
+        >
+          <div className="flex items-center space-x-2">
+            <CalendarDaysIcon className="my-4 h-6 w-6 text-white/50 lg:my-0" />
+            <p
+              className={`${
+                openDate && "pointer-events-none"
+              } my-4 cursor-pointer lg:my-0`}
+              onClick={() => setOpenDate(!openDate)}
+            >{`${
+              format(dates[0].startDate, "dd/MM/yyyy") +
+              " to " +
+              format(dates[0].endDate, "dd/MM/yyyy")
+            }`}</p>
+          </div>
+          {openDate && (
+            <div
+              className={`relative -left-14 z-10 lg:absolute lg:-left-2 lg:top-14`}
+            >
+              <OutsideClick setIsOpen={setOpenDate}>
+                <DateRange
+                  editableDateInputs={true}
+                  onChange={(item: any) => setDates([item.selection])}
+                  moveRangeOnFirstSelection={false}
+                  ranges={dates}
+                  minDate={new Date()}
+                  rangeColors={["#F44A1F"]}
+                  className="rounded-md"
+                />
+              </OutsideClick>
+            </div>
+          )}
+        </div>
+        <div className="flex h-full w-auto grow flex-col items-center justify-center space-y-4 lg:flex-row lg:space-y-0 lg:pr-10">
+          <div className="flex items-center space-x-2 border-b border-dotted border-white/50 px-4 lg:border-none lg:px-10">
+            <UserIcon className="my-4 h-6 w-6 text-white/50 lg:my-0" />
+            <div
+              className={`${
+                showModal && "pointer-events-none"
+              } flex cursor-pointer items-center space-x-2`}
+              onClick={() => setShowModal(true)}
+            >
+              <p className={`my-4 lg:my-0`}>
+                {options.adult === 1 || typeof options.adult == "undefined"
+                  ? `${options.adult} Adult`
+                  : `${options.adult} Adults `}{" "}
+                • {options.children} children •{" "}
+                {options.room === 1
+                  ? `${options.room} room`
+                  : `${options.room} rooms `}
+              </p>
+              {showModal ? (
+                <ChevronUpIcon className="my-4 h-5 w-5 cursor-pointer text-white/50" />
+              ) : (
+                <ChevronDownIcon className="my-4 h-5 w-5 cursor-pointer text-white/50" />
+              )}
+            </div>
+          </div>
+          <CompFamModal
+            invisible={showModal}
+            onClose={setShowModal}
+            options={options}
+            setOptions={setOptions}
+            className="!static w-[17rem] max-[320px]:w-full lg:!absolute"
+          />
+          <Button
+            size="long"
+            variant="solid"
+            children="Change search"
+            className="w-2/3 lg:w-36"
+            onClick={handleSearch}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const BookingBar: React.FunctionComponent<IBookingBarProps> = ({
   className,
   isLoading,
@@ -413,6 +568,14 @@ const BookingBar: React.FunctionComponent<IBookingBarProps> = ({
     case "bookingBarFilters":
       return (
         <BookingBarFilters
+          className={className}
+          isLoading={isLoading}
+          setIsLoading={setIsLoading}
+        />
+      );
+    case "bookingBarAvailability":
+      return (
+        <BookingBarAvailability
           className={className}
           isLoading={isLoading}
           setIsLoading={setIsLoading}
