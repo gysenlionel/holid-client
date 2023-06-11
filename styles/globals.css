@@ -39,6 +39,21 @@
         padding-bottom: 0
       }
 
+      .swiper-button {
+        @apply flex absolute top-[calc(50%-12px)] z-10 cursor-pointer;
+      }
+      
+      .image-swiper-button-prev {
+        @apply left-[5px];
+      }
+      .image-swiper-button-next {
+        @apply right-[5px];
+      }
+      .swiper-button-disabled {
+        @apply opacity-50 pointer-events-none
+      }
+      
+
 @layer components {
     .link {
         @apply relative cursor-pointer text-lg font-medium before:absolute before:inset-x-0 

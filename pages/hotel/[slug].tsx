@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Banner from "../../components/Banner";
 import Header from "../../components/Header";
 import HeadSEO from "../../components/HeadSEO";
@@ -16,11 +16,7 @@ import { BsCircleFill } from "react-icons/bs";
 import { BsCircleHalf } from "react-icons/bs";
 import { HiLocationMarker } from "react-icons/hi";
 import Link from "next/link";
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  StarIcon,
-} from "@heroicons/react/24/solid";
+import { StarIcon } from "@heroicons/react/24/solid";
 import {
   capitalizeFirstLetter,
   capitalizeFirstLetterInWord,
@@ -32,8 +28,7 @@ import ContentProperty from "../../components/ContentProperty";
 import LocationScore from "../../components/LocationScore";
 import BookingBar from "../../components/BookingBar";
 import CardAdvisor from "../../components/CardAdvisor";
-import { useSelector } from "react-redux";
-import { selectDatesState } from "../../store/travelSlice";
+import SwiperComponent from "../../components/SwiperComponent";
 
 interface IHotelProps {
   property: Hotel;
@@ -41,7 +36,6 @@ interface IHotelProps {
 
 const Hotel: React.FunctionComponent<IHotelProps> = ({ property }) => {
   const router = useRouter();
-  const [index, setIndex] = useState(0);
   const asterisks = [];
 
   for (let i = 0; i < property.rating; i++) {
@@ -83,15 +77,6 @@ const Hotel: React.FunctionComponent<IHotelProps> = ({ property }) => {
     }
   }
 
-  const handlePrevious = () => {
-    const newIndex = index - 1;
-    setIndex(newIndex < 0 ? property.photos.length - 1 : newIndex);
-  };
-
-  const handleNext = () => {
-    const newIndex = index + 1;
-    setIndex(newIndex >= property.photos.length ? 0 : newIndex);
-  };
   return (
     <div className={`h-screen`}>
       <HeadSEO
@@ -150,26 +135,7 @@ const Hotel: React.FunctionComponent<IHotelProps> = ({ property }) => {
                 </div>
               </div>
             </div>
-            <div className="relative mt-8">
-              <div className="absolute flex h-full w-full items-center justify-between">
-                <ChevronLeftIcon
-                  className="z-40 ml-4 h-10 w-10 cursor-pointer lg:h-12 lg:w-12"
-                  onClick={handlePrevious}
-                />
-                <ChevronRightIcon
-                  className="z-40 mr-4 h-10 w-10 cursor-pointer lg:h-12 lg:w-12"
-                  onClick={handleNext}
-                />
-              </div>
-              <Image
-                src={property.photos[index].url}
-                alt="hotel image"
-                fill
-                className="!relative !h-[350px] !w-full object-cover lg:!h-[500px]"
-                placeholder="blur"
-                blurDataURL={property.photos[index].url}
-              />
-            </div>
+            <SwiperComponent images={property.photos} />
             <div className="mt-8">
               <article>
                 <h2 className="font-heading text-2xl font-normal tracking-wider">

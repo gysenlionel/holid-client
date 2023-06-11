@@ -30,6 +30,7 @@
     "react-icons": "^4.8.0",
     "react-redux": "^8.0.5",
     "redux-persist": "^6.0.0",
+    "swiper": "^9.3.2",
     "symbol-observable": "^4.0.0",
     "tailwind-scrollbar": "^2.1.0",
     "tailwind-scrollbar-hide": "^1.1.7"
