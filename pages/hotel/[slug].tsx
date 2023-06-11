@@ -76,7 +76,7 @@ const Hotel: React.FunctionComponent<IHotelProps> = ({ property }) => {
     for (let i = 0; i < number; i++) {
       bullets.push(
         <BsCircleFill
-          className="!h4 mr-1 !w-4 text-tripadv md:!h-4 md:!w-4"
+          className="mr-1 !h-3 !w-3 text-tripadv lg:!h-4 lg:!w-4"
           key={`bullets-${i}`}
         />
       );
@@ -119,7 +119,7 @@ const Hotel: React.FunctionComponent<IHotelProps> = ({ property }) => {
                 </h1>
                 <div className="mt-1 flex">{asterisks}</div>
                 <div className="mt-2 flex items-center text-white/60">
-                  <HiLocationMarker className="h-6 w-6" />
+                  <HiLocationMarker className="hidden h-6 w-6 lg:block" />
                   &nbsp;
                   <p>
                     {property.address},&nbsp;{" "}
@@ -165,7 +165,7 @@ const Hotel: React.FunctionComponent<IHotelProps> = ({ property }) => {
                 src={property.photos[index].url}
                 alt="hotel image"
                 fill
-                className="!relative !h-[500px] !w-full object-cover"
+                className="!relative !h-[350px] !w-full object-cover lg:!h-[500px]"
                 placeholder="blur"
                 blurDataURL={property.photos[index].url}
               />
@@ -203,7 +203,7 @@ const Hotel: React.FunctionComponent<IHotelProps> = ({ property }) => {
                   alt="logo"
                   width={25}
                   height={25}
-                  className="inline-block"
+                  className="inline-block h-4 w-4 lg:h-6 lg:w-6"
                 />
               </span>
             </div>

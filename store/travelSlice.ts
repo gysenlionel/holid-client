@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice,AnyAction } from "@reduxjs/toolkit";
 import { AppState } from "./store";
 import { HYDRATE } from "next-redux-wrapper";
 import { format } from "date-fns";
@@ -47,23 +47,25 @@ export const travelSlice = createSlice({
   },
 
   // Special reducer for hydrating the state. Special case for next-redux-wrapper
-  extraReducers: {
-    [HYDRATE]: (state, action) => {
-      // return {
-      //   ...state,
+  extraReducers:(builder) => {
+    builder.addCase(HYDRATE, (state,action:AnyAction) =>{
+         // return {
+       //   ...state,
       //   ...action.payload.travel,
-      // };
-      // Check is data change in server side if not use state. 
-      // To not merge state with initial value when we use Link in next.js
+       // };
+       // Check is data change in server side if not use state. 
+       // To not merge state with initial value when we use Link in next.js
       const stateDiff = diff(state, action.payload);
-      const isdiff1 = stateDiff?.server?.[0]?.travel;
+       const isdiff1 = stateDiff?.server?.[0]?.travel;
       state = isdiff1 ? action.payload.server.travel : state;
-    },
+    })
     // Use this to reload my state by action.payload if i use thunk and fetch data. 
-    // [TestFetch.fulfilled]: (state, action) => {
+    // builder.addCase(TestFetch.fulfilled, (state,action:AnyAction) =>  {
     //   state = action.payload.travel;
-    // },
+    // })
   },
+
+
 });
 
 export const { setisLoadingTravelState, setDestinationState, setDatesState, setOptionsState } = travelSlice.actions;

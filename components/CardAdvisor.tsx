@@ -13,22 +13,19 @@ const CardAdvisor: React.FunctionComponent<ICardAdvisorProps> = (props) => {
     for (let i = 0; i < number; i++) {
       bullets.push(
         <BsCircleFill
-          className="!h4 mr-1 !w-4 text-tripadv md:!h-4 md:!w-4"
+          className="mr-1 !h-4 !w-4 text-tripadv"
           key={`bullets-${i}`}
         />
       );
     }
     bullets.push(
-      <BsCircleHalf
-        className="!h4 mr-1 !w-4 text-tripadv md:!h-4 md:!w-4"
-        key={`demi`}
-      />
+      <BsCircleHalf className="mr-1 !h-4 !w-4 text-tripadv" key={`demi`} />
     );
   } else {
     for (let i = 0; i < number; i++) {
       bullets.push(
         <BsCircleFill
-          className="!h4 mr-1 !w-4 text-tripadv md:!h-4 md:!w-4"
+          className="mr-1 !h-4 !w-4 text-tripadv"
           key={`bullets-${i}`}
         />
       );
