@@ -57,7 +57,7 @@ const CompFamModal: React.FunctionComponent<ICompFamModalProps> = ({
       >
         <div
           className={`relative flex w-96 flex-col ${
-            isClassic ? classicClass : "w-64"
+            isClassic ? classicClass : "!w-64"
           } `}
         >
           <div className="rounded bg-white p-2 py-4 font-heading text-base text-black">

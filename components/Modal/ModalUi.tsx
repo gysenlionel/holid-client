@@ -6,9 +6,10 @@ import XMarkIcon from "@heroicons/react/24/outline/XMarkIcon";
 interface IModalUi {
   isShowModal: boolean;
   onClose: React.Dispatch<React.SetStateAction<boolean>>;
-  title: string;
+  title?: string;
   className?: string;
   children: JSX.Element | JSX.Element[];
+  classNameH1?: string;
 }
 
 const ModalUi: React.FunctionComponent<IModalUi> = ({
@@ -16,6 +17,7 @@ const ModalUi: React.FunctionComponent<IModalUi> = ({
   onClose,
   title,
   className,
+  classNameH1,
   children,
 }) => {
   return (
@@ -34,7 +36,7 @@ const ModalUi: React.FunctionComponent<IModalUi> = ({
             className="absolute -right-2 top-0 h-6 w-6 -translate-y-2/4 cursor-pointer rounded-full border-grayX bg-white text-grayX"
             onClick={() => onClose(false)}
           />
-          <h1 className="title1 text-center">{title}</h1>
+          <h1 className={`title1 text-center ${classNameH1}`}>{title}</h1>
 
           <div id="modal-modal-description" className="mt-2">
             {children}

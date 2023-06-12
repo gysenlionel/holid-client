@@ -29,14 +29,18 @@ import LocationScore from "../../components/LocationScore";
 import BookingBar from "../../components/BookingBar";
 import CardAdvisor from "../../components/CardAdvisor";
 import SwiperComponent from "../../components/SwiperComponent";
+import { IUser } from "../../types/user";
+import ModalUi from "../../components/Modal/ModalUi";
 
 interface IHotelProps {
   property: Hotel;
+  user: IUser;
 }
 
-const Hotel: React.FunctionComponent<IHotelProps> = ({ property }) => {
+const Hotel: React.FunctionComponent<IHotelProps> = ({ property, user }) => {
   const router = useRouter();
   const asterisks = [];
+  const [openModal, setOpenModal] = useState(false);
 
   for (let i = 0; i < property.rating; i++) {
     asterisks.push(
@@ -76,6 +80,20 @@ const Hotel: React.FunctionComponent<IHotelProps> = ({ property }) => {
       );
     }
   }
+
+  const handleReserve = () => {
+    if (!user) return setOpenModal(true);
+
+    console.log("ok you can");
+  };
+
+  const ModalContent = () => {
+    return (
+      <p className="m-4 text-center font-medium underline decoration-orangeMain underline-offset-4">
+        Please log in or register.
+      </p>
+    );
+  };
 
   return (
     <div className={`h-screen`}>
@@ -123,13 +141,19 @@ const Hotel: React.FunctionComponent<IHotelProps> = ({ property }) => {
                   />
                   <p className="includesTaxes !text-lg">Includes taxes</p>
                 </div>
+                <ModalUi
+                  children={ModalContent()}
+                  isShowModal={openModal}
+                  onClose={setOpenModal}
+                  classNameH1="hidden"
+                />
                 <div className="mt-2">
                   <Button
                     size="long"
                     variant="solid"
                     children="Reserve"
                     className="w-2/3"
-                    // onClick={handleSearch}
+                    onClick={handleReserve}
                     // isLoading={isLoading}
                   />
                 </div>
@@ -146,7 +170,7 @@ const Hotel: React.FunctionComponent<IHotelProps> = ({ property }) => {
                     <ContentProperty string={property.desc} />
                   </div>
                   <div className="basis-1/3">
-                    <LocationScore city={property.city} />
+                    <LocationScore property={property} />
                   </div>
                 </div>
               </article>
