@@ -20,6 +20,9 @@ interface ICompFamModalProps {
     }>
   >;
   className?: string;
+  isClassic?: boolean;
+  classicClass?: string;
+  classNameOutside?: string;
 }
 
 type Iname = "adult" | "children" | "room";
@@ -30,6 +33,9 @@ const CompFamModal: React.FunctionComponent<ICompFamModalProps> = ({
   options,
   setOptions,
   className,
+  isClassic,
+  classicClass,
+  classNameOutside,
 }) => {
   // backdrop-blur-sm
 
@@ -43,12 +49,17 @@ const CompFamModal: React.FunctionComponent<ICompFamModalProps> = ({
       };
     });
   };
+  const width = "";
   return (
-    <OutsideClick setIsOpen={onClose}>
+    <OutsideClick setIsOpen={onClose} className={classNameOutside}>
       <div
         className={`absolute left-0 right-0 top-44 flex lg:left-auto lg:right-52 lg:top-14 lg:w-64 ${className}`}
       >
-        <div className="relative flex w-96 flex-col max-[400px]:w-72 max-[315px]:w-64">
+        <div
+          className={`relative flex w-96 flex-col ${
+            isClassic ? classicClass : "w-64"
+          } `}
+        >
           <div className="rounded bg-white p-2 py-4 font-heading text-base text-black">
             <div className="flex justify-between">
               <p className="text-black/60">Adult</p>

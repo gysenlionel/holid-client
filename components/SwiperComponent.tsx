@@ -34,7 +34,7 @@ const SwiperComponent: React.FunctionComponent<ISwiperComponentProps> = ({
               fill
               className="!relative !h-[350px] !w-full object-cover lg:!h-[500px]"
               placeholder="blur"
-              blurDataURL={images[index].url}
+              blurDataURL={photo.url}
             />
           </SwiperSlide>
         ))}

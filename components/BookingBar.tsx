@@ -132,23 +132,25 @@ const BookingBarClassic: React.FunctionComponent<IBookingBarProps> = ({
           />
         </div>
         <div
-          className="relative flex h-full grow items-center space-x-2 border-b border-dotted border-white/50 px-4 lg:justify-center lg:border-b-0 lg:border-r lg:border-solid 
+          className="relative  flex h-full max-w-[17rem] grow flex-col items-start space-x-2 border-b border-dotted border-white/50 px-4 lg:w-auto lg:items-center lg:justify-center lg:border-b-0 lg:border-r lg:border-solid 
           lg:border-r-orangeMain lg:px-0"
         >
-          <CalendarDaysIcon className="my-4 h-6 w-6 text-white/50 lg:my-0" />
-          <p
-            className={`${
-              openDate && "pointer-events-none"
-            } my-4 cursor-pointer lg:my-0`}
-            onClick={() => setOpenDate(!openDate)}
-          >{`${
-            format(dates[0].startDate, "dd/MM/yyyy") +
-            " to " +
-            format(dates[0].endDate, "dd/MM/yyyy")
-          }`}</p>
+          <div className="flex space-x-2">
+            <CalendarDaysIcon className="my-4 h-6 w-6 text-white/50 lg:my-0" />
+            <p
+              className={`${
+                openDate && "pointer-events-none"
+              } my-4 cursor-pointer lg:my-0`}
+              onClick={() => setOpenDate(!openDate)}
+            >{`${
+              format(dates[0].startDate, "dd/MM/yyyy") +
+              " to " +
+              format(dates[0].endDate, "dd/MM/yyyy")
+            }`}</p>
+          </div>
           {openDate && (
             <div
-              className={`absolute -right-7 z-10 flex items-center lg:-right-3 lg:top-14`}
+              className={`relative -left-[3.25rem] z-10 lg:absolute lg:-left-2 lg:top-14`}
             >
               <OutsideClick setIsOpen={setOpenDate}>
                 <DateRange
@@ -189,6 +191,14 @@ const BookingBarClassic: React.FunctionComponent<IBookingBarProps> = ({
               )}
             </div>
           </div>
+          <CompFamModal
+            invisible={showModal}
+            onClose={setShowModal}
+            options={options}
+            setOptions={setOptions}
+            className="!static lg:hidden"
+            classNameOutside="lg:hidden"
+          />
           <Button
             size="long"
             variant="solid"
@@ -202,6 +212,9 @@ const BookingBarClassic: React.FunctionComponent<IBookingBarProps> = ({
           onClose={setShowModal}
           options={options}
           setOptions={setOptions}
+          className="hidden lg:block"
+          isClassic
+          classicClass="!w-72"
         />
       </div>
     </div>
