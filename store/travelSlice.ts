@@ -12,12 +12,14 @@ export interface TravelState {
   optionsState: string;
 }
 
+const endNewDate = new Date()
+const endDate = endNewDate.setDate(endNewDate.getDate() + 1)
 // Initial state
 const initialState: TravelState = {
   isLoadingTravelState: false,
   destinationState: null,
   datesState: JSON.stringify({ startDate: format(new Date(), "dd-MM-yyyy"),
-    endDate: format(new Date(), "dd-MM-yyyy")})
+    endDate: format(endDate, "dd-MM-yyyy")})
   ,
   optionsState: JSON.stringify({
     adult: 1,

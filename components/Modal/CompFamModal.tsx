@@ -53,7 +53,7 @@ const CompFamModal: React.FunctionComponent<ICompFamModalProps> = ({
   return (
     <OutsideClick setIsOpen={onClose} className={classNameOutside}>
       <div
-        className={`absolute left-0 right-0 top-44 flex lg:left-auto lg:right-52 lg:top-14 lg:w-64 ${className}`}
+        className={`absolute left-0 right-0 top-44 flex justify-center lg:left-auto lg:right-52 lg:top-14 lg:w-64 lg:justify-start ${className}`}
       >
         <div
           className={`relative flex w-96 flex-col ${

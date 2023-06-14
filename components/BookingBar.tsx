@@ -21,6 +21,7 @@ import {
   selectDestinationState,
   selectOptionsState,
 } from "../store/travelSlice";
+import { stringToDate } from "../utils/helpers/transformToDate";
 
 interface IBookingBarProps {
   className?: string;
@@ -46,14 +47,7 @@ const BookingBarClassic: React.FunctionComponent<IBookingBarProps> = ({
   const optionsState = JSON.parse(useSelector(selectOptionsState));
   const destinationState = useSelector(selectDestinationState);
   // Split date string to convert in date time
-  const datePartStartDate = JSON.parse(datesState).startDate.split("-");
-  const datePartEndDate = JSON.parse(datesState).endDate.split("-");
-  const startDate = new Date(
-    `${datePartStartDate[2]}/${datePartStartDate[1]}/${datePartStartDate[0]}`
-  );
-  const endDate = new Date(
-    `${datePartEndDate[2]}/${datePartEndDate[1]}/${datePartEndDate[0]}`
-  );
+  const { startDate, endDate } = stringToDate(datesState);
 
   const [openDate, setOpenDate] = useState(false);
   const [data, setData] = useState({
@@ -150,7 +144,7 @@ const BookingBarClassic: React.FunctionComponent<IBookingBarProps> = ({
           </div>
           {openDate && (
             <div
-              className={`relative -left-14 z-10 lg:absolute lg:-left-2 lg:top-14`}
+              className={`relative -left-[3.25rem] z-10 lg:absolute lg:-left-2 lg:top-14`}
             >
               <OutsideClick setIsOpen={setOpenDate}>
                 <DateRange
@@ -239,14 +233,7 @@ const BookingBarFilters: React.FunctionComponent<IBookingBarProps> = ({
   const [showModal, setShowModal] = useState(false);
 
   // Split date string to convert in date time
-  const datePartStartDate = JSON.parse(datesState).startDate.split("-");
-  const datePartEndDate = JSON.parse(datesState).endDate.split("-");
-  const startDate = new Date(
-    `${datePartStartDate[2]}/${datePartStartDate[1]}/${datePartStartDate[0]}`
-  );
-  const endDate = new Date(
-    `${datePartEndDate[2]}/${datePartEndDate[1]}/${datePartEndDate[0]}`
-  );
+  const { startDate, endDate } = stringToDate(datesState);
 
   const [dates, setDates] = useState([
     {
@@ -441,14 +428,7 @@ const BookingBarAvailability: React.FunctionComponent<IBookingBarProps> = ({
 
   const [showModal, setShowModal] = useState(false);
   // Split date string to convert in date time
-  const datePartStartDate = JSON.parse(datesState).startDate.split("-");
-  const datePartEndDate = JSON.parse(datesState).endDate.split("-");
-  const startDate = new Date(
-    `${datePartStartDate[2]}/${datePartStartDate[1]}/${datePartStartDate[0]}`
-  );
-  const endDate = new Date(
-    `${datePartEndDate[2]}/${datePartEndDate[1]}/${datePartEndDate[0]}`
-  );
+  const { startDate, endDate } = stringToDate(datesState);
 
   const [dates, setDates] = useState([
     {

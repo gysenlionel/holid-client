@@ -66,7 +66,7 @@ const LoginModal: React.FunctionComponent<ILoginModalProps> = ({
     setIsLoading(false);
     setErrors(null);
     setIsShowModal(false);
-    // router.push("/stays");
+    router.push(router.asPath);
   };
 
   useEffect(() => {
