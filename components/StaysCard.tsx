@@ -5,6 +5,10 @@ import { Hotel } from "../types";
 import Currency from "./Currency";
 import { capitalizeFirstLetter } from "../utils/helpers/stringTransform";
 import Link from "next/link";
+import { dayDifference } from "../utils/helpers/daysCalcul";
+import { useSelector } from "react-redux";
+import { selectDatesState } from "../store/travelSlice";
+import { stringToDate } from "../utils/helpers/transformToDate";
 
 interface IStaysCardProps {
   property: Hotel;
@@ -19,6 +23,10 @@ const StaysCard: React.FunctionComponent<IStaysCardProps> = ({ property }) => {
     );
   }
 
+  const datesState = useSelector(selectDatesState);
+  const { startDate, endDate } = stringToDate(datesState);
+
+  const days = dayDifference(endDate, startDate);
   return (
     <Link href={`/hotel/${property.slug}`}>
       <div
@@ -26,11 +34,12 @@ const StaysCard: React.FunctionComponent<IStaysCardProps> = ({ property }) => {
       space-x-4 rounded-lg bg-grayCard pb-4  xl:grid xl:h-[15rem] xl:grid-cols-3 xl:px-6 
       xl:pb-0"
       >
-        <div className="xl:flex xl:flex-1 xl:items-center">
+        <div className="relative xl:flex xl:flex-1 xl:items-center">
           <Image
             src={property.photos[0]?.url}
             alt={`photo ${property.name}`}
             fill
+            sizes="100vw"
             className="!relative !h-52 w-full rounded-lg !object-cover xl:!flex-1"
           />
         </div>
@@ -45,7 +54,7 @@ const StaysCard: React.FunctionComponent<IStaysCardProps> = ({ property }) => {
             </div>
             <div>
               <Currency
-                price={property.cheapestPrice}
+                price={property.cheapestPrice * days}
                 currency="usd"
                 className="font-semibold"
               />

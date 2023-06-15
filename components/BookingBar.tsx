@@ -144,7 +144,7 @@ const BookingBarClassic: React.FunctionComponent<IBookingBarProps> = ({
           </div>
           {openDate && (
             <div
-              className={`relative -left-[3.25rem] z-10 lg:absolute lg:-left-2 lg:top-14`}
+              className={`relative -left-[3rem] z-10 lg:absolute lg:-left-2 lg:top-14`}
             >
               <OutsideClick setIsOpen={setOpenDate}>
                 <DateRange

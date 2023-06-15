@@ -31,6 +31,10 @@ import CardAdvisor from "../../components/CardAdvisor";
 import SwiperComponent from "../../components/SwiperComponent";
 import { IUser } from "../../types/user";
 import ModalUi from "../../components/Modal/ModalUi";
+import { useSelector } from "react-redux";
+import { selectDatesState } from "../../store/travelSlice";
+import { stringToDate } from "../../utils/helpers/transformToDate";
+import { dayDifference } from "../../utils/helpers/daysCalcul";
 
 interface IHotelProps {
   property: Hotel;
@@ -41,6 +45,10 @@ const Hotel: React.FunctionComponent<IHotelProps> = ({ property, user }) => {
   const router = useRouter();
   const asterisks = [];
   const [openModal, setOpenModal] = useState(false);
+  const datesState = useSelector(selectDatesState);
+  const { startDate, endDate } = stringToDate(datesState);
+
+  const days = dayDifference(endDate, startDate);
 
   for (let i = 0; i < property.rating; i++) {
     asterisks.push(
@@ -89,7 +97,7 @@ const Hotel: React.FunctionComponent<IHotelProps> = ({ property, user }) => {
 
   const ModalContent = () => {
     return (
-      <p className="m-4 text-center font-medium underline decoration-orangeMain underline-offset-4">
+      <p className="m-0 text-center font-medium underline decoration-orangeMain underline-offset-4 lg:m-4">
         Please log in or register.
       </p>
     );
@@ -135,7 +143,7 @@ const Hotel: React.FunctionComponent<IHotelProps> = ({ property, user }) => {
               <div className="flex flex-row items-end justify-between text-xl lg:flex-col lg:items-center">
                 <div className="mt-6 lg:mt-0 lg:flex lg:flex-col lg:items-center">
                   <Currency
-                    price={property.cheapestPrice}
+                    price={property.cheapestPrice * days}
                     currency="usd"
                     className="font-semibold"
                   />
@@ -146,6 +154,7 @@ const Hotel: React.FunctionComponent<IHotelProps> = ({ property, user }) => {
                   isShowModal={openModal}
                   onClose={setOpenModal}
                   classNameH1="hidden"
+                  className="!lg:w-96 !w-auto"
                 />
                 <div className="mt-2">
                   <Button

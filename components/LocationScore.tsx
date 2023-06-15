@@ -5,6 +5,7 @@ import { dayDifference } from "../utils/helpers/daysCalcul";
 import { useSelector } from "react-redux";
 import { selectDatesState } from "../store/travelSlice";
 import { stringToDate } from "../utils/helpers/transformToDate";
+import Currency from "./Currency";
 
 interface ILocationScoreProps {
   property: Hotel;
@@ -24,8 +25,14 @@ const LocationScore: React.FunctionComponent<ILocationScoreProps> = ({
           Perfect for a {days}-night stay!
         </h3>
         <p className="my-4 text-justify font-body text-lg leading-7 tracking-wider">
-          Located in {property.city} at {property.distance}m from center, this
-          property has an excellent location score of 9.8!
+          Located in {property.city} at {property.distance}m from center.Enjoy{" "}
+          {days} nights at{" "}
+          <Currency
+            price={property.cheapestPrice}
+            currency="usd"
+            className="font-body"
+          />{" "}
+          per night, this property has an excellent location score of 9.8!
         </p>
         <Button
           size="long"
