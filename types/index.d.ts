@@ -38,3 +38,20 @@ export interface Error {
     status?: number;
     message?: string | string[];
 }
+
+export interface RoomNumbers {
+     number: number,
+    unavailableDates: date[],
+    _id: string
+}
+
+export interface Room {
+    _id: string,
+    title: string,
+    price: number,
+    maxPeople: number,
+    desc: string,
+    roomNumbers: RoomNumbers [],
+    createdAt: string,
+    updatedAt: string,
+}

@@ -8,7 +8,7 @@ import { getUser } from "../../lib/getUser-ssr";
 import { GetServerSideProps } from "next";
 import { wrapper } from "../../store/store";
 import { useRouter } from "next/router";
-import { Hotel } from "../../types";
+import { Hotel, Room } from "../../types";
 import axios from "axios";
 import requests from "../../utils/requests";
 import { BiArrowBack } from "react-icons/bi";
@@ -35,16 +35,23 @@ import { useSelector } from "react-redux";
 import { selectDatesState } from "../../store/travelSlice";
 import { stringToDate } from "../../utils/helpers/transformToDate";
 import { dayDifference } from "../../utils/helpers/daysCalcul";
+import ReserveModal from "../../components/Modal/ReserveModal";
 
 interface IHotelProps {
   property: Hotel;
   user: IUser;
+  rooms: Room[];
 }
 
-const Hotel: React.FunctionComponent<IHotelProps> = ({ property, user }) => {
+const Hotel: React.FunctionComponent<IHotelProps> = ({
+  property,
+  user,
+  rooms,
+}) => {
   const router = useRouter();
   const asterisks = [];
   const [openModal, setOpenModal] = useState(false);
+  const [openModalReserve, setOpenModalReserve] = useState(false);
   const datesState = useSelector(selectDatesState);
   const { startDate, endDate } = stringToDate(datesState);
 
@@ -92,7 +99,7 @@ const Hotel: React.FunctionComponent<IHotelProps> = ({ property, user }) => {
   const handleReserve = () => {
     if (!user) return setOpenModal(true);
 
-    console.log("ok you can");
+    setOpenModalReserve(true);
   };
 
   const ModalContent = () => {
@@ -155,6 +162,15 @@ const Hotel: React.FunctionComponent<IHotelProps> = ({ property, user }) => {
                   onClose={setOpenModal}
                   classNameH1="hidden"
                   className="!lg:w-96 !w-auto"
+                />
+                <ReserveModal
+                  isShowModal={openModalReserve}
+                  setIsShowModal={setOpenModalReserve}
+                  rooms={rooms}
+                  days={days}
+                  startDate={startDate}
+                  endDate={endDate}
+                  userId={user._id}
                 />
                 <div className="mt-2">
                   <Button
@@ -240,11 +256,16 @@ export const getServerSideProps: GetServerSideProps =
         }
       );
       const property = await response.data;
-
+      const roomsdata = await axios.get(
+        `${requests.fetchPropertyRooms}${property._id}`
+      );
+      const rooms = await roomsdata.data;
+      console.log(rooms);
       return {
         props: {
           user,
           property,
+          rooms,
         },
       };
     } catch (error) {

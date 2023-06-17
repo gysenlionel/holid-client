@@ -55,6 +55,7 @@ const BookingBarClassic: React.FunctionComponent<IBookingBarProps> = ({
   });
 
   const [showModal, setShowModal] = useState(false);
+  const [showModalCompMobile, setShowModalCompMobile] = useState(false);
 
   const [dates, setDates] = useState([
     {
@@ -167,7 +168,10 @@ const BookingBarClassic: React.FunctionComponent<IBookingBarProps> = ({
               className={`${
                 showModal && "pointer-events-none"
               } flex cursor-pointer items-center space-x-2`}
-              onClick={() => setShowModal(true)}
+              onClick={() => {
+                setShowModal(true);
+                setShowModalCompMobile(true);
+              }}
             >
               <p className={`my-4 lg:my-0`}>
                 {options.adult === 1 || typeof options.adult == "undefined"
@@ -186,8 +190,8 @@ const BookingBarClassic: React.FunctionComponent<IBookingBarProps> = ({
             </div>
           </div>
           <CompFamModal
-            invisible={showModal}
-            onClose={setShowModal}
+            invisible={showModalCompMobile}
+            onClose={setShowModalCompMobile}
             options={options}
             setOptions={setOptions}
             className="!static lg:hidden"
