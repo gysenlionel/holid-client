@@ -255,12 +255,14 @@ export const getServerSideProps: GetServerSideProps =
           withCredentials: true,
         }
       );
-      const [property] = await Promise.all([response.data]);
+      const property = await response.data;
 
-      const roomsdata = await axios.get(
-        `${requests.fetchPropertyRooms}${property._id}`
-      );
-      const rooms = await roomsdata.data;
+      const roomsPromise = Promise.all([property]).then(async (hotel) => {
+        return await axios
+          .get(`${requests.fetchPropertyRooms}${hotel[0]._id}`)
+          .then((res) => res.data);
+      });
+      const rooms = await roomsPromise;
 
       return {
         props: {
