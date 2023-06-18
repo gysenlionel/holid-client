@@ -259,7 +259,7 @@ export const getServerSideProps: GetServerSideProps =
       const roomsdata = await axios.get(
         `${requests.fetchPropertyRooms}${property._id}`
       );
-      const rooms = await roomsdata.data;
+      const rooms = await Promise.all(roomsdata.data);
       console.log(rooms);
       return {
         props: {
