@@ -170,7 +170,7 @@ const Hotel: React.FunctionComponent<IHotelProps> = ({
                   days={days}
                   startDate={startDate}
                   endDate={endDate}
-                  userId={user._id}
+                  userId={user?._id}
                 />
                 <div className="mt-2">
                   <Button
