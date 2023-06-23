@@ -100,7 +100,7 @@ const BurgerMenu: React.FunctionComponent<IBurgerMenuProps> = ({
                     const response = await fetchPostJSON("/api/signout");
                     setIsShowMenu(false);
                     setUser(null);
-                    // router.replace("/");
+                    router.push(router.asPath);
                   }}
                 />
               </>

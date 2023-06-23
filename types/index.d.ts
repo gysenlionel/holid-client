@@ -55,3 +55,26 @@ export interface Room {
     createdAt: string,
     updatedAt: string,
 }
+
+interface Product {
+    _id:string;
+    image:string;
+    price: number;
+    slug: string;
+    name:string;
+}
+
+interface StripeProduct {
+    id: string;
+    amount_discount: number;
+    amount_subtotal: number;
+    amount_tax: number;
+    amount_total: number;
+    currency: "usd" | "eu";
+    description: string;
+    object: string;
+    quantity: number;
+    price: {
+        unit_amount: number;
+    }
+}

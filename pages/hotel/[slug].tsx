@@ -171,6 +171,7 @@ const Hotel: React.FunctionComponent<IHotelProps> = ({
                   startDate={startDate}
                   endDate={endDate}
                   userId={user?._id}
+                  property={property}
                 />
                 <div className="mt-2">
                   <Button

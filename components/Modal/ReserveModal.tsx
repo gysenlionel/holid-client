@@ -5,9 +5,12 @@ import ModalUi from "./ModalUi";
 import { Toaster, toast } from "react-hot-toast";
 import Currency from "../Currency";
 import Checkbox from "../Form/Checkbox";
-import { Room, RoomNumbers } from "../../types";
+import { Hotel, Room, RoomNumbers } from "../../types";
 import { getDatesInRange } from "../../utils/helpers/getDatesInRange";
 import { fetchPostJSON } from "../../utils/helpers/api-helpers";
+import Stripe from "stripe";
+import getStripe from "../../utils/get-stripe";
+import ErrorMessage from "../Form/ErrorMessage";
 
 interface ILoginModalProps {
   isShowModal: boolean;
@@ -17,6 +20,7 @@ interface ILoginModalProps {
   startDate: Date;
   endDate: Date;
   userId: string;
+  property: Hotel;
 }
 
 const ReserveModal: React.FunctionComponent<ILoginModalProps> = ({
@@ -27,9 +31,11 @@ const ReserveModal: React.FunctionComponent<ILoginModalProps> = ({
   startDate,
   endDate,
   userId,
+  property,
 }) => {
   const [selectRooms, setSelectRooms] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const checked = e.target.checked;
@@ -58,38 +64,83 @@ const ReserveModal: React.FunctionComponent<ILoginModalProps> = ({
     e.preventDefault();
     setIsLoading(true);
 
-    const response = await fetchPostJSON(
-      `/api/availableDates?roomNumberId=${selectRooms}&userId=${userId}`,
+    const totalPrice = (): number => {
+      const prices: number[] = [];
+      let totalPrice: number;
+      selectRooms.map((selectRoom) => {
+        rooms.map((room) => {
+          room.roomNumbers.map((r) => {
+            if (r._id === selectRoom) prices.push(room.price * days);
+          });
+        });
+      });
+      if (prices.length > 0)
+        totalPrice = prices.reduce((curr, next) => curr + next);
+
+      return totalPrice;
+    };
+
+    const items = [
       {
-        dates: allDates,
+        name: property.name,
+        price: totalPrice(),
+        image: property.photos[0].url,
+      },
+    ];
+
+    if (typeof totalPrice() === "undefined") {
+      setIsLoading(false);
+      return setError("* Please select a room.");
+    }
+    setError(null);
+
+    const checkoutSession: Stripe.Checkout.Session = await fetchPostJSON(
+      "/api/checkout_sessions",
+      {
+        items: items,
       }
     );
 
-    if ((response as any).statusCode === 500) {
-      setIsLoading(false);
-
-      console.error(response?.message);
-      // if (errors?.status === 500)
-      //   toast.error(`An error has occurred`, {
-      //     duration: 1500,
-      //     style: toastStyle,
-      //   });
+    if ((checkoutSession as any).statusCode === 500) {
+      console.error((checkoutSession as any).message);
       return;
+    } else if ((checkoutSession as any).statusCode === 400) {
+      setIsLoading(false);
+      return setError((checkoutSession as any).message);
     }
 
-    setIsLoading(false);
+    // Redirect to checkout
+    const stripe = await getStripe();
+    const { error } = await stripe!.redirectToCheckout({
+      sessionId: checkoutSession.id,
+    });
+    // If `redirectToCheckout` fails due to a browser or network
+    // error, display the localized error message to your customer
+    // using `error.message`.
+    console.warn(error.message);
 
-    // toast.success(`Your account has been created`, {
-    //   duration: 8000,
-    //   style: toastStyle,
-    // });
-    // setTimeout(() => {
-    //   setIsShowModal(false);
-    //   toast.dismiss();
-    // }, 1500);
+    // Post available date in DB
+    // const response = await fetchPostJSON(
+    //   `/api/availableDates?roomNumberId=${selectRooms}&userId=${userId}`,
+    //   {
+    //     dates: allDates,
+    //   }
+    // );
+
+    // if ((response as any).statusCode === 500) {
+    //   setIsLoading(false);
+
+    //   console.error(response?.message);
+    //   // if (errors?.status === 500)
+    //   //   toast.error(`An error has occurred`, {
+    //   //     duration: 1500,
+    //   //     style: toastStyle,
+    //   //   });
+    //   return;
+    // }
+
+    setIsLoading(false);
   };
-  // console.log("timestamp", allDates);
-  // console.log("date", new Date(allDates[0]));
 
   return (
     <ModalUi
@@ -104,9 +155,9 @@ const ReserveModal: React.FunctionComponent<ILoginModalProps> = ({
             .sort((a, b) => {
               return a.price - b.price;
             })
-            .map((room) => (
+            .map((room, index) => (
               <div
-                key={room._id}
+                key={`${room._id}-${index}`}
                 className="mb-4 flex items-center justify-between border-b border-dotted border-white/60 pb-4
                  font-heading last:border-b-0 last:pb-0 group-last:border-0"
               >
@@ -142,15 +193,18 @@ const ReserveModal: React.FunctionComponent<ILoginModalProps> = ({
               </div>
             ))}
         </div>
-        <div className="flex w-full justify-center">
-          <Button
-            size="long"
-            variant="solid"
-            children="Reserved here"
-            className="w-2/3"
-            onClick={handleReserve}
-            isLoading={isLoading}
-          />
+        <div className="flex w-full flex-col items-center justify-center gap-4">
+          <div className="flex w-full justify-center">
+            <Button
+              size="long"
+              variant="solid"
+              children="Reserved here"
+              className="w-2/3"
+              onClick={handleReserve}
+              isLoading={isLoading}
+            />
+          </div>
+          <ErrorMessage errors={error} />
         </div>
       </div>
     </ModalUi>

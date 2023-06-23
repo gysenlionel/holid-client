@@ -30,7 +30,7 @@ const Checkbox: React.FunctionComponent<ICheckboxProps> = ({
         id={name}
         onChange={handleChange}
         className={`h-5 w-5 rounded border-gray-300 bg-gray-100 text-orangeMain focus:ring-2 focus:ring-orangeMain dark:border-gray-600
-         dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-orangeMain ${classNameInput}`}
+         dark:ring-offset-gray-800 dark:focus:ring-orangeMain ${classNameInput}`}
         disabled={disabled}
       />
     </div>
