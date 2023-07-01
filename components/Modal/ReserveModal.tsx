@@ -21,6 +21,7 @@ interface ILoginModalProps {
   endDate: Date;
   userId: string;
   property: Hotel;
+  optionsSate: string;
 }
 
 const ReserveModal: React.FunctionComponent<ILoginModalProps> = ({
@@ -32,6 +33,7 @@ const ReserveModal: React.FunctionComponent<ILoginModalProps> = ({
   endDate,
   userId,
   property,
+  optionsSate,
 }) => {
   const [selectRooms, setSelectRooms] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -85,6 +87,12 @@ const ReserveModal: React.FunctionComponent<ILoginModalProps> = ({
         name: property.name,
         price: totalPrice(),
         image: property.photos[0].url,
+        hotelId: property._id,
+        adult: JSON.parse(optionsSate).adult,
+        children: JSON.parse(optionsSate).children,
+        roomNumberId: selectRooms,
+        userId: userId,
+        allDates: allDates,
       },
     ];
 
@@ -119,26 +127,6 @@ const ReserveModal: React.FunctionComponent<ILoginModalProps> = ({
     // using `error.message`.
     console.warn(error.message);
 
-    // Post available date in DB
-    // const response = await fetchPostJSON(
-    //   `/api/availableDates?roomNumberId=${selectRooms}&userId=${userId}`,
-    //   {
-    //     dates: allDates,
-    //   }
-    // );
-
-    // if ((response as any).statusCode === 500) {
-    //   setIsLoading(false);
-
-    //   console.error(response?.message);
-    //   // if (errors?.status === 500)
-    //   //   toast.error(`An error has occurred`, {
-    //   //     duration: 1500,
-    //   //     style: toastStyle,
-    //   //   });
-    //   return;
-    // }
-
     setIsLoading(false);
   };
 
@@ -168,11 +156,22 @@ const ReserveModal: React.FunctionComponent<ILoginModalProps> = ({
                     Max people:{" "}
                     <span className="font-semibold">{room.maxPeople}</span>
                   </p>
-                  <Currency
-                    price={room.price * days}
-                    currency="usd"
-                    className="font-semibold"
-                  />
+                  <p className="font-thin">
+                    Per night:{" "}
+                    <Currency
+                      price={room.price}
+                      currency="usd"
+                      className="font-semibold"
+                    />
+                  </p>
+                  <p className="font-thin">
+                    Total:{" "}
+                    <Currency
+                      price={room.price * days}
+                      currency="usd"
+                      className="font-semibold"
+                    />
+                  </p>
                 </div>
                 <div className="flex gap-4">
                   {room.roomNumbers.map((roomNumber) => (

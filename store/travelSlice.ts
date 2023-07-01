@@ -72,9 +72,9 @@ export const travelSlice = createSlice({
 
 export const { setisLoadingTravelState, setDestinationState, setDatesState, setOptionsState } = travelSlice.actions;
 
-export const selectisLoadingTravelState = (state: AppState) => state.travel.isLoadingTravelState;
-export const selectDestinationState = (state: AppState) => state.travel.destinationState;
-export const selectDatesState = (state: AppState) => state.travel.datesState;
-export const selectOptionsState = (state: AppState) => state.travel.optionsState;
+export const selectisLoadingTravelState = (state: AppState):boolean => state.travel.isLoadingTravelState;
+export const selectDestinationState = (state: AppState):string => state.travel.destinationState;
+export const selectDatesState = (state: AppState):string => state.travel.datesState;
+export const selectOptionsState = (state: AppState):string => state.travel.optionsState;
 
 export default travelSlice.reducer;

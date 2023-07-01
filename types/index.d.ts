@@ -62,6 +62,12 @@ interface Product {
     price: number;
     slug: string;
     name:string;
+    hotelId: string;
+    adult: number;
+    children: number;
+    roomNumberId: string[];
+    userId: string;
+    allDates: number []
 }
 
 interface StripeProduct {
@@ -76,5 +82,5 @@ interface StripeProduct {
     quantity: number;
     price: {
         unit_amount: number;
-    }
+    };
 }

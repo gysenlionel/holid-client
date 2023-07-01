@@ -1,5 +1,5 @@
 
-export const getDatesInRange = (startDate:Date,endDate:Date) => {
+export const getDatesInRange = (startDate:Date,endDate:Date): number[] => {
     const start = new Date(startDate)
     const end = new Date(endDate)
     const date = new Date(start.getTime()) 

@@ -54,15 +54,11 @@ const StaysCard: React.FunctionComponent<IStaysCardProps> = ({ property }) => {
             </div>
             <div>
               <Currency
-                price={property.cheapestPrice * days}
+                price={property.cheapestPrice}
                 currency="usd"
                 className="font-semibold"
               />
-              <p className="includesTaxes">
-                <span>Includes</span>
-                <br />
-                <span>taxes</span>
-              </p>
+              <p className="includesTaxes">Per night</p>
             </div>
           </div>
           <p className="mt-2 text-justify line-clamp-4">{property.desc}</p>

@@ -43,10 +43,16 @@ export default async function handler(
               mode: 'payment',
               metadata: {
                 images: items[0].image,
+                hotelId: items[0].hotelId,
+                adult: items[0].adult,
+                children: items[0].children,
+                roomNumberId: JSON.stringify(items[0].roomNumberId),
+                userId: items[0].userId,
+                allDates: JSON.stringify(items[0].allDates)
               }
         }
         const checkoutSession: Stripe.Checkout.Session = await stripe.checkout.sessions.create(params)
-     
+        
         res.status(200).json(checkoutSession)
     } catch (err) {
         const errorMessage = err instanceof Error ? err.message : "Internal server error"

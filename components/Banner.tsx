@@ -5,10 +5,12 @@ import ChevronLeftIcon from "@heroicons/react/24/outline/ChevronLeftIcon";
 import banner from "../public/assets/banners/banner.webp";
 import banner2 from "../public/assets/banners/banner2.webp";
 import BookingBar from "./BookingBar";
+import { ParsedUrlQuery } from "querystring";
 
 interface IBannerProps {
   variant: "bookingBarFilters" | "bookingBarClassic";
   hiddenBook?: boolean;
+  query?: ParsedUrlQuery;
 }
 
 interface subComp {
@@ -19,6 +21,7 @@ interface subComp {
 const Banner: React.FunctionComponent<IBannerProps> = ({
   variant,
   hiddenBook,
+  query,
 }) => {
   const [index, setIndex] = useState(0);
   const array = [banner, banner2];
@@ -90,7 +93,11 @@ const Banner: React.FunctionComponent<IBannerProps> = ({
           <BannerTitle children="Go Into Uncharted" children2="Territory" />
         )}
       </div>
-      <BookingBar variant={variant} className={`${hiddenBook && "hidden"}`} />
+      <BookingBar
+        variant={variant}
+        className={`${hiddenBook && "hidden"}`}
+        query={query}
+      />
     </div>
   );
 };

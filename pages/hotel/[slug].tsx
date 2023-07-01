@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import Banner from "../../components/Banner";
 import Header from "../../components/Header";
 import HeadSEO from "../../components/HeadSEO";
@@ -31,8 +31,13 @@ import CardAdvisor from "../../components/CardAdvisor";
 import SwiperComponent from "../../components/SwiperComponent";
 import { IUser } from "../../types/user";
 import ModalUi from "../../components/Modal/ModalUi";
-import { useSelector } from "react-redux";
-import { selectDatesState } from "../../store/travelSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectDatesState,
+  selectOptionsState,
+  setDatesState,
+  setOptionsState,
+} from "../../store/travelSlice";
 import { stringToDate } from "../../utils/helpers/transformToDate";
 import { dayDifference } from "../../utils/helpers/daysCalcul";
 import ReserveModal from "../../components/Modal/ReserveModal";
@@ -52,7 +57,16 @@ const Hotel: React.FunctionComponent<IHotelProps> = ({
   const asterisks = [];
   const [openModal, setOpenModal] = useState(false);
   const [openModalReserve, setOpenModalReserve] = useState(false);
+  const { query } = useRouter();
+  const dispatch = useDispatch();
   const datesState = useSelector(selectDatesState);
+  const optionsState = useSelector(selectOptionsState);
+
+  const DestinationQuery = useMemo(() => {
+    dispatch(setDatesState(query.dates ?? datesState));
+    dispatch(setOptionsState(query.options ?? optionsState));
+  }, [query]);
+
   const { startDate, endDate } = stringToDate(datesState);
 
   const days = dayDifference(endDate, startDate);
@@ -120,7 +134,7 @@ const Hotel: React.FunctionComponent<IHotelProps> = ({
       />
       <Header />
       <main className="mb-8 lg:space-y-24">
-        <Banner variant="bookingBarClassic" />
+        <Banner variant="bookingBarClassic" query={query} />
 
         <section className="gutters flex justify-center lg:mt-0">
           <div className="flex-1 lg:max-w-6xl">
@@ -172,6 +186,7 @@ const Hotel: React.FunctionComponent<IHotelProps> = ({
                   endDate={endDate}
                   userId={user?._id}
                   property={property}
+                  optionsSate={optionsState}
                 />
                 <div className="mt-2">
                   <Button

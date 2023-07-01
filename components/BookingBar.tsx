@@ -22,6 +22,7 @@ import {
   selectOptionsState,
 } from "../store/travelSlice";
 import { stringToDate } from "../utils/helpers/transformToDate";
+import { ParsedUrlQuery } from "querystring";
 
 interface IBookingBarProps {
   className?: string;
@@ -30,6 +31,7 @@ interface IBookingBarProps {
     | "bookingBarAvailability"
     | "bookingBarClassic";
   isLoading?: boolean;
+  query?: ParsedUrlQuery;
   setIsLoading?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -41,6 +43,7 @@ interface IData {
 
 const BookingBarClassic: React.FunctionComponent<IBookingBarProps> = ({
   className,
+  query,
 }) => {
   const router = useRouter();
   const datesState = useSelector(selectDatesState);
@@ -76,6 +79,27 @@ const BookingBarClassic: React.FunctionComponent<IBookingBarProps> = ({
   useEffect(() => {
     inputRef.current.focus();
   }, []);
+
+  useEffect(() => {
+    if (query?.options) {
+      setOptions({
+        adult: JSON.parse(query?.options as string)?.adult,
+        children: JSON.parse(query?.options as string)?.children,
+        room: JSON.parse(query?.options as string)?.room,
+      });
+    }
+
+    if (query?.dates) {
+      const { startDate, endDate } = stringToDate(query?.dates as string);
+      setDates([
+        {
+          startDate: startDate,
+          endDate: endDate,
+          key: "selection",
+        },
+      ]);
+    }
+  }, [query]);
 
   const handleChange = (name: keyof IData, value: string): void => {
     setData({
@@ -454,15 +478,16 @@ const BookingBarAvailability: React.FunctionComponent<IBookingBarProps> = ({
       endDate: format(dates[0].endDate, "dd-MM-yyyy"),
       key: dates[0].key,
     };
+
     router.push(
       {
-        pathname: "/stays",
+        pathname: router.asPath,
         query: {
           dates: JSON.stringify(dateForm),
           options: JSON.stringify(options),
         },
       },
-      "/stays" // hide query from url
+      router.asPath // hide query from url
     );
   };
 
@@ -560,6 +585,7 @@ const BookingBar: React.FunctionComponent<IBookingBarProps> = ({
   isLoading,
   setIsLoading,
   variant,
+  query,
 }) => {
   switch (variant) {
     case "bookingBarFilters":
@@ -581,7 +607,7 @@ const BookingBar: React.FunctionComponent<IBookingBarProps> = ({
 
     case "bookingBarClassic":
     default:
-      return <BookingBarClassic className={className} />;
+      return <BookingBarClassic className={className} query={query} />;
   }
 };
 
