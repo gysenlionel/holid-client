@@ -6,7 +6,10 @@ import { Toaster, toast } from "react-hot-toast";
 import Currency from "../Currency";
 import Checkbox from "../Form/Checkbox";
 import { Hotel, Room, RoomNumbers } from "../../types";
-import { getDatesInRange } from "../../utils/helpers/getDatesInRange";
+import {
+  getDatesInRangeToCheck,
+  getDatesInRangeToSend,
+} from "../../utils/helpers/getDatesInRange";
 import { fetchPostJSON } from "../../utils/helpers/api-helpers";
 import Stripe from "stripe";
 import getStripe from "../../utils/get-stripe";
@@ -48,19 +51,21 @@ const ReserveModal: React.FunctionComponent<ILoginModalProps> = ({
         : selectRooms.filter((item) => item !== value)
     );
   };
-
-  const allDates = getDatesInRange(startDate, endDate);
-
+  // check dates from backend with UTC transformed 00:00
+  const checkAllDates = getDatesInRangeToCheck(startDate, endDate);
+  // Check if dates is available or not
   const isNotAvailable = (roomNumber: RoomNumbers): boolean => {
     let isFound = false;
     if (roomNumber.unavailableDates.length < 1) return (isFound = false);
 
     isFound = roomNumber.unavailableDates.some((date) => {
-      if (allDates.includes(new Date(date).getTime())) return (isFound = true);
+      if (checkAllDates.includes(new Date(date).getTime()))
+        return (isFound = true);
     });
-
     return isFound;
   };
+  // dates to send with UTC not transform
+  const sendAllDates = getDatesInRangeToSend(startDate, endDate);
 
   const handleReserve = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -81,7 +86,7 @@ const ReserveModal: React.FunctionComponent<ILoginModalProps> = ({
 
       return totalPrice;
     };
-
+    // data to send to stripe
     const items = [
       {
         name: property.name,
@@ -92,7 +97,7 @@ const ReserveModal: React.FunctionComponent<ILoginModalProps> = ({
         children: JSON.parse(optionsSate).children,
         roomNumberId: selectRooms,
         userId: userId,
-        allDates: allDates,
+        allDates: sendAllDates,
       },
     ];
 
