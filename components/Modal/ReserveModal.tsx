@@ -53,6 +53,7 @@ const ReserveModal: React.FunctionComponent<ILoginModalProps> = ({
   };
   // check dates from backend with UTC transformed 00:00
   const checkAllDates = getDatesInRangeToCheck(startDate, endDate);
+  console.log(checkAllDates);
   // Check if dates is available or not
   const isNotAvailable = (roomNumber: RoomNumbers): boolean => {
     let isFound = false;
@@ -97,7 +98,7 @@ const ReserveModal: React.FunctionComponent<ILoginModalProps> = ({
         children: JSON.parse(optionsSate).children,
         roomNumberId: selectRooms,
         userId: userId,
-        allDates: sendAllDates,
+        allDates: checkAllDates,
       },
     ];
 

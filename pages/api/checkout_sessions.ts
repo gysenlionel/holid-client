@@ -15,7 +15,7 @@ export default async function handler(
     const items: Product[] = req.body.items 
     
   if (typeof items[0].price === 'undefined')
-    return res.status(500).json({ statusCode: 400, message: 'Please select a room.'}) 
+    return res.status(400).json({ statusCode: 400, message: 'Please select a room.'}) 
 
     const transformedItems = items.map((item) => ({
         price_data: {

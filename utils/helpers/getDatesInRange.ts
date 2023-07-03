@@ -13,7 +13,6 @@ export const getDatesInRangeToSend = (startDate:Date,endDate:Date): number[] => 
   return dates
 }
 
-
 export const getDatesInRangeToCheck = (startDate:Date,endDate:Date): number[] => {
     const start = transformUTC(startDate)
     const end = transformUTC(endDate)
@@ -28,7 +27,6 @@ export const getDatesInRangeToCheck = (startDate:Date,endDate:Date): number[] =>
   
     return dates
   }
-// TODO refacto dates to set UTC to 0
 
   const transformUTC = ((date:Date):Date => {
       const newDate = new Date(date)
