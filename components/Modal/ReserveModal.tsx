@@ -6,10 +6,7 @@ import { Toaster, toast } from "react-hot-toast";
 import Currency from "../Currency";
 import Checkbox from "../Form/Checkbox";
 import { Hotel, Room, RoomNumbers } from "../../types";
-import {
-  getDatesInRangeToCheck,
-  getDatesInRangeToSend,
-} from "../../utils/helpers/getDatesInRange";
+import { getDatesInRangeToCheck } from "../../utils/helpers/getDatesInRange";
 import { fetchPostJSON } from "../../utils/helpers/api-helpers";
 import Stripe from "stripe";
 import getStripe from "../../utils/get-stripe";
@@ -53,7 +50,7 @@ const ReserveModal: React.FunctionComponent<ILoginModalProps> = ({
   };
   // check dates from backend with UTC transformed 00:00
   const checkAllDates = getDatesInRangeToCheck(startDate, endDate);
-  console.log(checkAllDates);
+
   // Check if dates is available or not
   const isNotAvailable = (roomNumber: RoomNumbers): boolean => {
     let isFound = false;
@@ -65,9 +62,7 @@ const ReserveModal: React.FunctionComponent<ILoginModalProps> = ({
     });
     return isFound;
   };
-  // dates to send with UTC not transform
-  const sendAllDates = getDatesInRangeToSend(startDate, endDate);
-
+  console.log(JSON.stringify(selectRooms));
   const handleReserve = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setIsLoading(true);

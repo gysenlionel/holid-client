@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
 import { fetchLineItems } from "../utils/helpers/fetchLineItems";
-import { Product, StripeProduct } from "../types";
+import { StripeProduct } from "../types";
 import { GetServerSideProps } from "next";
 import { wrapper } from "../store/store";
 import { useRouter } from "next/router";
@@ -9,7 +9,6 @@ import HeadSEO from "../components/HeadSEO";
 import siteMetadata from "../data/siteMetadata";
 import { getUser } from "../lib/getUser-ssr";
 import { IUser } from "../types/user";
-import axios from "axios";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -51,7 +50,6 @@ const Success: React.FunctionComponent<ISuccessProps> = ({
     0
   );
 
-  console.log(products);
   return (
     <div className={`h-screen`}>
       <HeadSEO
@@ -115,21 +113,19 @@ const Success: React.FunctionComponent<ISuccessProps> = ({
             <p className="hidden lg:inline">Need help ? Contact us</p>
             {mounted && (
               <Button
-                children="Continue Shopping"
+                children="Back To Home"
                 onClick={() => router.push("/")}
                 size={`${isTabletOrMobile ? "full" : "long"}`}
                 className={`${isTabletOrMobile && "py-2"}`}
                 variant="solid"
-                // width={isTabletOrMobile ? "w-full" : undefined}
-                // padding="py-4"
               />
             )}
           </div>
         </section>
         {mounted && (
           <section
-            className=" border-y border-l border-gray-300 
-          lg:order-2 lg:col-span-4 lg:h-screen lg:border-y-0"
+            className=" border-y border-gray-300 lg:order-2 
+          lg:col-span-4 lg:h-screen lg:border-y-0 lg:border-l"
           >
             <div
               className={`w-full border-b border-gray-300 py-4 ${
@@ -162,7 +158,10 @@ const Success: React.FunctionComponent<ISuccessProps> = ({
                   )}
                 </button>
                 <p className="text-xl font-medium">
-                  <Currency price={200} currency="usd" />
+                  <Currency
+                    price={products[0].amount_total / 100}
+                    currency="usd"
+                  />
                 </p>
               </div>
             </div>
@@ -218,19 +217,16 @@ const Success: React.FunctionComponent<ISuccessProps> = ({
                     <p className="text-white/60">Discount</p>
                     <p className="text-white/60"></p>
                   </div>
-                  {/* <div className="flex justify-between text-sm">
-                    <p className="text-[gray]">Shipping</p>
-                    <p className="font-medium">
-                      <Currency quantity={20} currency="usd" />
-                    </p>
-                  </div> */}
                 </div>
                 <div className="flex justify-between pt-4">
                   <p>Total</p>
                   <p className="flex items-center gap-x-2 text-xs text-white/60">
                     USD
                     <span className="text-xl font-medium text-white">
-                      <Currency price={200} currency="usd" />
+                      <Currency
+                        price={products[0].amount_total / 100}
+                        currency="usd"
+                      />
                     </span>
                   </p>
                 </div>
