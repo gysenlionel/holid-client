@@ -9,10 +9,11 @@ import Currency from "./Currency";
 
 interface ILocationScoreProps {
   property: Hotel;
+  handleReserve: () => void;
 }
 
 const LocationScore: React.FunctionComponent<ILocationScoreProps> = ({
-  property,
+  property, handleReserve
 }) => {
   const datesState = useSelector(selectDatesState);
   const { startDate, endDate } = stringToDate(datesState);
@@ -39,7 +40,7 @@ const LocationScore: React.FunctionComponent<ILocationScoreProps> = ({
           variant="solid"
           children="Reserve"
           className="w-2/3"
-          // onClick={handleSearch}
+          onClick={handleReserve}
           // isLoading={isLoading}
         />
       </aside>

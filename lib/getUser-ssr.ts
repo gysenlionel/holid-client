@@ -7,9 +7,9 @@ import { decodeCookieArray, decodedCookieString } from "../utils/helpers/decoded
 export type QueryResponse<T> = [error: string | null, data: T | null]
 
 
-const SET_COOKIE_HEADER = 'set-cookie'
+export const SET_COOKIE_HEADER = 'set-cookie'
 
-const refreshTokens = async (req: IncomingMessage, res: ServerResponse) => {
+export const refreshTokens = async (req: IncomingMessage, res: ServerResponse) => {
     const response: any = await axios.get(`${environment.apiUrl}/api/auth/`, {
         headers: {cookie: req.headers.cookie },
         withCredentials: true
@@ -21,7 +21,7 @@ const refreshTokens = async (req: IncomingMessage, res: ServerResponse) => {
     res.setHeader(SET_COOKIE_HEADER, cookies)
 }
 
-const handleRequest = async (
+export const handleRequest = async (
     req: IncomingMessage,
     res: ServerResponse,
     request: () => Promise<AxiosResponse>

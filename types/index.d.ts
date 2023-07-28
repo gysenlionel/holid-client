@@ -84,3 +84,27 @@ interface StripeProduct {
         unit_amount: number;
     };
 }
+
+interface Booking {
+        dates: {
+            startDate: string,
+            endDate: string
+        };
+        _id: string;
+        hotelId: string;
+        price: number;
+        adult: number;
+        children: number;
+        userId: string;
+        roomNumbersId: string[];
+        stripeId: string;
+        createdAt: string;
+        updatedAt: string;
+}
+
+interface File {
+    path: string;
+    name: string;
+    size: number;
+    type: string;
+}

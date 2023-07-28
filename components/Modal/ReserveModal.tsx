@@ -62,7 +62,7 @@ const ReserveModal: React.FunctionComponent<ILoginModalProps> = ({
     });
     return isFound;
   };
-  console.log(JSON.stringify(selectRooms));
+
   const handleReserve = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setIsLoading(true);

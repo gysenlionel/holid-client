@@ -7,6 +7,7 @@ interface IAvatarIconProps {
   iconURL: string | undefined;
   isShowModal?: boolean;
   setIsShowModal?: React.Dispatch<React.SetStateAction<boolean>>;
+  dropImage?: any;
 }
 
 const AvatarIcon: React.FunctionComponent<IAvatarIconProps> = ({
@@ -14,6 +15,7 @@ const AvatarIcon: React.FunctionComponent<IAvatarIconProps> = ({
   iconURL,
   isShowModal,
   setIsShowModal,
+  dropImage,
 }) => {
   return (
     <div>
@@ -21,7 +23,7 @@ const AvatarIcon: React.FunctionComponent<IAvatarIconProps> = ({
         <UserCircleIcon className="ml-1 h-8 w-8 cursor-pointer text-white sm:w-10 md:h-10 md:text-orangeMain" />
       ) : (
         <Image
-          src={iconURL}
+          src={dropImage ? dropImage : iconURL}
           alt="avatar"
           className={`h-10 w-10 rounded-full object-cover ${className}`}
           width={500}

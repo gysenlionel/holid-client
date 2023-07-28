@@ -211,7 +211,10 @@ const Hotel: React.FunctionComponent<IHotelProps> = ({
                     <ContentProperty string={property.desc} />
                   </div>
                   <div className="basis-1/3">
-                    <LocationScore property={property} />
+                    <LocationScore
+                      property={property}
+                      handleReserve={handleReserve}
+                    />
                   </div>
                 </div>
               </article>

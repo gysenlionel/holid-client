@@ -248,8 +248,6 @@ export const getServerSideProps: GetServerSideProps =
     if (!user) return { redirect: { statusCode: 307, destination: "/" } };
     const sessionId = query.session_id as string;
     const products = await fetchLineItems(sessionId);
-
-    console.log(products);
     return {
       props: {
         user,

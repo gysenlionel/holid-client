@@ -1,5 +1,5 @@
 export interface IUser {
-    addres: string;
+    address: string;
     city: string;
     country: string;
     createdAt: string;

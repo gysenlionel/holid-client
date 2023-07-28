@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 
 import { styled } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
@@ -16,7 +16,7 @@ interface ISelectMuiProps {
   isSelectedCountry: boolean;
 }
 
-const BootstrapInput = styled(InputBase)(({ theme }) => ({
+const Input = styled(InputBase)(({ theme }) => ({
   "& .MuiInputBase-input": {
     borderRadius: 50,
     position: "relative",
@@ -39,6 +39,9 @@ const SelectMuiCountry: React.FunctionComponent<ISelectMuiProps> = ({
   setIsSelectedCountry,
   isSelectedCountry,
 }) => {
+  useEffect(() => {
+    if (selectedCountry.length > 1) setIsSelectedCountry(true);
+  }, []);
   return (
     <FormControl sx={{ width: "100%", mb: 3 }}>
       <Select
@@ -51,7 +54,7 @@ const SelectMuiCountry: React.FunctionComponent<ISelectMuiProps> = ({
 
           setIsSelectedCountry(true);
         }}
-        input={<BootstrapInput />}
+        input={<Input />}
         renderValue={() => {
           if (isSelectedCountry !== true) {
             return <em>Country</em>;

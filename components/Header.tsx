@@ -88,13 +88,17 @@ const Header: React.FunctionComponent<IHeaderProps> = (props) => {
         )}
         {user && (
           <>
-            <MdOutlineFlight className="h-8 w-8 cursor-pointer text-orangeMain" />
-            <AvatarIcon
-              iconURL={`${user?.img?.url}`}
-              className="cursor-pointer"
-              isShowModal={isShowMenu}
-              setIsShowModal={setIsShowMenu}
-            />
+            <Link href="/holidays">
+              <MdOutlineFlight className="h-8 w-8 cursor-pointer text-orangeMain" />
+            </Link>
+            <Link href="/profil">
+              <AvatarIcon
+                iconURL={`${user?.img?.url}`}
+                className="cursor-pointer"
+                isShowModal={isShowMenu}
+                setIsShowModal={setIsShowMenu}
+              />
+            </Link>
           </>
         )}
         <BurgerMenu

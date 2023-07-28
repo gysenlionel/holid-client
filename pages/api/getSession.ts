@@ -7,9 +7,8 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-    const sessionId = req.query.session_id as string
-    console.log('getSession',sessionId)
-    const session = await stripe.checkout.sessions.listLineItems(sessionId)
+  const sessionId = req.query.session_id as string
+  const session = await stripe.checkout.sessions.listLineItems(sessionId)
 
-  res.status(200).json({ session})
+  res.status(200).json({ session })
 }

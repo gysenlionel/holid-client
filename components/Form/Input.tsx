@@ -4,7 +4,7 @@ import ErrorMessage from "./ErrorMessage";
 import Label from "./Label";
 
 interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
-  type: "text" | "email" | "password" | "number";
+  type: "text" | "email" | "password" | "number" | "date";
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   name: string;
   label?: string;
@@ -18,6 +18,8 @@ interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
   rounded?: "rounded-2xl" | "rounded-sm";
   classNameInputContainer?: string;
   classNameContainer?: string;
+  defaultValue?: string;
+  value?: string;
 }
 
 const InputNormal = forwardRef<HTMLInputElement, IInputProps>(
@@ -36,6 +38,8 @@ const InputNormal = forwardRef<HTMLInputElement, IInputProps>(
       rounded,
       classNameInputContainer,
       classNameContainer,
+      defaultValue,
+      value,
     },
     ref
   ) {
@@ -57,10 +61,12 @@ const InputNormal = forwardRef<HTMLInputElement, IInputProps>(
             onChange={onChange}
             name={name}
             id={id}
+            defaultValue={defaultValue}
             placeholder={required ? `${placeholder}*` : placeholder}
             className={`h-8 ${rounded} appearance-none font-heading text-base text-black ${className} ml-4 border-0 
             outline-none placeholder:select-none focus:border-0 focus:placeholder:invisible`}
             required={required}
+            value={value}
           />
         </div>
         <ErrorMessage errors={errors} className="mt-2 ml-2" />
@@ -119,6 +125,7 @@ const Input = forwardRef<HTMLInputElement, IInputProps>(function Button(
     classNameInputContainer,
     classNameContainer,
     defaultValue,
+    value,
   },
   ref
 ) {
@@ -156,6 +163,8 @@ const Input = forwardRef<HTMLInputElement, IInputProps>(function Button(
           classNameInputContainer={classNameInputContainer}
           classNameContainer={classNameContainer}
           globalError={globalError}
+          defaultValue={defaultValue}
+          value={value}
         />
       );
   }
