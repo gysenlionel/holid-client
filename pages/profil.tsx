@@ -19,6 +19,7 @@ import { Error } from "../types";
 import ErrorMessage from "../components/Form/ErrorMessage";
 import countries from "../data/countries.json";
 import { includesTupleCountries } from "../utils/helpers/includesCountries";
+import SpinnerSVG from "../components/SVG/Spinner";
 
 interface IProfilProps {
   user: IUser;
@@ -41,6 +42,7 @@ const Profil: React.FunctionComponent<IProfilProps> = ({ user }) => {
   const [file, setFile] = useState<any>();
   const [image, setImage] = useState<any>();
   const [errors, setErrors] = useState<Error>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   // Call this function whenever you want to
   // refresh props!
@@ -78,12 +80,14 @@ const Profil: React.FunctionComponent<IProfilProps> = ({ user }) => {
     type: file?.type,
   };
   const handleSubmitImage = async () => {
+    setIsLoading(true);
     const response = await fetchPutJSON(
       `/api/update_image?userId=${user._id}`,
       {
         data,
       }
     );
+    setIsLoading(false);
     if ((response as any).statusCode === 500) {
       displayErrors(response, setErrors);
       console.error(response?.message);
@@ -151,8 +155,19 @@ const Profil: React.FunctionComponent<IProfilProps> = ({ user }) => {
                         className="flex cursor-pointer text-white/70"
                         onClick={handleSubmitImage}
                       >
-                        <p>Upload</p>
-                        <RxCheck className="h-7 w-7 " />
+                        {isLoading ? (
+                          <SpinnerSVG
+                            color="#fff"
+                            height={24}
+                            width={24}
+                            className="mr-1"
+                          />
+                        ) : (
+                          <div className="flex">
+                            <p>Upload</p>
+                            <RxCheck className="h-7 w-7 " />
+                          </div>
+                        )}
                       </div>
                       <div
                         className="flex cursor-pointer text-white/70"

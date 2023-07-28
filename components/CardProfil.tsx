@@ -13,6 +13,7 @@ import { capitalizeFirstLetterInWord } from "../utils/helpers/stringTransform";
 import SelectMuiCountry from "./Form/SelectMuiCountry";
 import countries from "../data/countries.json";
 import { includesTupleCountries } from "../utils/helpers/includesCountries";
+import SpinnerSVG from "./SVG/Spinner";
 
 type defaultValueType =
   | "firstname"
@@ -92,6 +93,7 @@ const CardProfil: React.FunctionComponent<ICardProfilProps> = ({
   );
   const [isSelectedCountry, setIsSelectedCountry] = useState(false);
   const [errors, setErrors] = useState<Error>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue((prev) => ({ ...prev, [e.target.id]: e.target.value }));
@@ -111,6 +113,7 @@ const CardProfil: React.FunctionComponent<ICardProfilProps> = ({
   };
 
   const handleSubmit = async () => {
+    setIsLoading(true);
     let response: any;
     if (passEndpoint) {
       response = await fetchPutJSON(`/api/update_password?userId=${user._id}`, {
@@ -123,6 +126,7 @@ const CardProfil: React.FunctionComponent<ICardProfilProps> = ({
         user: value,
       });
     }
+    setIsLoading(false);
     if ((response as any).statusCode === 500) {
       displayErrors(response?.message, setErrors);
       if (
@@ -273,8 +277,19 @@ const CardProfil: React.FunctionComponent<ICardProfilProps> = ({
               onClick={() => handleSubmit()}
               className={`flex cursor-pointer text-white/70`}
             >
-              <p>Valid</p>
-              <RxCheck className="h-7 w-7 " />
+              {isLoading ? (
+                <SpinnerSVG
+                  color="#fff"
+                  height={24}
+                  width={24}
+                  className="mr-1"
+                />
+              ) : (
+                <div className="flex">
+                  <p>Valid</p>
+                  <RxCheck className="h-7 w-7 " />
+                </div>
+              )}
             </div>
             <div
               className={`flex cursor-pointer text-white/70`}

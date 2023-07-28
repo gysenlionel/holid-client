@@ -111,11 +111,15 @@ const Header: React.FunctionComponent<IHeaderProps> = (props) => {
       <div className="flex items-center md:hidden">
         {user && (
           <>
-            <MdOutlineFlight className="h-8 w-8 cursor-pointer text-white" />
-            <AvatarIcon
-              iconURL={`${user?.img?.url}`}
-              className="ml-3 !h-8 !w-8 cursor-pointer border"
-            />
+            <Link href={"/holidays"}>
+              <MdOutlineFlight className="h-8 w-8 cursor-pointer text-white" />
+            </Link>
+            <Link href={"/profil"}>
+              <AvatarIcon
+                iconURL={`${user?.img?.url}`}
+                className="ml-3 !h-8 !w-8 cursor-pointer border"
+              />
+            </Link>
           </>
         )}
         <BurgerMenu
