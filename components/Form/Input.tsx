@@ -18,7 +18,7 @@ interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
   rounded?: "rounded-2xl" | "rounded-sm";
   classNameInputContainer?: string;
   classNameContainer?: string;
-  defaultValue?: string;
+  defaultValue?: string | number;
   value?: string;
 }
 
