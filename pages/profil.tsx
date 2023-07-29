@@ -20,6 +20,7 @@ import ErrorMessage from "../components/Form/ErrorMessage";
 import countries from "../data/countries.json";
 import { includesTupleCountries } from "../utils/helpers/includesCountries";
 import SpinnerSVG from "../components/SVG/Spinner";
+import Button from "../components/Button";
 
 interface IProfilProps {
   user: IUser;
@@ -43,6 +44,17 @@ const Profil: React.FunctionComponent<IProfilProps> = ({ user }) => {
   const [image, setImage] = useState<any>();
   const [errors, setErrors] = useState<Error>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [uploadPicsOptions, setUploadPicsOptions] = useState(null);
+  let [width, setWidth] = useState(window.innerWidth);
+
+  let updateDimension = () => {
+    setWidth(window.innerWidth);
+  };
+  useEffect(() => {
+    window.addEventListener("resize", updateDimension);
+    return () => window.removeEventListener("resize", updateDimension);
+  });
+
   const router = useRouter();
   // Call this function whenever you want to
   // refresh props!
@@ -63,8 +75,10 @@ const Profil: React.FunctionComponent<IProfilProps> = ({ user }) => {
       setErrors({ status: 400, message: rejectFiles[0]?.errors[0]?.message });
     }
   }, []);
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+  const { getRootProps, getInputProps, open, isDragActive } = useDropzone({
     onDrop,
+    noClick: width < 1024 ? true : false,
+    noKeyboard: width < 1024 ? true : false,
     accept: {
       "image/jpeg": [],
       "image/jpg": [],
@@ -136,7 +150,7 @@ const Profil: React.FunctionComponent<IProfilProps> = ({ user }) => {
             <div className="w-m basis-1/3">
               <div className="flex flex-col items-center">
                 <div
-                  className="flex cursor-pointer flex-col items-center"
+                  className="flex flex-col items-center lg:cursor-pointer"
                   {...getRootProps()}
                 >
                   <input
@@ -149,6 +163,13 @@ const Profil: React.FunctionComponent<IProfilProps> = ({ user }) => {
                     dropImage={image}
                     iconURL={user?.img?.url ? user?.img?.url : "/user.png"}
                     className="mb-4 !h-44 !w-44 md:!h-72 md:!w-72"
+                  />
+                  <Button
+                    size="small"
+                    variant="solid"
+                    children="Upload"
+                    onClick={open}
+                    className={`lg:hidden ${file && "hidden"}`}
                   />
                 </div>
                 {file && (
@@ -196,6 +217,7 @@ const Profil: React.FunctionComponent<IProfilProps> = ({ user }) => {
                   defaultValue2={"lastname"}
                   refreshData={refreshData}
                   classNameContainer="w-full sm:w-auto sm:min-w-[65%] lg:min-w-[75%] lg:px-2"
+                  section={"legalName"}
                 />
               </div>
             </div>
@@ -233,7 +255,7 @@ const Profil: React.FunctionComponent<IProfilProps> = ({ user }) => {
                 defaultValue={"password"}
                 refreshData={refreshData}
                 classNameContainer="w-full sm:w-auto sm:min-w-[65%] lg:min-w-[50%] lg:max-w-sm"
-                passEndpoint
+                section="password"
               />
             </div>
           </div>

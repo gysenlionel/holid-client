@@ -39,7 +39,7 @@ interface ICardProfilProps {
   defaultValue2?: defaultValueType;
   refreshData: () => void;
   classNameContainer: string;
-  passEndpoint?: boolean;
+  section?: "legalName" | "password";
 }
 
 interface IInput {
@@ -77,7 +77,7 @@ const CardProfil: React.FunctionComponent<ICardProfilProps> = ({
   defaultValue2,
   refreshData,
   classNameContainer,
-  passEndpoint = false,
+  section,
 }) => {
   const router = useRouter();
   const [value, setValue] = useState<IInput>({
@@ -88,6 +88,7 @@ const CardProfil: React.FunctionComponent<ICardProfilProps> = ({
     country: typeof user?.country !== "undefined" ? user?.country : "",
     password: "",
   });
+
   const [selectedCountry, setSelectedCountry] = useState<string[]>(
     user?.country ? includesTupleCountries(countries, user.country) : []
   );
@@ -115,13 +116,19 @@ const CardProfil: React.FunctionComponent<ICardProfilProps> = ({
   const handleSubmit = async () => {
     setIsLoading(true);
     let response: any;
-    if (passEndpoint) {
+    if (section === "password") {
       response = await fetchPutJSON(`/api/update_password?userId=${user._id}`, {
         password: value.password,
       });
     } else {
-      // TODO: add address in if
-      value.country = selectedCountry[0];
+      value.country =
+        typeof selectedCountry[0] !== "undefined" ? selectedCountry[0] : "";
+      if (section === "legalName") {
+        delete value.address;
+        delete value.city;
+        delete value.country;
+      }
+
       response = await fetchPutJSON(`/api/update_profil?userId=${user._id}`, {
         user: value,
       });
@@ -206,7 +213,7 @@ const CardProfil: React.FunctionComponent<ICardProfilProps> = ({
         <div
           className={`${
             isFocus === true ? "block" : "hidden"
-          } flex w-full max-w-xs flex-col px-4 lg:max-w-sm`}
+          } flex w-full max-w-xs flex-col px-4`}
         >
           <form action="">
             <Input
