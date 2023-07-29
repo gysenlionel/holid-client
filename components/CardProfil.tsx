@@ -176,27 +176,37 @@ const CardProfil: React.FunctionComponent<ICardProfilProps> = ({
   }, [user]);
 
   return (
-    <div
-      className={`my-4 flex justify-evenly rounded-lg bg-grayCard py-4 ${classNameContainer}`}
-    >
-      <Toaster position="top-center" />
-      <div>
-        <h1 className="title1">{title}</h1>
-        <div
-          className={`font-heading text-base font-extralight text-white/70 ${
-            isFocus === true ? "hidden" : ""
-          }`}
-        >
-          <p className={`${content2 && "mb-4"}`}>
-            {content && capitalizeFirstLetterInWord(content)}
-          </p>
-          <p className={`${content3 && "mb-4"}`}>
-            {content2 && capitalizeFirstLetterInWord(content2)}
-          </p>
-          <p>{content3 && content3}</p>
+    <div className={`bg-grayCard ${classNameContainer} my-4 rounded-lg`}>
+      <div className={`flex justify-evenly py-4`}>
+        <Toaster position="top-center" />
+        <div>
+          <h1 className="title1">{title}</h1>
+          <div
+            className={`font-heading text-base font-extralight text-white/70 ${
+              isFocus === true ? "hidden" : ""
+            }`}
+          >
+            <p className={`${content2 && "mb-4"}`}>
+              {content && capitalizeFirstLetterInWord(content)}
+            </p>
+            <p className={`${content3 && "mb-4"}`}>
+              {content2 && capitalizeFirstLetterInWord(content2)}
+            </p>
+            <p>{content3 && content3}</p>
+          </div>
         </div>
+        <div className="flex flex-col items-center justify-between">
+          <RiPencilFill
+            className="h-6 w-6 cursor-pointer text-white/70"
+            onClick={handleClose}
+          />
+        </div>
+      </div>
+      <div className="flex w-full flex-col items-center">
         <div
-          className={`${isFocus === true ? "block" : "hidden"} flex flex-col`}
+          className={`${
+            isFocus === true ? "block" : "hidden"
+          } flex w-full max-w-sm flex-col px-4`}
         >
           <form action="">
             <Input
@@ -247,7 +257,6 @@ const CardProfil: React.FunctionComponent<ICardProfilProps> = ({
                 classNameContainer="pb-2"
               />
             )}
-
             {name3 && (
               <SelectMuiCountry
                 isSelectedCountry={isSelectedCountry}
@@ -271,7 +280,7 @@ const CardProfil: React.FunctionComponent<ICardProfilProps> = ({
           <div
             className={`flex ${
               isFocus === true ? "block" : "hidden"
-            } space-x-1`}
+            } justify-center space-x-1 pb-4`}
           >
             <div
               onClick={() => handleSubmit()}
@@ -300,12 +309,6 @@ const CardProfil: React.FunctionComponent<ICardProfilProps> = ({
             </div>
           </div>
         </div>
-      </div>
-      <div className="flex flex-col items-center justify-between">
-        <RiPencilFill
-          className="h-6 w-6 cursor-pointer text-white/70"
-          onClick={handleClose}
-        />
       </div>
     </div>
   );
