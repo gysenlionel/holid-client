@@ -85,6 +85,20 @@ const Profil: React.FunctionComponent<IProfilProps> = ({ user }) => {
       "image/png": [],
     },
   });
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result;
+        setImage(base64String);
+      };
+      reader.readAsDataURL(file);
+      setFile(file);
+    }
+  };
+
   const handleCancelImage = () => {
     setFile(null);
     setImage(null);
@@ -156,7 +170,7 @@ const Profil: React.FunctionComponent<IProfilProps> = ({ user }) => {
                   <input
                     {...getInputProps()}
                     onChange={(event) => {
-                      setImage(event.target.files[0]);
+                      width > 1023 && setImage(event.target.files[0]);
                     }}
                   />
                   <AvatarIcon
