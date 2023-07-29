@@ -206,7 +206,7 @@ const CardProfil: React.FunctionComponent<ICardProfilProps> = ({
         <div
           className={`${
             isFocus === true ? "block" : "hidden"
-          } flex w-full max-w-sm flex-col px-4`}
+          } flex w-full max-w-xs flex-col px-4 lg:max-w-sm`}
         >
           <form action="">
             <Input
