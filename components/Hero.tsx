@@ -2,10 +2,12 @@ import Image from "next/image";
 import React from "react";
 import Button from "./Button";
 import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/router";
 
 interface IHeroProps {}
 
 const Hero: React.FunctionComponent<IHeroProps> = (props) => {
+  const router = useRouter();
   return (
     <div className="flex items-center justify-center space-x-10">
       <div className="flex flex-col">
@@ -21,7 +23,7 @@ const Hero: React.FunctionComponent<IHeroProps> = (props) => {
           size="lg"
           children="RESERVE"
           className="mt-8 self-center"
-          // onClick={() =>}
+          onClick={() => router.push("/stays")}
         />
       </div>
       <div className="relative hidden h-[310px] w-[420px] md:block">

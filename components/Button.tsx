@@ -28,7 +28,7 @@ const buttonSize = {
   full: "w-full",
 };
 
-const SolidButton = forwardRef<HTMLInputElement, IButtonProps>(
+const SolidButton = forwardRef<HTMLButtonElement, IButtonProps>(
   function SolidButton(
     { children, className, isLoading, type, icon, size, ...rest },
     forwardedRef
@@ -58,7 +58,7 @@ const SolidButton = forwardRef<HTMLInputElement, IButtonProps>(
   }
 );
 
-const OutlineButton = forwardRef<HTMLInputElement, IButtonProps>(
+const OutlineButton = forwardRef<HTMLButtonElement, IButtonProps>(
   function OutlineButton(
     { children, className, isLoading, type, icon, size, ...rest },
     forwardedRef
@@ -85,7 +85,7 @@ const OutlineButton = forwardRef<HTMLInputElement, IButtonProps>(
   }
 );
 
-const Button = forwardRef<HTMLInputElement, IButtonProps>(function Button(
+const Button = forwardRef<HTMLButtonElement, IButtonProps>(function Button(
   { className, variant, children, ...rest },
   forwardedRef
 ) {
