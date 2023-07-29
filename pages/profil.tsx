@@ -178,12 +178,18 @@ const Profil: React.FunctionComponent<IProfilProps> = ({ user }) => {
                     iconURL={user?.img?.url ? user?.img?.url : "/user.png"}
                     className="mb-4 !h-44 !w-44 md:!h-72 md:!w-72"
                   />
-                  <Button
+                  {/* <Button
                     size="small"
                     variant="solid"
                     children="Upload"
                     onClick={open}
                     className={`lg:hidden ${file && "hidden"}`}
+                  /> */}
+                  <input
+                    onChange={handleFileChange}
+                    type="file"
+                    accept="image/*"
+                    className="lg:hidden"
                   />
                 </div>
                 {file && (
