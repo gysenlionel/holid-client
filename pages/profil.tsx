@@ -59,21 +59,24 @@ const Profil: React.FunctionComponent<IProfilProps> = ({ user }) => {
       reader.readAsDataURL(file);
       setFile(file);
     });
+    if (rejectFiles.length > 0) {
+      setErrors({ status: 400, message: rejectFiles[0]?.errors[0]?.message });
+    }
   }, []);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: {
       "image/jpeg": [],
+      "image/jpg": [],
       "image/png": [],
     },
   });
-
   const handleCancelImage = () => {
     setFile(null);
     setImage(null);
     setErrors(null);
   };
-
+  console.log(errors);
   const data = {
     image: image,
     size: file?.size,
@@ -145,7 +148,7 @@ const Profil: React.FunctionComponent<IProfilProps> = ({ user }) => {
                   <AvatarIcon
                     dropImage={image}
                     iconURL={user?.img?.url ? user?.img?.url : "/user.png"}
-                    className="mb-4 !h-72 !w-72"
+                    className="mb-4 !h-44 !w-44 md:!h-72 md:!w-72"
                   />
                 </div>
                 {file && (
@@ -177,9 +180,9 @@ const Profil: React.FunctionComponent<IProfilProps> = ({ user }) => {
                         <RiCloseLine className="h-7 w-7" />
                       </div>
                     </div>
-                    <ErrorMessage errors={errors?.message} className="mt-1" />
                   </div>
                 )}
+                <ErrorMessage errors={errors?.message} className="mt-1" />
                 <CardProfil
                   title="Legal Name"
                   content={`${user.firstname} ${user.lastname}`}
