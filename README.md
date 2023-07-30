@@ -44,6 +44,23 @@ List the ready features here:
 - Swagger for api documentation
 
 ## Screenshots
+figma: 
+
+![figma](https://github.com/gysenlionel/holid-client/assets/90910874/9d947b09-34f1-43a2-9abc-0da795145add)
+
+![figma2](https://github.com/gysenlionel/holid-client/assets/90910874/445356df-b477-48d1-80ec-f1668581436d)
+
+website:
+
+![website](https://github.com/gysenlionel/holid-client/assets/90910874/74de429d-32fa-4c83-80ea-aa8a46dd70ab)
+
+![website2](https://github.com/gysenlionel/holid-client/assets/90910874/72a7ec1e-25f9-41ee-bf0b-1fbcb2cff8af)
+
+mobile:
+
+![mobile](https://github.com/gysenlionel/holid-client/assets/90910874/1066b71a-3ed0-48c9-9d0b-dde07f45dc41)
+
+![mobile2](https://github.com/gysenlionel/holid-client/assets/90910874/7e55f023-b070-485b-a5b8-5cbe880d46e0)
 
 ## Setup
 To install the dependencies:
