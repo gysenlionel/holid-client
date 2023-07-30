@@ -25,7 +25,7 @@ export default async function handler(
       return res.status(500).json({ statusCode: 500, message: 'The image format can only be jpeg or png.' });
     }
 
-    if (dataFile.data.size > 100000) {
+    if (dataFile.data.size > 1000000) {
       return res.status(500).json({ statusCode: 500, message: 'The image may not exceed 1mo.' });
     }
 

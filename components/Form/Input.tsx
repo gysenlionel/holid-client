@@ -4,9 +4,9 @@ import ErrorMessage from "./ErrorMessage";
 import Label from "./Label";
 
 interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
-  type: "text" | "email" | "password" | "number" | "date";
+  type: "text" | "email" | "password" | "number" | "date" | "file";
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  name: string;
+  name?: string;
   label?: string;
   placeholder?: string;
   className?: string;

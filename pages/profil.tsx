@@ -20,7 +20,6 @@ import ErrorMessage from "../components/Form/ErrorMessage";
 import countries from "../data/countries.json";
 import { includesTupleCountries } from "../utils/helpers/includesCountries";
 import SpinnerSVG from "../components/SVG/Spinner";
-import Button from "../components/Button";
 
 interface IProfilProps {
   user: IUser;
@@ -75,7 +74,7 @@ const Profil: React.FunctionComponent<IProfilProps> = ({ user }) => {
       setErrors({ status: 400, message: rejectFiles[0]?.errors[0]?.message });
     }
   }, []);
-  const { getRootProps, getInputProps, open, isDragActive } = useDropzone({
+  const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     noClick: width < 1024 ? true : false,
     noKeyboard: width < 1024 ? true : false,
@@ -164,7 +163,7 @@ const Profil: React.FunctionComponent<IProfilProps> = ({ user }) => {
             <div className="w-m basis-1/3">
               <div className="flex flex-col items-center">
                 <div
-                  className="flex flex-col items-center lg:cursor-pointer"
+                  className="relative flex cursor-pointer flex-col items-center"
                   {...getRootProps()}
                 >
                   <input
@@ -178,18 +177,11 @@ const Profil: React.FunctionComponent<IProfilProps> = ({ user }) => {
                     iconURL={user?.img?.url ? user?.img?.url : "/user.png"}
                     className="mb-4 !h-44 !w-44 md:!h-72 md:!w-72"
                   />
-                  {/* <Button
-                    size="small"
-                    variant="solid"
-                    children="Upload"
-                    onClick={open}
-                    className={`lg:hidden ${file && "hidden"}`}
-                  /> */}
                   <input
                     onChange={handleFileChange}
                     type="file"
                     accept="image/*"
-                    className="lg:hidden"
+                    className="absolute h-44 w-44 cursor-pointer rounded-full opacity-0 md:h-72 md:w-72 lg:hidden"
                   />
                 </div>
                 {file && (
