@@ -186,7 +186,7 @@ const CardProfil: React.FunctionComponent<ICardProfilProps> = ({
     <div className={`bg-grayCard ${classNameContainer} my-4 rounded-lg`}>
       <div className={`flex justify-evenly py-4`}>
         <Toaster position="top-center" />
-        <div>
+        <div className="flex basis-2/3 flex-col">
           <h1 className="title1">{title}</h1>
           <div
             className={`font-heading text-base font-extralight text-white/70 ${
