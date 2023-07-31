@@ -15,6 +15,7 @@
 I based the design and features on Booking. I first made a mockup on figma. 
 Then I implemented them in Next.js. 
 Authentication is custom on the frontend and backend.
+
 ## Technologies Used
 Frontend:
 - Next.JS 13
@@ -32,6 +33,7 @@ Backend: (other repo)
 - Multer
 - Stripe
 - Rollbar
+
 ## Features
 List the ready features here:
 - Crud for edit your profile
