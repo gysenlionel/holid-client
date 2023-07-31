@@ -36,7 +36,6 @@ Backend: (other repo)
 - Rollbar
 
 ## Features
-List the ready features here:
 - Crud for edit your profile
 - Search and select your booking (using redux to persist in session storage)
 - Authentification with HTTP only cookie and refresh token
@@ -82,7 +81,6 @@ npm run dev
 Project is: _in progress_ 
 
 ## Room for Improvement
-
 To do:
 - Image optimisation
 - lighthouse optimisation
