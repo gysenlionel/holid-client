@@ -1,4 +1,4 @@
-# Project Name
+# Holi'D
 > Travel booking site. View your bookings, edit your profile.  
 > Live demo [_here_](https://app.holid-server.xyz/). 
 
