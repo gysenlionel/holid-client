@@ -43,7 +43,6 @@ const Profil: React.FunctionComponent<IProfilProps> = ({ user }) => {
   const [image, setImage] = useState<any>();
   const [errors, setErrors] = useState<Error>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [uploadPicsOptions, setUploadPicsOptions] = useState(null);
   let [width, setWidth] = useState(window.innerWidth);
 
   let updateDimension = () => {
@@ -103,7 +102,7 @@ const Profil: React.FunctionComponent<IProfilProps> = ({ user }) => {
     setImage(null);
     setErrors(null);
   };
-  console.log(errors);
+
   const data = {
     image: image,
     size: file?.size,
@@ -153,7 +152,7 @@ const Profil: React.FunctionComponent<IProfilProps> = ({ user }) => {
         title={`Profil | ${siteMetadata.siteUrl}`}
         description="Holi'D Profil Page, Check your profil and update it."
         ogType="Profil"
-        canonicalUrl={`${siteMetadata.siteUrl}`}
+        canonicalUrl={`${siteMetadata.siteUrl}${router.pathname}`}
       />
       <Header />
       <main className="mt-24 lg:mt-36">

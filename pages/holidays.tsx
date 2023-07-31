@@ -11,6 +11,7 @@ import { Booking, Hotel } from "../types";
 import CardHolidays from "../components/CardHolidays";
 import { format } from "date-fns";
 import Footer from "../components/Footer";
+import { useRouter } from "next/router";
 
 interface IHolidaysProps {
   bookings: Booking[];
@@ -21,13 +22,14 @@ const Holidays: React.FunctionComponent<IHolidaysProps> = ({
   bookings,
   hotels,
 }) => {
+  const router = useRouter();
   return (
     <div className="">
       <HeadSEO
         title={`Holidays | ${siteMetadata.siteUrl}`}
         description="Holi'D Holidays Page, Check you bookings, looks for holidays"
         ogType="Holidays"
-        canonicalUrl={`${siteMetadata.siteUrl}`}
+        canonicalUrl={`${siteMetadata.siteUrl}${router.pathname}`}
       />
       <Header />
       <main

@@ -56,7 +56,7 @@ const Success: React.FunctionComponent<ISuccessProps> = ({
         title={`Thank you | ${siteMetadata.siteUrl}`}
         description="Holi'D success page, Payment confirmation"
         ogType="Successpage"
-        canonicalUrl={`${siteMetadata.siteUrl}`}
+        canonicalUrl={`${siteMetadata.siteUrl}${router.pathname}`}
       />
       <main className="grid grid-cols-1 lg:grid-cols-9">
         <section

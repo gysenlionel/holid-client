@@ -1,6 +1,6 @@
 # Project Name
 > Travel booking site. View your bookings, edit your profile.  
-> Live demo [_here_](https://staging.client.holid-server.xyz/). 
+> Live demo [_here_](https://app.holid-server.xyz/). 
 
 ## Table of Contents
 * [General Info](#general-information)
@@ -19,6 +19,7 @@ Authentication is custom on the frontend and backend.
 ## Technologies Used
 Frontend:
 - Next.JS 13
+- Typescript
 - TailwindCss
 - Redux Toolkit
 - Stripe
