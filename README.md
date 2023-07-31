@@ -1,5 +1,5 @@
 # Holi'D
-> Travel booking site. View your bookings, edit your profile.  
+> Travel booking site.Book your holidays, view your bookings, edit your profile.  
 > Live demo [_here_](https://app.holid-server.xyz/). 
 
 ## Table of Contents
@@ -48,21 +48,24 @@ Backend: (other repo)
 ## Screenshots
 figma: 
 
-![figma](https://github.com/gysenlionel/holid-client/assets/90910874/9d947b09-34f1-43a2-9abc-0da795145add)
+![figma](https://github.com/gysenlionel/holid-client/assets/90910874/9015a8d1-121d-4179-a3a2-7268ea2a9c43)
 
-![figma2](https://github.com/gysenlionel/holid-client/assets/90910874/445356df-b477-48d1-80ec-f1668581436d)
+
+![figma2](https://github.com/gysenlionel/holid-client/assets/90910874/104f6d30-d447-498e-a2b2-253519f27378)
 
 website:
 
-![website](https://github.com/gysenlionel/holid-client/assets/90910874/74de429d-32fa-4c83-80ea-aa8a46dd70ab)
+![website](https://github.com/gysenlionel/holid-client/assets/90910874/9165b763-56a2-4d49-bcc0-8b31caddcb92)
 
-![website2](https://github.com/gysenlionel/holid-client/assets/90910874/72a7ec1e-25f9-41ee-bf0b-1fbcb2cff8af)
+![website2](https://github.com/gysenlionel/holid-client/assets/90910874/47283a09-9ed0-4056-bf8c-b1f74751e30c)
+
 
 mobile:
 
-![mobile](https://github.com/gysenlionel/holid-client/assets/90910874/1066b71a-3ed0-48c9-9d0b-dde07f45dc41)
+![mobile](https://github.com/gysenlionel/holid-client/assets/90910874/de723a2d-db98-4167-9df1-e5a5e26ddaf5)
 
-![mobile2](https://github.com/gysenlionel/holid-client/assets/90910874/7e55f023-b070-485b-a5b8-5cbe880d46e0)
+![mobile2](https://github.com/gysenlionel/holid-client/assets/90910874/59f12efb-5163-45a1-8dfa-98d88364800c)
+
 
 ## Setup
 To install the dependencies:
