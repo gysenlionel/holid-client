@@ -130,7 +130,7 @@ const Hotel: React.FunctionComponent<IHotelProps> = ({
         title={`Hotel | ${siteMetadata.siteUrl}`}
         description="Holi'D hotelpage, Check you bookings, looks for holidays"
         ogType="Hotelpage"
-        canonicalUrl={`${siteMetadata.siteUrl}`}
+        canonicalUrl={`${siteMetadata.siteUrl}${router.pathname}`}
       />
       <Header />
       <main className="mb-8 lg:space-y-24">

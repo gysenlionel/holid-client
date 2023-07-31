@@ -108,7 +108,7 @@ const Stays: React.FunctionComponent<IStaysProps> = ({}) => {
         title={`Stays | ${siteMetadata.siteUrl}`}
         description="Holi'D Stays Page, Check you bookings, looks for holidays"
         ogType="Stays"
-        canonicalUrl={`${siteMetadata.siteUrl}`}
+        canonicalUrl={`${siteMetadata.siteUrl}${router.pathname}`}
       />
       <Header />
       <main className="mb-8">
