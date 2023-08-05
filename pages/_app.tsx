@@ -6,7 +6,7 @@ import type { AppProps } from "next/app";
 import { wrapper } from "../store/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { useStore } from "react-redux";
-const Loading = dynamic(() => import("../components/Loading"), { ssr: true });
+const Loading = dynamic(() => import("../components/Loading"), { ssr: false });
 import Router from "next/router";
 
 function MyApp({ Component, pageProps }: AppProps) {
