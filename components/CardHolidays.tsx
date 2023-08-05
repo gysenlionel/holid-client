@@ -1,24 +1,20 @@
 import Image from "next/image";
 import * as React from "react";
-import { Booking, Hotel } from "../types";
+import { Booking } from "../types";
 import { StarIcon } from "@heroicons/react/24/solid";
 import { format } from "date-fns";
 import Currency from "./Currency";
 
 interface ICardHolidaysProps {
-  hotels: Hotel[];
   booking: Booking;
-  index: number;
 }
 
 const CardHolidays: React.FunctionComponent<ICardHolidaysProps> = ({
-  hotels,
   booking,
-  index,
 }) => {
   const asterisks = [];
 
-  for (let i = 0; i < hotels[index].rating; i++) {
+  for (let i = 0; i < booking.rating; i++) {
     asterisks.push(
       <StarIcon className="mr-1 !h-4 !w-4 text-orangeMain" key={`stars-${i}`} />
     );
@@ -57,7 +53,7 @@ const CardHolidays: React.FunctionComponent<ICardHolidaysProps> = ({
       return <p>Past</p>;
     }
   };
-  const hotel = hotels.find((hotel) => hotel._id === booking.hotelId);
+
   return (
     <div
       className="mb-4 h-auto w-full max-w-6xl 
@@ -66,8 +62,8 @@ const CardHolidays: React.FunctionComponent<ICardHolidaysProps> = ({
     >
       <div className="relative lg:col-span-2 lg:flex lg:flex-1 lg:items-center lg:py-3 lg:pl-4 lg:pr-8">
         <Image
-          src={hotel.photos[0].url}
-          alt={`photo ${hotel.name}`}
+          src={booking.photo}
+          alt={`photo ${booking.hotelTitle}`}
           fill
           sizes="50vw"
           className="!relative !h-[200px] !w-full rounded-lg !object-cover"
@@ -75,7 +71,7 @@ const CardHolidays: React.FunctionComponent<ICardHolidaysProps> = ({
       </div>
       <div className="mt-3 mb-1 px-4 pr-4 lg:col-span-2 lg:mb-0 lg:grid lg:grid-rows-3 lg:px-0 lg:pr-0">
         <div className="mr-4">
-          <h1 className="title2">{hotel.name}</h1>
+          <h1 className="title2">{booking.hotelTitle}</h1>
           <div className="mt-1 flex">{asterisks}</div>
         </div>
         <div className="hidden font-heading text-sm font-semibold lg:flex lg:flex-col lg:justify-center lg:text-base">
