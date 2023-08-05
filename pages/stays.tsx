@@ -1,4 +1,5 @@
-import React, { Suspense, useEffect, useMemo, useState } from "react";
+import dynamic from "next/dynamic";
+import React, { useEffect, useMemo, useState } from "react";
 import Banner from "../components/Banner";
 import Header from "../components/Header";
 import HeadSEO from "../components/HeadSEO";
@@ -22,7 +23,7 @@ import { wrapper } from "../store/store";
 import { fetchGetJSON } from "../utils/helpers/api-helpers";
 import Footer from "../components/Footer";
 import Radio from "../components/Form/Radio";
-import Loading from "../components/Loading";
+const Loading = dynamic(() => import("../components/Loading"), { ssr: true });
 
 interface IStaysProps {}
 

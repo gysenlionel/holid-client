@@ -1,6 +1,3 @@
-import Plane from "./SVG/Plane";
-import Ray from "./SVG/Ray";
-import Sun from "./SVG/Sun";
 import ray from "../public/ray.svg";
 import plane from "../public/plane.svg";
 import round from "../public/round.svg";
