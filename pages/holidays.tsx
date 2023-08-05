@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import HeadSEO from "../components/HeadSEO";
 import siteMetadata from "../data/siteMetadata";
 import Header from "../components/Header";
@@ -7,10 +7,11 @@ import { wrapper } from "../store/store";
 import { getUser } from "../lib/getUser-ssr";
 import axios from "axios";
 import requests from "../utils/requests";
-import { Booking, Hotel } from "../types";
+import { Booking } from "../types";
 import CardHolidays from "../components/CardHolidays";
 import Footer from "../components/Footer";
 import { useRouter } from "next/router";
+import Loading from "../components/Loading";
 
 interface IHolidaysProps {
   bookings: Booking[];

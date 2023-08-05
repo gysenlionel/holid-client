@@ -1,3 +1,4 @@
+import dynamic from "next/dynamic";
 import React, { useEffect, useMemo, useState } from "react";
 import Banner from "../components/Banner";
 import Header from "../components/Header";
@@ -22,6 +23,7 @@ import { wrapper } from "../store/store";
 import { fetchGetJSON } from "../utils/helpers/api-helpers";
 import Footer from "../components/Footer";
 import Radio from "../components/Form/Radio";
+const Loading = dynamic(() => import("../components/Loading"), { ssr: true });
 
 interface IStaysProps {}
 
@@ -34,6 +36,7 @@ const Stays: React.FunctionComponent<IStaysProps> = ({}) => {
   const { query } = useRouter();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingProperties, setIsLoadingProperties] = useState(false);
   const sorts = ["none", "asc", "desc"];
   const [checkedStateChoix, setCheckedStateChoix] = useState<number>(0);
 
@@ -44,6 +47,7 @@ const Stays: React.FunctionComponent<IStaysProps> = ({}) => {
     dispatch(setOptionsState(query.options ?? optionsState));
   }, [query]);
   useEffect(() => {
+    setIsLoadingProperties(true);
     const getStays = async () => {
       const response = await fetchGetJSON(
         `/api/getStays?destination=${destinationState}${
@@ -71,6 +75,7 @@ const Stays: React.FunctionComponent<IStaysProps> = ({}) => {
         setProperties(hotels.reverse());
       }
       setIsLoading(false);
+      setIsLoadingProperties(false);
     });
   }, [checkedStateChoix, query]);
 
@@ -126,7 +131,10 @@ const Stays: React.FunctionComponent<IStaysProps> = ({}) => {
           <div className="pb-2">
             <div className="relative">
               <OrderBy className="absolute left-0 z-40 hidden -translate-y-28 lg:block" />
-              {properties?.length > 0 ? (
+
+              {isLoadingProperties ? (
+                <Loading className="flex w-full justify-center" />
+              ) : properties?.length > 0 ? (
                 properties?.map((property) => (
                   <StaysCard property={property} key={property._id} />
                 ))

@@ -7,6 +7,16 @@ module.exports = {
   ],
   theme: {
     extend: {
+      animation: {
+        'slide-right': 'slideRight 4s infinite',
+      },
+      keyframes: {
+        slideRight: {
+          '0%': { transform: 'translateX(50%)', opacity: '0' },
+          '50%': { opacity: '1' },
+          '100%': { transform: 'translateX(-130%)', opacity: '0' },
+        },
+      },
       colors:
       {
         grayModal: '#645D5A',
