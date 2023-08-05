@@ -54,7 +54,7 @@ const BookingBarClassic: React.FunctionComponent<IBookingBarProps> = ({
 
   const [openDate, setOpenDate] = useState(false);
   const [data, setData] = useState({
-    city: "",
+    city: destinationState,
   });
 
   const [showModal, setShowModal] = useState(false);
@@ -81,6 +81,12 @@ const BookingBarClassic: React.FunctionComponent<IBookingBarProps> = ({
   }, []);
 
   useEffect(() => {
+    if (query?.destination) {
+      setData({
+        city: query?.destination as string,
+      });
+    }
+
     if (query?.options) {
       setOptions({
         adult: JSON.parse(query?.options as string)?.adult,
@@ -122,8 +128,8 @@ const BookingBarClassic: React.FunctionComponent<IBookingBarProps> = ({
           dates: JSON.stringify(dateForm),
           options: JSON.stringify(options),
         },
-      },
-      "/stays" // hide query from url
+      }
+      // "/stays" // hide query from url
     );
   };
 
@@ -147,7 +153,8 @@ const BookingBarClassic: React.FunctionComponent<IBookingBarProps> = ({
             label="votre nom"
             className="my-4 lg:my-0"
             ref={inputRef}
-            defaultValue={destinationState}
+            // defaultValue={destinationState}
+            value={data["city"]}
           />
         </div>
         <div
@@ -254,7 +261,7 @@ const BookingBarFilters: React.FunctionComponent<IBookingBarProps> = ({
   const router = useRouter();
   const [openDate, setOpenDate] = useState(false);
   const [data, setData] = useState<IData>({
-    city: null,
+    city: destinationState,
     min: null,
     max: null,
   });
@@ -330,10 +337,10 @@ const BookingBarFilters: React.FunctionComponent<IBookingBarProps> = ({
             name="city"
             onChange={(e) => handleChange("city", e.target.value)}
             placeholder="Where are you going?"
-            label="votre nom"
             className="my-4"
             ref={inputRef}
-            defaultValue={destinationState}
+            // defaultValue={destinationState}
+            value={data["city"]}
           />
         </div>
         <div className="relative flex h-full grow items-center space-x-2 border-b border-dotted border-white/50 px-4">

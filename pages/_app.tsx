@@ -15,7 +15,8 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     const start = () => {
-      setLoading(true);
+      if (Router.asPath !== "/profil" && Router.pathname !== "/profil")
+        setLoading(true);
     };
     const end = () => {
       setLoading(false);

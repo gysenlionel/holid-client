@@ -85,6 +85,7 @@ const InputBooking = forwardRef<HTMLInputElement, IInputProps>(
       placeholder,
       className,
       defaultValue,
+      value,
       autoComplete = "off",
     },
     ref
@@ -102,6 +103,7 @@ const InputBooking = forwardRef<HTMLInputElement, IInputProps>(
           focus:border-0 ${className} border-0 border-none !outline-none`}
           autoComplete={autoComplete}
           defaultValue={defaultValue}
+          value={value}
         />
       </div>
     );
@@ -142,6 +144,7 @@ const Input = forwardRef<HTMLInputElement, IInputProps>(function Button(
           ref={ref}
           globalError={globalError}
           defaultValue={defaultValue}
+          value={value}
         />
       );
 
