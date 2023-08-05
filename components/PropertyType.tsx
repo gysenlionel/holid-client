@@ -53,7 +53,10 @@ const PropertyType: React.FunctionComponent<IPropertyTypeProps> = ({
           key={index}
           href={{
             pathname: "/stays",
-            query: { type: propertyTypes[index].type.slice(0, -1) },
+            query: {
+              type: propertyTypes[index].type.slice(0, -1),
+              destination: "",
+            },
           }}
         >
           <div
