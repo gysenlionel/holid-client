@@ -122,8 +122,8 @@ const BookingBarClassic: React.FunctionComponent<IBookingBarProps> = ({
           dates: JSON.stringify(dateForm),
           options: JSON.stringify(options),
         },
-      },
-      "/stays" // hide query from url
+      }
+      // "/stays" // hide query from url
     );
   };
 
