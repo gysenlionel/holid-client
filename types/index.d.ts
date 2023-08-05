@@ -22,7 +22,7 @@ export interface Hotel {
 }
 
 export interface Photo {
-    createdAt: string; 
+    createdAt: string;
     public_id: string;
     updatedAt: string;
     url: string;
@@ -30,8 +30,8 @@ export interface Photo {
 }
 
 export interface PropertyTypes {
-        type: string;
-        count: number  
+    type: string;
+    count: number
 }
 
 export interface Error {
@@ -40,7 +40,7 @@ export interface Error {
 }
 
 export interface RoomNumbers {
-     number: number,
+    number: number,
     unavailableDates: date[],
     _id: string
 }
@@ -51,23 +51,23 @@ export interface Room {
     price: number,
     maxPeople: number,
     desc: string,
-    roomNumbers: RoomNumbers [],
+    roomNumbers: RoomNumbers[],
     createdAt: string,
     updatedAt: string,
 }
 
 interface Product {
-    _id:string;
-    image:string;
+    _id: string;
+    image: string;
     price: number;
     slug: string;
-    name:string;
+    name: string;
     hotelId: string;
     adult: number;
     children: number;
     roomNumberId: string[];
     userId: string;
-    allDates: number []
+    allDates: number[]
 }
 
 interface StripeProduct {
@@ -86,20 +86,23 @@ interface StripeProduct {
 }
 
 interface Booking {
-        dates: {
-            startDate: string,
-            endDate: string
-        };
-        _id: string;
-        hotelId: string;
-        price: number;
-        adult: number;
-        children: number;
-        userId: string;
-        roomNumbersId: string[];
-        stripeId: string;
-        createdAt: string;
-        updatedAt: string;
+    dates: {
+        startDate: string,
+        endDate: string
+    };
+    _id: string;
+    hotelId: string;
+    price: number;
+    adult: number;
+    children: number;
+    userId: string;
+    roomNumbersId: string[];
+    photo: string,
+    hotelTitle: string,
+    rating: number,
+    stripeId: string;
+    createdAt: string;
+    updatedAt: string;
 }
 
 interface File {

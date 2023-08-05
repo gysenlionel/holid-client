@@ -9,19 +9,14 @@ import axios from "axios";
 import requests from "../utils/requests";
 import { Booking, Hotel } from "../types";
 import CardHolidays from "../components/CardHolidays";
-import { format } from "date-fns";
 import Footer from "../components/Footer";
 import { useRouter } from "next/router";
 
 interface IHolidaysProps {
   bookings: Booking[];
-  hotels: Hotel[];
 }
 
-const Holidays: React.FunctionComponent<IHolidaysProps> = ({
-  bookings,
-  hotels,
-}) => {
+const Holidays: React.FunctionComponent<IHolidaysProps> = ({ bookings }) => {
   const router = useRouter();
   return (
     <div className="">
@@ -48,12 +43,7 @@ const Holidays: React.FunctionComponent<IHolidaysProps> = ({
                   )
                   .reverse()
                   .map((booking, index) => (
-                    <CardHolidays
-                      hotels={hotels}
-                      booking={booking}
-                      index={index}
-                      key={index}
-                    />
+                    <CardHolidays booking={booking} key={index} />
                   ))
               ) : (
                 <p className="text-center">You haven't booked a holiday yet</p>
@@ -80,20 +70,11 @@ export const getServerSideProps: GetServerSideProps =
       headers: { cookie: req.headers.cookie },
     });
     const bookings = await response.data;
-    const responseHotel = Promise.all(
-      bookings.map(async (booking: Booking) => {
-        return await axios
-          .get(`${requests.fetchPropertyById}${booking.hotelId}`)
-          .then((res) => res.data);
-      })
-    );
-    const hotels = await responseHotel;
 
     return {
       props: {
         user,
         bookings,
-        hotels,
       },
     };
   });
