@@ -50,7 +50,7 @@ const Stays: React.FunctionComponent<IStaysProps> = ({}) => {
     setIsLoadingProperties(true);
     const getStays = async () => {
       const response = await fetchGetJSON(
-        `/api/getStays?destination=${destinationState}${
+        `/api/getStays?destination=${query.destination ?? destinationState}${
           typeof query.min !== "undefined" ? "&min=" + query.min : "&min="
         }${typeof query.max !== "undefined" ? "&max=" + query.max : "&max="}${
           typeof query.type !== "undefined" ? "&type=" + query.type : "&type="

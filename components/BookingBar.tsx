@@ -81,6 +81,12 @@ const BookingBarClassic: React.FunctionComponent<IBookingBarProps> = ({
   }, []);
 
   useEffect(() => {
+    if (query?.destination) {
+      setData({
+        city: query?.destination as string,
+      });
+    }
+
     if (query?.options) {
       setOptions({
         adult: JSON.parse(query?.options as string)?.adult,
