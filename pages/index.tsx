@@ -1,3 +1,4 @@
+import dynamic from "next/dynamic";
 import React, { useState } from "react";
 import Banner from "../components/Banner";
 import Input from "../components/Form/Input";
@@ -5,11 +6,15 @@ import Header from "../components/Header";
 import HeadSEO from "../components/HeadSEO";
 import siteMetadata from "../data/siteMetadata";
 import Hero from "../components/Hero";
-import CardExplore from "../components/CardExplore";
 import requests from "../utils/requests";
 import { Hotel, PropertyTypes } from "../types";
 import axios from "axios";
-import PropertyType from "../components/PropertyType";
+const PropertyType = dynamic(() => import("../components/PropertyType"), {
+  ssr: false,
+});
+const CardExplore = dynamic(() => import("../components/CardExplore"), {
+  ssr: false,
+});
 import Button from "../components/Button";
 import Footer from "../components/Footer";
 import { getUser } from "../lib/getUser-ssr";

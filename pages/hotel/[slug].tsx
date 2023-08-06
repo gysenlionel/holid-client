@@ -1,3 +1,4 @@
+import dynamic from "next/dynamic";
 import React, { useMemo, useState } from "react";
 import Banner from "../../components/Banner";
 import Header from "../../components/Header";
@@ -40,7 +41,12 @@ import {
 } from "../../store/travelSlice";
 import { stringToDate } from "../../utils/helpers/transformToDate";
 import { dayDifference } from "../../utils/helpers/daysCalcul";
-import ReserveModal from "../../components/Modal/ReserveModal";
+const ReserveModal = dynamic(
+  () => import("../../components/Modal/ReserveModal"),
+  {
+    ssr: false,
+  }
+);
 
 interface IHotelProps {
   property: Hotel;

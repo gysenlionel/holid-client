@@ -14,13 +14,15 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   const [loading, setLoading] = useState(false);
   useEffect(() => {
-    const start = () => {
-      if (Router.asPath !== "/profil" && Router.pathname !== "/profil")
-        setLoading(true);
-    };
-    const end = () => {
-      setLoading(false);
-    };
+    // const start = () => {
+    //     setLoading(true);
+    // };
+    // const end = () => {
+    //   setLoading(false);
+    // };
+    const start = (url) => url !== Router.asPath && setLoading(true);
+    const end = (url) => url === Router.asPath && setLoading(false);
+
     Router.events.on("routeChangeStart", start);
     Router.events.on("routeChangeComplete", end);
     Router.events.on("routeChangeError", end);

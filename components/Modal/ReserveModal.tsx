@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from "react";
-import Input from "../Form/Input";
+import React, { useState } from "react";
 import Button from "../Button";
 import ModalUi from "./ModalUi";
-import { Toaster, toast } from "react-hot-toast";
 import Currency from "../Currency";
 import Checkbox from "../Form/Checkbox";
 import { Hotel, Room, RoomNumbers } from "../../types";
