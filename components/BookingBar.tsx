@@ -54,7 +54,7 @@ const BookingBarClassic: React.FunctionComponent<IBookingBarProps> = ({
 
   const [openDate, setOpenDate] = useState(false);
   const [data, setData] = useState({
-    city: destinationState,
+    city: destinationState == null ? "" : destinationState,
   });
 
   const [showModal, setShowModal] = useState(false);
@@ -83,7 +83,10 @@ const BookingBarClassic: React.FunctionComponent<IBookingBarProps> = ({
   useEffect(() => {
     if (query?.destination) {
       setData({
-        city: query?.destination as string,
+        city:
+          typeof query?.destination == null
+            ? ""
+            : (query?.destination as string),
       });
     }
 
@@ -261,7 +264,7 @@ const BookingBarFilters: React.FunctionComponent<IBookingBarProps> = ({
   const router = useRouter();
   const [openDate, setOpenDate] = useState(false);
   const [data, setData] = useState<IData>({
-    city: destinationState,
+    city: destinationState == null ? "" : destinationState,
     min: null,
     max: null,
   });
