@@ -21,7 +21,7 @@ import { getUser } from "../lib/getUser-ssr";
 import { GetServerSideProps } from "next";
 import { wrapper } from "../store/store";
 
-interface IIndexProps {
+export interface IIndexProps {
   caribbeanHotels: Hotel[];
   propertyTypes: PropertyTypes[];
 }
@@ -48,7 +48,7 @@ const Home: React.FunctionComponent<IIndexProps> = ({
         ogType="Homepage"
         canonicalUrl={`${siteMetadata.siteUrl}`}
       />
-      <Header />
+      {/* <Header /> */}
       <main className="mb-8 lg:space-y-24">
         <Banner variant="bookingBarClassic" />
         <section className="gutters mt-10 flex justify-center lg:mt-0">

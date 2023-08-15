@@ -12,7 +12,7 @@ export interface Hotel {
     title: string,
     desc: string,
     rating: number,
-    rooms: [string],
+    rooms: string[],
     cheapestPrice: number,
     featured: Boolean,
     _id: string,
