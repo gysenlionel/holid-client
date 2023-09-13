@@ -167,6 +167,7 @@ const BookingBarClassic: React.FunctionComponent<IBookingBarProps> = ({
           <div className="flex space-x-2">
             <CalendarDaysIcon className="my-4 h-6 w-6 text-white/50 lg:my-0" />
             <p
+              data-testid="date-picker"
               className={`${
                 openDate && "pointer-events-none"
               } my-4 cursor-pointer lg:my-0`}
@@ -199,6 +200,7 @@ const BookingBarClassic: React.FunctionComponent<IBookingBarProps> = ({
           <div className="flex items-center space-x-2 border-b border-dotted border-white/50 px-4 lg:border-none lg:px-0">
             <UserIcon className="my-4 h-6 w-6 text-white/50 lg:my-0" />
             <div
+              data-testid="compFam"
               className={`${
                 showModal && "pointer-events-none"
               } flex cursor-pointer items-center space-x-2`}

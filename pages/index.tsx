@@ -40,6 +40,7 @@ const Home: React.FunctionComponent<IIndexProps> = ({
       [name]: value,
     });
   };
+
   return (
     <div className={`h-screen lg:h-[140vh]`}>
       <HeadSEO
@@ -48,7 +49,7 @@ const Home: React.FunctionComponent<IIndexProps> = ({
         ogType="Homepage"
         canonicalUrl={`${siteMetadata.siteUrl}`}
       />
-      {/* <Header /> */}
+      <Header />
       <main className="mb-8 lg:space-y-24">
         <Banner variant="bookingBarClassic" />
         <section className="gutters mt-10 flex justify-center lg:mt-0">

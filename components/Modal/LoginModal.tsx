@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Input from "../Form/Input";
-import { useRouter } from "next/router";
+import { usePathname, useRouter } from "next/navigation";
 import { Error } from "../../types";
 import Button from "../Button";
 import ModalUi from "./ModalUi";
@@ -45,6 +45,7 @@ const LoginModal: React.FunctionComponent<ILoginModalProps> = ({
   };
 
   const router = useRouter();
+  const pathname = usePathname();
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setIsLoading(true);
@@ -56,6 +57,7 @@ const LoginModal: React.FunctionComponent<ILoginModalProps> = ({
       setIsLoading(false);
       console.error(response?.message);
       displayErrors(response?.message, setErrors);
+
       if (errors?.status === 500)
         toast.error(`An error has occurred`, {
           duration: 8000,
@@ -66,7 +68,7 @@ const LoginModal: React.FunctionComponent<ILoginModalProps> = ({
     setIsLoading(false);
     setErrors(null);
     setIsShowModal(false);
-    router.push(router.asPath);
+    router.push(pathname);
   };
 
   useEffect(() => {
