@@ -8,7 +8,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import BookingBar from "../../components/BookingBar";
 import { makeStore } from "../../store/store";
 
-jest.mock("next/router", () => ({
+jest.mock("next/navigation", () => ({
   push: jest.fn(),
   useRouter() {
     return {
@@ -79,7 +79,7 @@ describe("Sign up Modal", () => {
     });
   });
 
-  const useRouter = jest.spyOn(require("next/router"), "useRouter");
+  const useRouter = jest.spyOn(require("next/navigation"), "useRouter");
   it("should all data in booking bar click on search and check their values in router", async () => {
     const router = { push: jest.fn() };
     useRouter.mockReturnValue(router);
@@ -121,17 +121,12 @@ describe("Sign up Modal", () => {
 
     const SearchButton = screen.getByRole("button", { name: "Search" });
     await userEvent.click(SearchButton);
-    expect(router.push).toHaveBeenCalledWith({
-      pathname: "/stays",
-      query: {
-        dates: `{"startDate":${JSON.stringify(
-          dateResponse
-        )},"endDate":${JSON.stringify(
-          tomorrowDateResponse
-        )},"key":"selection"}`,
-        destination: "Brussels",
-        options: '{"adult":2,"children":1,"room":2}',
-      },
-    });
+    expect(router.push).toHaveBeenCalledWith(
+      `/stays?destination=Brussels&dates={"startDate":${JSON.stringify(
+        dateResponse
+      )},"endDate":${JSON.stringify(
+        tomorrowDateResponse
+      )},"key":"selection"}&options={"adult":2,"children":1,"room":2}`
+    );
   });
 });

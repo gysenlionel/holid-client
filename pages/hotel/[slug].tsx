@@ -8,7 +8,6 @@ import Footer from "../../components/Footer";
 import { getUser } from "../../lib/getUser-ssr";
 import { GetServerSideProps } from "next";
 import { wrapper } from "../../store/store";
-import { useRouter } from "next/router";
 import { Hotel, Room } from "../../types";
 import axios from "axios";
 import requests from "../../utils/requests";
@@ -41,6 +40,7 @@ import {
 } from "../../store/travelSlice";
 import { stringToDate } from "../../utils/helpers/transformToDate";
 import { dayDifference } from "../../utils/helpers/daysCalcul";
+import { usePathname, useSearchParams } from "next/navigation";
 const ReserveModal = dynamic(
   () => import("../../components/Modal/ReserveModal"),
   {
@@ -59,19 +59,27 @@ const Hotel: React.FunctionComponent<IHotelProps> = ({
   user,
   rooms,
 }) => {
-  const router = useRouter();
   const asterisks = [];
   const [openModal, setOpenModal] = useState(false);
   const [openModalReserve, setOpenModalReserve] = useState(false);
-  const { query } = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const dispatch = useDispatch();
   const datesState = useSelector(selectDatesState);
   const optionsState = useSelector(selectOptionsState);
 
+  const datesQuery = searchParams.get("dates");
+  const optionsQuery = searchParams.get("options");
+  const destinationQuery = searchParams.get("destination");
+  const query = {
+    dates: datesQuery,
+    options: optionsQuery,
+    destination: destinationQuery,
+  };
   const DestinationQuery = useMemo(() => {
-    dispatch(setDatesState(query.dates ?? datesState));
-    dispatch(setOptionsState(query.options ?? optionsState));
-  }, [query]);
+    dispatch(setDatesState(datesQuery ?? (datesState as string)));
+    dispatch(setOptionsState(optionsQuery ?? optionsState));
+  }, [datesQuery, optionsQuery]);
 
   const { startDate, endDate } = stringToDate(datesState);
 
@@ -136,7 +144,7 @@ const Hotel: React.FunctionComponent<IHotelProps> = ({
         title={`Hotel | ${siteMetadata.siteUrl}`}
         description="Holi'D hotelpage, Check you bookings, looks for holidays"
         ogType="Hotelpage"
-        canonicalUrl={`${siteMetadata.siteUrl}${router.pathname}`}
+        canonicalUrl={`${siteMetadata.siteUrl}${pathname}`}
       />
       <Header />
       <main className="mb-8 lg:space-y-24">

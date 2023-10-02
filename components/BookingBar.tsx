@@ -14,7 +14,6 @@ import "react-date-range/dist/theme/default.css"; // theme css file
 import Button from "./Button";
 import OutsideClick from "./OutsideClick/OutsideClick";
 import CompFamModal from "./Modal/CompFamModal";
-import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import {
   selectDatesState,
@@ -23,6 +22,7 @@ import {
 } from "../store/travelSlice";
 import { stringToDate } from "../utils/helpers/transformToDate";
 import { ParsedUrlQuery } from "querystring";
+import { usePathname, useRouter } from "next/navigation";
 
 interface IBookingBarProps {
   className?: string;
@@ -37,8 +37,8 @@ interface IBookingBarProps {
 
 interface IData {
   city: string;
-  min: number | null;
-  max: number | null;
+  min: number | "";
+  max: number | "";
 }
 
 const BookingBarClassic: React.FunctionComponent<IBookingBarProps> = ({
@@ -124,15 +124,9 @@ const BookingBarClassic: React.FunctionComponent<IBookingBarProps> = ({
       key: dates[0].key,
     };
     router.push(
-      {
-        pathname: "/stays",
-        query: {
-          destination: data.city,
-          dates: JSON.stringify(dateForm),
-          options: JSON.stringify(options),
-        },
-      }
-      // "/stays" // hide query from url
+      `/stays?destination=${data.city}&dates=${JSON.stringify(
+        dateForm
+      )}&options=${JSON.stringify(options)}`
     );
   };
 
@@ -267,8 +261,8 @@ const BookingBarFilters: React.FunctionComponent<IBookingBarProps> = ({
   const [openDate, setOpenDate] = useState(false);
   const [data, setData] = useState<IData>({
     city: destinationState == null ? "" : destinationState,
-    min: null,
-    max: null,
+    min: "",
+    max: "",
   });
   const [showModal, setShowModal] = useState(false);
 
@@ -310,21 +304,13 @@ const BookingBarFilters: React.FunctionComponent<IBookingBarProps> = ({
       key: dates[0].key,
     };
     router.replace(
-      {
-        pathname: "/stays",
-        query: {
-          destination: data.city,
-          dates: JSON.stringify(dateForm),
-          options: JSON.stringify(options),
-          isLoading: isLoading,
-          min: data.min,
-          max: data.max,
-        },
-      }
-      // "/stays" // hide query from url
+      `/stays?destination=${data.city}&dates=${JSON.stringify(
+        dateForm
+      )}&options=${JSON.stringify(options)}&min=${data.min}&max=${
+        data.max
+      }&isLoading=${isLoading}`
     );
   };
-
   return (
     <div
       className={`${className} gradientBooking relative mb-6 flex h-auto w-full flex-col items-center rounded-md border border-orangeMain pb-4 font-body text-base 
@@ -464,6 +450,7 @@ const BookingBarAvailability: React.FunctionComponent<IBookingBarProps> = ({
   const datesState = useSelector(selectDatesState);
   const optionsState = JSON.parse(useSelector(selectOptionsState));
   const router = useRouter();
+  const pathname = usePathname();
   const [openDate, setOpenDate] = useState(false);
 
   const [showModal, setShowModal] = useState(false);
@@ -492,14 +479,9 @@ const BookingBarAvailability: React.FunctionComponent<IBookingBarProps> = ({
     };
 
     router.push(
-      {
-        pathname: router.asPath,
-        query: {
-          dates: JSON.stringify(dateForm),
-          options: JSON.stringify(options),
-        },
-      },
-      router.asPath // hide query from url
+      `/${pathname}?dates=${JSON.stringify(dateForm)}&options=${JSON.stringify(
+        options
+      )}`
     );
   };
 

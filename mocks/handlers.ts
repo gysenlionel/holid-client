@@ -69,7 +69,6 @@ export const handlers = [
     rest.post('/api/sign_up', async (req, res, ctx) => {
         const { credentials } = await req.json();
         const { username, password, firstname, lastname, email } = credentials
-        console.log(credentials)
         if (username.trim() === "" && firstname.trim() === "" && lastname.trim() === "") {
             return res(
                 ctx.status(500),
@@ -114,14 +113,71 @@ export const handlers = [
         )
     }),
 
-    // rest.get(`${environment.apiUrl}/api/auth/`, (req, res, ctx) => {
-    //     return res(
-    //         ctx.status(403)
-    //     )
-    // }),
-    // rest.get(`${environment.apiUrl}/api/users/1`, (req, res, ctx) => {
-    //     return res(
-    //         ctx.status(400)
-    //     )
-    // }),
+    rest.post('/api/checkout_sessions', async (req, res, ctx) => {
+        const { items } = await req.json();
+
+        return res(
+            ctx.status(200),
+            ctx.json("User created")
+        )
+    }),
+
+    rest.put(`/api/update_profil`, async (req, res, ctx) => {
+        const type = req.url.searchParams.get('userId')
+        const { user } = await req.json();
+
+        if (user?.firstname?.trim() === "" && user?.lastname?.trim() === "") {
+
+            return res(
+                ctx.status(500),
+                ctx.json({
+                    statusCode: 500, message:
+                    {
+                        message: "Validation failed: lastname: Lastname is required, firstname: Firstname is required", status: 500
+                    }
+                })
+            )
+        } else if (user?.city?.trim() === "" && user?.address?.trim() === "" && user?.country?.trim() === "") {
+
+            return res(
+                ctx.status(500),
+                ctx.json({
+                    statusCode: 500, message:
+                    {
+                        message: "Validation failed: address: Address must be contain at least 2 characters, city: City must be contain at least 2 characters, country: Country must be contain at least 1 character", status: 500
+                    }
+                })
+            )
+        } else {
+
+            return res(
+                ctx.status(200),
+                ctx.json({ data: "User updated" })
+            )
+        }
+
+
+    }),
+    rest.put(`/api/update_password`, async (req, res, ctx) => {
+        const userId = req.url.searchParams.get('userId')
+        const { password } = await req.json();
+
+        if (password.trim() === "") {
+
+            return res(
+                ctx.status(500),
+                ctx.json({
+                    statusCode: 500, message:
+                    {
+                        message: "Password is required", status: 400
+                    }
+                })
+            )
+        }
+
+        return res(
+            ctx.status(200),
+            ctx.json({ data: "User updated" })
+        )
+    }),
 ]

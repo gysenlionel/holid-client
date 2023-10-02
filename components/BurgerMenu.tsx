@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useUser } from "../contexts/user-context";
-import { useRouter } from "next/router";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import {
   UserPlusIcon,
@@ -24,8 +24,8 @@ const BurgerMenu: React.FunctionComponent<IBurgerMenuProps> = ({
   setIsShowModalSign,
 }) => {
   const { user, setUser } = useUser();
+  const pathname = usePathname();
   const router = useRouter();
-  const path = useRouter().asPath;
   const MenuItem: React.FC<{
     children: string;
     onClick?: React.MouseEventHandler<HTMLParagraphElement>;
@@ -100,7 +100,7 @@ const BurgerMenu: React.FunctionComponent<IBurgerMenuProps> = ({
                     const response = await fetchPostJSON("/api/signout");
                     setIsShowMenu(false);
                     setUser(null);
-                    router.push(router.asPath);
+                    router.push(pathname);
                   }}
                 />
               </>

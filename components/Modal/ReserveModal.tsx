@@ -175,6 +175,7 @@ const ReserveModal: React.FunctionComponent<ILoginModalProps> = ({
                 <div className="flex gap-4">
                   {room.roomNumbers.map((roomNumber) => (
                     <Checkbox
+                      id={roomNumber._id}
                       value={roomNumber._id}
                       label={roomNumber.number.toString()}
                       handleChange={handleChange}
