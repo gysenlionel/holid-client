@@ -45,6 +45,7 @@ const SelectMuiCountry: React.FunctionComponent<ISelectMuiProps> = ({
   return (
     <FormControl sx={{ width: "100%", mb: 3 }}>
       <Select
+        data-testid="select"
         displayEmpty
         value={selectedCountry.length === 0 ? "" : selectedCountry[1]}
         onChange={(e) => {

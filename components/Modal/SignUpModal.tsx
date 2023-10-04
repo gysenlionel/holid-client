@@ -80,6 +80,7 @@ const SignUpModal: React.FunctionComponent<ISignUpModalProps> = ({
       toast.dismiss();
     }, 1500);
   };
+
   return (
     <ModalUi
       isShowModal={isShowModal}

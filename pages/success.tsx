@@ -4,7 +4,6 @@ import { fetchLineItems } from "../utils/helpers/fetchLineItems";
 import { StripeProduct } from "../types";
 import { GetServerSideProps } from "next";
 import { wrapper } from "../store/store";
-import { useRouter } from "next/router";
 import HeadSEO from "../components/HeadSEO";
 import siteMetadata from "../data/siteMetadata";
 import { getUser } from "../lib/getUser-ssr";
@@ -19,6 +18,7 @@ import {
 } from "@heroicons/react/24/outline";
 import Button from "../components/Button";
 import Currency from "../components/Currency";
+import { usePathname, useSearchParams, useRouter } from "next/navigation";
 
 interface ISuccessProps {
   products: StripeProduct[];
@@ -30,7 +30,9 @@ const Success: React.FunctionComponent<ISuccessProps> = ({
   products,
 }) => {
   const router = useRouter();
-  const { session_id } = router.query;
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const session_id = searchParams.get("session_id");
   const [mounted, setMounted] = useState(false);
   const [showOrderSummary, setShowOrderSummary] = useState(false);
 
@@ -56,7 +58,7 @@ const Success: React.FunctionComponent<ISuccessProps> = ({
         title={`Thank you | ${siteMetadata.siteUrl}`}
         description="Holi'D success page, Payment confirmation"
         ogType="Successpage"
-        canonicalUrl={`${siteMetadata.siteUrl}${router.pathname}`}
+        canonicalUrl={`${siteMetadata.siteUrl}${pathname}`}
       />
       <main className="grid grid-cols-1 lg:grid-cols-9">
         <section

@@ -14,12 +14,6 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   const [loading, setLoading] = useState(false);
   useEffect(() => {
-    // const start = () => {
-    //     setLoading(true);
-    // };
-    // const end = () => {
-    //   setLoading(false);
-    // };
     const start = (url) => url !== Router.asPath && setLoading(true);
     const end = (url) => url === Router.asPath && setLoading(false);
 

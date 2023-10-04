@@ -1,8 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import Button from "./Button";
-import { useDispatch, useSelector } from "react-redux";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 interface IHeroProps {}
 

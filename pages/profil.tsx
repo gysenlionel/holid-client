@@ -8,7 +8,6 @@ import Header from "../components/Header";
 import siteMetadata from "../data/siteMetadata";
 import AvatarIcon from "../components/AvatarIcon";
 import CardProfil from "../components/CardProfil";
-import { useRouter } from "next/router";
 import { useDropzone } from "react-dropzone";
 import { RxCheck } from "react-icons/rx";
 import { RiCloseLine } from "react-icons/ri";
@@ -20,6 +19,7 @@ import ErrorMessage from "../components/Form/ErrorMessage";
 import countries from "../data/countries.json";
 import { includesTupleCountries } from "../utils/helpers/includesCountries";
 import SpinnerSVG from "../components/SVG/Spinner";
+import { usePathname, useRouter } from "next/navigation";
 
 interface IProfilProps {
   user: IUser;
@@ -54,10 +54,12 @@ const Profil: React.FunctionComponent<IProfilProps> = ({ user }) => {
   });
 
   const router = useRouter();
+  const pathname = usePathname();
+
   // Call this function whenever you want to
   // refresh props!
   const refreshData = () => {
-    router.replace(router.asPath);
+    router.replace(pathname);
   };
 
   const onDrop = useCallback((acceptedFiles, rejectFiles) => {
@@ -152,7 +154,7 @@ const Profil: React.FunctionComponent<IProfilProps> = ({ user }) => {
         title={`Profil | ${siteMetadata.siteUrl}`}
         description="Holi'D Profil Page, Check your profil and update it."
         ogType="Profil"
-        canonicalUrl={`${siteMetadata.siteUrl}${router.pathname}`}
+        canonicalUrl={`${siteMetadata.siteUrl}${pathname}`}
       />
       <Header />
       <main className="mt-24 lg:mt-36">

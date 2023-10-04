@@ -10,22 +10,21 @@ import requests from "../utils/requests";
 import { Booking } from "../types";
 import CardHolidays from "../components/CardHolidays";
 import Footer from "../components/Footer";
-import { useRouter } from "next/router";
-import Loading from "../components/Loading";
+import { usePathname } from "next/navigation";
 
 interface IHolidaysProps {
   bookings: Booking[];
 }
 
 const Holidays: React.FunctionComponent<IHolidaysProps> = ({ bookings }) => {
-  const router = useRouter();
+  const pathname = usePathname();
   return (
     <div className="">
       <HeadSEO
         title={`Holidays | ${siteMetadata.siteUrl}`}
         description="Holi'D Holidays Page, Check you bookings, looks for holidays"
         ogType="Holidays"
-        canonicalUrl={`${siteMetadata.siteUrl}${router.pathname}`}
+        canonicalUrl={`${siteMetadata.siteUrl}${pathname}`}
       />
       <Header />
       <main

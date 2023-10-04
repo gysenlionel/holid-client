@@ -4,7 +4,6 @@ import Banner from "../components/Banner";
 import Header from "../components/Header";
 import HeadSEO from "../components/HeadSEO";
 import siteMetadata from "../data/siteMetadata";
-import { useRouter } from "next/router";
 import BookingBar from "../components/BookingBar";
 import { Hotel } from "../types";
 import StaysCard from "../components/StaysCard";
@@ -23,6 +22,7 @@ import { wrapper } from "../store/store";
 import { fetchGetJSON } from "../utils/helpers/api-helpers";
 import Footer from "../components/Footer";
 import Radio from "../components/Form/Radio";
+import { usePathname, useSearchParams } from "next/navigation";
 const Loading = dynamic(() => import("../components/Loading"), { ssr: true });
 
 interface IStaysProps {}
@@ -33,27 +33,49 @@ const Stays: React.FunctionComponent<IStaysProps> = ({}) => {
   const datesState = useSelector(selectDatesState);
   const optionsState = useSelector(selectOptionsState);
   const dispatch = useDispatch();
-  const { query } = useRouter();
-  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingProperties, setIsLoadingProperties] = useState(false);
   const sorts = ["none", "asc", "desc"];
   const [checkedStateChoix, setCheckedStateChoix] = useState<number>(0);
+  const destinationQuery = searchParams.get("destination");
+  const datesQuery = searchParams.get("dates");
+  const optionsQuery = searchParams.get("options");
+  const minQuery = searchParams.get("min");
+  const maxQuery = searchParams.get("max");
+  const typeQuery = searchParams.get("type");
 
   // Session Storate
   const DestinationQuery = useMemo(() => {
-    dispatch(setDestinationState(query.destination ?? destinationState));
-    dispatch(setDatesState(query.dates ?? datesState));
-    dispatch(setOptionsState(query.options ?? optionsState));
-  }, [query]);
+    dispatch(setDestinationState(destinationQuery ?? destinationState));
+    dispatch(setDatesState(datesQuery ?? datesState));
+    dispatch(setOptionsState(optionsQuery ?? optionsState));
+  }, [
+    destinationQuery,
+    datesQuery,
+    optionsQuery,
+    minQuery,
+    maxQuery,
+    typeQuery,
+  ]);
+
   useEffect(() => {
     setIsLoadingProperties(true);
     const getStays = async () => {
       const response = await fetchGetJSON(
-        `/api/getStays?destination=${query.destination ?? destinationState}${
-          typeof query.min !== "undefined" ? "&min=" + query.min : "&min="
-        }${typeof query.max !== "undefined" ? "&max=" + query.max : "&max="}${
-          typeof query.type !== "undefined" ? "&type=" + query.type : "&type="
+        `/api/getStays?destination=${destinationQuery ?? destinationState}${
+          typeof minQuery !== "undefined" && typeof minQuery != "object"
+            ? "&min=" + minQuery
+            : "&min="
+        }${
+          typeof maxQuery !== "undefined" && typeof maxQuery != "object"
+            ? "&max=" + maxQuery
+            : "&max="
+        }${
+          typeof typeQuery !== "undefined" && typeof typeQuery != "object"
+            ? "&type=" + typeQuery
+            : "&type="
         }`
       );
       return response;
@@ -77,11 +99,26 @@ const Stays: React.FunctionComponent<IStaysProps> = ({}) => {
       setIsLoading(false);
       setIsLoadingProperties(false);
     });
-  }, [checkedStateChoix, query]);
+  }, [
+    checkedStateChoix,
+    destinationQuery,
+    datesQuery,
+    optionsQuery,
+    minQuery,
+    maxQuery,
+    typeQuery,
+  ]);
 
   useEffect(() => {
-    if (query.destination === destinationState) setIsLoading(false);
-  }, [query]);
+    if (destinationQuery === destinationState) setIsLoading(false);
+  }, [
+    destinationQuery,
+    datesQuery,
+    optionsQuery,
+    minQuery,
+    maxQuery,
+    typeQuery,
+  ]);
 
   const OrderBy = ({ className }) => {
     return (
@@ -113,7 +150,7 @@ const Stays: React.FunctionComponent<IStaysProps> = ({}) => {
         title={`Stays | ${siteMetadata.siteUrl}`}
         description="Holi'D Stays Page, Check you bookings, looks for holidays"
         ogType="Stays"
-        canonicalUrl={`${siteMetadata.siteUrl}${router.pathname}`}
+        canonicalUrl={`${siteMetadata.siteUrl}${pathname}`}
       />
       <Header />
       <main className="mb-8">

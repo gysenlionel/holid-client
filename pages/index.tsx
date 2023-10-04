@@ -21,7 +21,7 @@ import { getUser } from "../lib/getUser-ssr";
 import { GetServerSideProps } from "next";
 import { wrapper } from "../store/store";
 
-interface IIndexProps {
+export interface IIndexProps {
   caribbeanHotels: Hotel[];
   propertyTypes: PropertyTypes[];
 }
@@ -40,6 +40,7 @@ const Home: React.FunctionComponent<IIndexProps> = ({
       [name]: value,
     });
   };
+
   return (
     <div className={`h-screen lg:h-[140vh]`}>
       <HeadSEO

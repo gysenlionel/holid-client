@@ -8,7 +8,7 @@ import { fetchPutJSON } from "../utils/helpers/api-helpers";
 import { displayErrors } from "../utils/displayErrors";
 import toast, { Toaster } from "react-hot-toast";
 import { Error } from "../types";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { capitalizeFirstLetterInWord } from "../utils/helpers/stringTransform";
 import SelectMuiCountry from "./Form/SelectMuiCountry";
 import countries from "../data/countries.json";
@@ -134,6 +134,7 @@ const CardProfil: React.FunctionComponent<ICardProfilProps> = ({
       });
     }
     setIsLoading(false);
+
     if ((response as any).statusCode === 500) {
       displayErrors(response?.message, setErrors);
       if (
@@ -206,6 +207,7 @@ const CardProfil: React.FunctionComponent<ICardProfilProps> = ({
           <RiPencilFill
             className="h-6 w-6 cursor-pointer text-white/70"
             onClick={handleClose}
+            data-testid="pencil"
           />
         </div>
       </div>
@@ -266,6 +268,7 @@ const CardProfil: React.FunctionComponent<ICardProfilProps> = ({
             )}
             {name3 && (
               <SelectMuiCountry
+                data-testid="select"
                 isSelectedCountry={isSelectedCountry}
                 selectedCountry={selectedCountry}
                 setIsSelectedCountry={setIsSelectedCountry}
@@ -292,6 +295,7 @@ const CardProfil: React.FunctionComponent<ICardProfilProps> = ({
             <div
               onClick={() => handleSubmit()}
               className={`flex cursor-pointer text-white/70`}
+              data-testid="submit"
             >
               {isLoading ? (
                 <SpinnerSVG
