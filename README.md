@@ -23,6 +23,9 @@ Frontend:
 - TailwindCss
 - Redux Toolkit
 - Stripe
+- Jest
+- React testing library
+- MSW
 
 Backend: (other repo)
 - Express.Js
@@ -41,6 +44,7 @@ Backend: (other repo)
 - Authentification with HTTP only cookie and refresh token
 - Paid with Stripe and see success page
 - Push images on cloudinary
+-  Unit and integration testing for the frontend (with mocks)
 - CI/CD using github action, jest (integration test), deployment on vercel (for the backend)
 - Rollbar for error monitoring (for the backend)
 - Swagger for api documentation
@@ -91,6 +95,5 @@ To do:
 - Creating a loader
 - Creating a 404 page
 - Add newsletter, favourites, Forgot password
-- Unit and integration testing for the frontend (CI)
 - Creation of the CMS for the back office
 
