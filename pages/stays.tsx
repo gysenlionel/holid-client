@@ -23,7 +23,7 @@ import { fetchGetJSON } from "../utils/helpers/api-helpers";
 import Footer from "../components/Footer";
 import Radio from "../components/Form/Radio";
 import { usePathname, useSearchParams } from "next/navigation";
-const Loading = dynamic(() => import("../components/Loading"), { ssr: true });
+const Loading = dynamic(() => import("../components/Loading"), { ssr: false });
 
 interface IStaysProps {}
 

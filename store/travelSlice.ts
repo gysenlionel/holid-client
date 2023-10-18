@@ -4,6 +4,7 @@ import { HYDRATE } from "next-redux-wrapper";
 import { format } from "date-fns";
 import { diff } from "jsondiffpatch";
 
+
 // Type for our state
 export interface TravelState {
   isLoadingTravelState: boolean;
@@ -14,8 +15,9 @@ export interface TravelState {
 
 const endNewDate = new Date()
 const endDate = endNewDate.setDate(endNewDate.getDate() + 1)
-// Initial state
-const initialState: TravelState = {
+
+// Default state
+const defaultState: TravelState = {
   isLoadingTravelState: false,
   destinationState: null,
   datesState: JSON.stringify({
@@ -28,6 +30,29 @@ const initialState: TravelState = {
     children: 0,
     room: 1,
   })
+};
+
+// Get state from session storage
+const checkIfUseSessionOrInitialState = () => {
+  const session = typeof window !== "undefined" ? window.sessionStorage.getItem("holid-session") : false;
+  if (session) {
+    const datesString = JSON.parse(session).travel.datesState as string
+    if (JSON.parse(datesString).startDate >= format(new Date(), 'dd-MM-yyyy')) {
+      return JSON.parse(session).travel as TravelState
+    }
+    return defaultState
+  } else {
+    return defaultState
+  }
+}
+const initState = checkIfUseSessionOrInitialState()
+
+// Initial state
+const initialState: TravelState = {
+  isLoadingTravelState: false,
+  destinationState: initState?.destinationState,
+  datesState: initState?.datesState,
+  optionsState: initState?.optionsState
 };
 
 // Actual Slice

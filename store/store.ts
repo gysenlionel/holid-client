@@ -7,63 +7,40 @@ import {
 } from "@reduxjs/toolkit";
 import { travelSlice } from "./travelSlice";
 import { createWrapper } from "next-redux-wrapper";
-import { persistReducer, persistStore, FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER } from "redux-persist";
-import storageSession from 'redux-persist/lib/storage/session'
+import { listenerMiddleware } from "./middleware";
 
 export interface State {
-  travel: boolean;
+  travel: any;
 }
 
 const rootReducer = combineReducers({
   [travelSlice.name]: travelSlice.reducer,
 });
 
-const makeConfiguredStore = () =>
-  configureStore({
-    reducer: rootReducer,
-    devTools: true,
-    middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware({
-          immutableCheck: false,
-          serializableCheck: false,
-        }),
-  });
+export const storeServer = configureStore({
+  reducer: rootReducer,
+  devTools: true,
+  middleware: getDefaultMiddleware => getDefaultMiddleware({
+    immutableCheck: false,
+    serializableCheck: false
+  })
+})
 
 export const makeStore = () => {
   const isServer = typeof window === "undefined";
 
   if (isServer) {
-  
-    return makeConfiguredStore();
+    return storeServer;
   } else {
 
-    const persistConfig = {
-      key: "nextjs",
-      whitelist: ["travel"], // make sure it does not clash with server keys
-      storage:storageSession,
-    };
-
-    const persistedReducer = persistReducer(persistConfig, rootReducer);
-
     let store: any = configureStore({
-      reducer: persistedReducer,
+      reducer: rootReducer,
+      middleware: (getDefaultMiddleware) => [
+        ...getDefaultMiddleware(),
+        listenerMiddleware.middleware
+      ],
       devTools: process.env.NODE_ENV !== "production",
-      middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware({
-          immutableCheck: false,
-          serializableCheck: {
-          ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-          },
-      }),
     });
-
-    store.__persistor = persistStore(store); // Nasty hack
-
     return store;
   }
 };

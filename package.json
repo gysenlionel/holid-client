@@ -36,7 +36,6 @@
     "react-redux": "^8.0.5",
     "react-responsive": "^9.0.2",
     "redux-mock-store": "^1.5.4",
-    "redux-persist": "^6.0.0",
     "stripe": "^12.9.0",
     "swiper": "^9.3.2",
     "symbol-observable": "^4.0.0",

@@ -4,9 +4,8 @@ import mockRouter from "next-router-mock";
 import * as React from "react";
 import { Provider } from "react-redux";
 import { format } from "date-fns";
-import { PersistGate } from "redux-persist/integration/react";
 import BookingBar from "../../components/BookingBar";
-import { makeStore } from "../../store/store";
+import { storeServer } from "../../store/store";
 
 jest.mock("next/navigation", () => ({
   push: jest.fn(),
@@ -20,16 +19,14 @@ jest.mock("next/navigation", () => ({
     return "";
   },
 }));
+
 describe("Sign up Modal", () => {
-  const store = makeStore();
   it("should click on composition familial audut/children/room and check their values", async () => {
     mockRouter.push("/");
 
     const { getAllByTestId, getByTestId } = render(
-      <Provider store={store}>
-        <PersistGate persistor={store.__persistor} loading={null}>
-          <BookingBar variant="bookingBarClassic" />
-        </PersistGate>
+      <Provider store={storeServer}>
+        <BookingBar variant="bookingBarClassic" />
       </Provider>
     );
     await userEvent.click(getByTestId("compFam"));
@@ -60,10 +57,8 @@ describe("Sign up Modal", () => {
   it("should click on date picker and check their values", async () => {
     mockRouter.push("/");
     const { getByTestId, getByPlaceholderText } = render(
-      <Provider store={store}>
-        <PersistGate persistor={store.__persistor} loading={null}>
-          <BookingBar variant="bookingBarClassic" />
-        </PersistGate>
+      <Provider store={storeServer}>
+        <BookingBar variant="bookingBarClassic" />
       </Provider>
     );
     await userEvent.click(getByTestId("date-picker"));
@@ -84,10 +79,8 @@ describe("Sign up Modal", () => {
     const router = { push: jest.fn() };
     useRouter.mockReturnValue(router);
     const { getAllByTestId, getByTestId, getByPlaceholderText } = render(
-      <Provider store={store}>
-        <PersistGate persistor={store.__persistor} loading={null}>
-          <BookingBar variant="bookingBarClassic" />
-        </PersistGate>
+      <Provider store={storeServer}>
+        <BookingBar variant="bookingBarClassic" />
       </Provider>
     );
     await userEvent.click(getByTestId("compFam"));

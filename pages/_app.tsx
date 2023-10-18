@@ -4,14 +4,12 @@ import { UserProvider } from "../contexts/user-context";
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { wrapper } from "../store/store";
-import { PersistGate } from "redux-persist/integration/react";
-import { useStore } from "react-redux";
+import { Provider, useStore } from "react-redux";
 const Loading = dynamic(() => import("../components/Loading"), { ssr: false });
 import Router from "next/router";
 
-function MyApp({ Component, pageProps }: AppProps) {
-  const store: any = useStore();
-
+function MyApp({ Component, pageProps, ...rest }: AppProps) {
+  const { store } = wrapper.useWrappedStore(rest);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     const start = (url) => url !== Router.asPath && setLoading(true);
@@ -26,8 +24,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       Router.events.off("routeChangeError", end);
     };
   }, []);
+
   return (
-    <PersistGate persistor={store.__persistor} loading={null}>
+    <Provider store={store}>
       <UserProvider initialUser={pageProps?.user}>
         {loading ? (
           <Loading className="flex h-screen items-center justify-center" />
@@ -35,8 +34,8 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
         )}
       </UserProvider>
-    </PersistGate>
+    </Provider>
   );
 }
 
-export default wrapper.withRedux(MyApp);
+export default MyApp;
