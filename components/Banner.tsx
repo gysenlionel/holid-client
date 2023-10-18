@@ -1,4 +1,4 @@
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import ChevronRightIcon from "@heroicons/react/24/outline/ChevronRightIcon";
 import ChevronLeftIcon from "@heroicons/react/24/outline/ChevronLeftIcon";

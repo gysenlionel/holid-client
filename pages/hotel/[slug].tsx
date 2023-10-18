@@ -1,5 +1,5 @@
 import dynamic from "next/dynamic";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Banner from "../../components/Banner";
 import Header from "../../components/Header";
 import HeadSEO from "../../components/HeadSEO";
@@ -25,7 +25,7 @@ import Currency from "../../components/Currency";
 import Button from "../../components/Button";
 import Image from "next/image";
 import ContentProperty from "../../components/ContentProperty";
-import LocationScore from "../../components/LocationScore";
+import LocationScore from "../../components/LocationScore/LocationScore";
 import BookingBar from "../../components/BookingBar";
 import CardAdvisor from "../../components/CardAdvisor";
 import SwiperComponent from "../../components/SwiperComponent";
@@ -67,6 +67,7 @@ const Hotel: React.FunctionComponent<IHotelProps> = ({
   const dispatch = useDispatch();
   const datesState = useSelector(selectDatesState);
   const optionsState = useSelector(selectOptionsState);
+  const [domLoaded, setDomLoaded] = useState(false);
 
   const datesQuery = searchParams.get("dates");
   const optionsQuery = searchParams.get("options");
@@ -76,6 +77,7 @@ const Hotel: React.FunctionComponent<IHotelProps> = ({
     options: optionsQuery,
     destination: destinationQuery,
   };
+
   const DestinationQuery = useMemo(() => {
     dispatch(setDatesState(datesQuery ?? (datesState as string)));
     dispatch(setOptionsState(optionsQuery ?? optionsState));
@@ -130,6 +132,10 @@ const Hotel: React.FunctionComponent<IHotelProps> = ({
     setOpenModalReserve(true);
   };
 
+  useEffect(() => {
+    setDomLoaded(true);
+  }, []);
+
   const ModalContent = () => {
     return (
       <p className="m-0 text-center font-medium underline decoration-orangeMain underline-offset-4 lg:m-4">
@@ -137,7 +143,6 @@ const Hotel: React.FunctionComponent<IHotelProps> = ({
       </p>
     );
   };
-
   return (
     <div className={`h-screen`}>
       <HeadSEO
@@ -177,11 +182,22 @@ const Hotel: React.FunctionComponent<IHotelProps> = ({
               </div>
               <div className="flex flex-row items-end justify-between text-xl lg:flex-col lg:items-center">
                 <div className="mt-6 lg:mt-0 lg:flex lg:flex-col lg:items-center">
-                  <Currency
-                    price={property.cheapestPrice * days}
-                    currency="usd"
-                    className="font-semibold"
-                  />
+                  {domLoaded ? (
+                    <Currency
+                      price={property.cheapestPrice * days}
+                      currency="usd"
+                      className="font-semibold"
+                    />
+                  ) : (
+                    <div
+                      role="status"
+                      className="max-w-lg animate-pulse space-y-2.5"
+                    >
+                      <div className="flex w-full items-center space-x-2">
+                        <div className="h-2.5 w-16 rounded-full bg-gray-200 dark:bg-gray-700"></div>
+                      </div>
+                    </div>
+                  )}
                   <p className="includesTaxes !text-lg">Includes taxes</p>
                 </div>
                 <ModalUi
@@ -277,7 +293,7 @@ const Hotel: React.FunctionComponent<IHotelProps> = ({
 export default Hotel;
 
 export const getServerSideProps: GetServerSideProps =
-  wrapper.getServerSideProps((store) => async (context) => {
+  wrapper.getServerSideProps(() => async (context) => {
     const { req, res } = context;
     const [error, user] = await getUser(req, res);
 

@@ -49,9 +49,9 @@ const BookingBarClassic: React.FunctionComponent<IBookingBarProps> = ({
   const datesState = useSelector(selectDatesState);
   const optionsState = JSON.parse(useSelector(selectOptionsState));
   const destinationState = useSelector(selectDestinationState);
+
   // Split date string to convert in date time
   const { startDate, endDate } = stringToDate(datesState);
-
   const [openDate, setOpenDate] = useState(false);
   const [data, setData] = useState({
     city: destinationState == null ? "" : destinationState,
@@ -59,6 +59,7 @@ const BookingBarClassic: React.FunctionComponent<IBookingBarProps> = ({
 
   const [showModal, setShowModal] = useState(false);
   const [showModalCompMobile, setShowModalCompMobile] = useState(false);
+  const [domLoaded, setDomLoaded] = useState(false);
 
   const [dates, setDates] = useState([
     {
@@ -130,6 +131,9 @@ const BookingBarClassic: React.FunctionComponent<IBookingBarProps> = ({
     );
   };
 
+  useEffect(() => {
+    setDomLoaded(true);
+  }, []);
   return (
     <div
       className={`${className} gradientBooking relative mx-2 mt-6 flex h-auto flex-col items-center rounded-md border border-orangeMain 
@@ -158,20 +162,31 @@ const BookingBarClassic: React.FunctionComponent<IBookingBarProps> = ({
           className="relative  flex h-full max-w-[17rem] grow flex-col items-start space-x-2 border-b border-dotted border-white/50 px-4 lg:w-auto lg:items-center lg:justify-center lg:border-b-0 lg:border-r lg:border-solid 
           lg:border-r-orangeMain lg:px-0"
         >
-          <div className="flex space-x-2">
+          <div className="flex items-center space-x-2">
             <CalendarDaysIcon className="my-4 h-6 w-6 text-white/50 lg:my-0" />
-            <p
-              data-testid="date-picker"
-              className={`${
-                openDate && "pointer-events-none"
-              } my-4 cursor-pointer lg:my-0`}
-              onClick={() => setOpenDate(!openDate)}
-            >{`${
-              format(dates[0].startDate, "dd/MM/yyyy") +
-              " to " +
-              format(dates[0].endDate, "dd/MM/yyyy")
-            }`}</p>
+            {domLoaded ? (
+              <p
+                data-testid="date-picker"
+                className={`${
+                  openDate && "pointer-events-none"
+                } my-4 cursor-pointer lg:my-0`}
+                onClick={() => setOpenDate(!openDate)}
+              >{`${
+                format(dates[0].startDate, "dd/MM/yyyy") +
+                " to " +
+                format(dates[0].endDate, "dd/MM/yyyy")
+              }`}</p>
+            ) : (
+              <div role="status" className="max-w-lg animate-pulse space-y-2.5">
+                <div className="flex w-full items-center space-x-2">
+                  <div className="h-2.5 w-36 rounded-full bg-gray-200 dark:bg-gray-700"></div>
+                  <div className="h-2.5 w-full rounded-full bg-gray-300 dark:bg-gray-600"></div>
+                  <div className="h-2.5 w-full rounded-full bg-gray-300 dark:bg-gray-600"></div>
+                </div>
+              </div>
+            )}
           </div>
+
           {openDate && (
             <div
               className={`relative -left-[3rem] z-10 lg:absolute lg:-left-2 lg:top-14`}
@@ -193,31 +208,42 @@ const BookingBarClassic: React.FunctionComponent<IBookingBarProps> = ({
         <div className="flex h-full w-auto grow flex-col items-center justify-center space-y-4 lg:flex-row lg:space-x-6 lg:space-y-0">
           <div className="flex items-center space-x-2 border-b border-dotted border-white/50 px-4 lg:border-none lg:px-0">
             <UserIcon className="my-4 h-6 w-6 text-white/50 lg:my-0" />
-            <div
-              data-testid="compFam"
-              className={`${
-                showModal && "pointer-events-none"
-              } flex cursor-pointer items-center space-x-2`}
-              onClick={() => {
-                setShowModal(true);
-                setShowModalCompMobile(true);
-              }}
-            >
-              <p className={`my-4 lg:my-0`}>
-                {options.adult === 1 || typeof options.adult == "undefined"
-                  ? `${options.adult} Adult`
-                  : `${options.adult} Adults `}{" "}
-                • {options.children} children •{" "}
-                {options.room === 1
-                  ? `${options.room} room`
-                  : `${options.room} rooms `}
-              </p>
-              {showModal ? (
-                <ChevronUpIcon className="my-4 h-5 w-5 cursor-pointer text-white/50" />
-              ) : (
-                <ChevronDownIcon className="my-4 h-5 w-5 cursor-pointer text-white/50" />
-              )}
-            </div>
+            {domLoaded ? (
+              <div
+                data-testid="compFam"
+                className={`${
+                  showModal && "pointer-events-none"
+                } flex cursor-pointer items-center space-x-2`}
+                onClick={() => {
+                  setShowModal(true);
+                  setShowModalCompMobile(true);
+                }}
+              >
+                <p className={`my-4 lg:my-0`}>
+                  {(options && options.adult === 1) ||
+                  typeof options.adult == "undefined"
+                    ? `${options.adult} Adult`
+                    : `${options.adult} Adults `}{" "}
+                  • {options.children} children •{" "}
+                  {options.room === 1
+                    ? `${options.room} room`
+                    : `${options.room} rooms `}
+                </p>
+                {showModal ? (
+                  <ChevronUpIcon className="my-4 h-5 w-5 cursor-pointer text-white/50" />
+                ) : (
+                  <ChevronDownIcon className="my-4 h-5 w-5 cursor-pointer text-white/50" />
+                )}
+              </div>
+            ) : (
+              <div role="status" className="max-w-lg animate-pulse space-y-2.5">
+                <div className="flex w-full items-center space-x-2">
+                  <div className="h-2.5 w-44 rounded-full bg-gray-200 dark:bg-gray-700"></div>
+                  <div className="h-2.5 w-full rounded-full bg-gray-300 dark:bg-gray-600"></div>
+                  <div className="h-2.5 w-full rounded-full bg-gray-300 dark:bg-gray-600"></div>
+                </div>
+              </div>
+            )}
           </div>
           <CompFamModal
             invisible={showModalCompMobile}
@@ -452,7 +478,7 @@ const BookingBarAvailability: React.FunctionComponent<IBookingBarProps> = ({
   const router = useRouter();
   const pathname = usePathname();
   const [openDate, setOpenDate] = useState(false);
-
+  const [domLoaded, setDomLoaded] = useState(false);
   const [showModal, setShowModal] = useState(false);
   // Split date string to convert in date time
   const { startDate, endDate } = stringToDate(datesState);
@@ -479,11 +505,15 @@ const BookingBarAvailability: React.FunctionComponent<IBookingBarProps> = ({
     };
 
     router.push(
-      `/${pathname}?dates=${JSON.stringify(dateForm)}&options=${JSON.stringify(
+      `${pathname}?dates=${JSON.stringify(dateForm)}&options=${JSON.stringify(
         options
       )}`
     );
   };
+
+  useEffect(() => {
+    setDomLoaded(true);
+  }, []);
 
   return (
     <div
@@ -500,16 +530,26 @@ const BookingBarAvailability: React.FunctionComponent<IBookingBarProps> = ({
         >
           <div className="flex items-center space-x-2">
             <CalendarDaysIcon className="my-4 h-6 w-6 text-white/50 lg:my-0" />
-            <p
-              className={`${
-                openDate && "pointer-events-none"
-              } my-4 cursor-pointer lg:my-0`}
-              onClick={() => setOpenDate(!openDate)}
-            >{`${
-              format(dates[0].startDate, "dd/MM/yyyy") +
-              " to " +
-              format(dates[0].endDate, "dd/MM/yyyy")
-            }`}</p>
+            {domLoaded ? (
+              <p
+                className={`${
+                  openDate && "pointer-events-none"
+                } my-4 cursor-pointer lg:my-0`}
+                onClick={() => setOpenDate(!openDate)}
+              >{`${
+                format(dates[0].startDate, "dd/MM/yyyy") +
+                " to " +
+                format(dates[0].endDate, "dd/MM/yyyy")
+              }`}</p>
+            ) : (
+              <div role="status" className="max-w-lg animate-pulse space-y-2.5">
+                <div className="flex w-full items-center space-x-2">
+                  <div className="h-2.5 w-36 rounded-full bg-gray-200 dark:bg-gray-700"></div>
+                  <div className="h-2.5 w-full rounded-full bg-gray-300 dark:bg-gray-600"></div>
+                  <div className="h-2.5 w-full rounded-full bg-gray-300 dark:bg-gray-600"></div>
+                </div>
+              </div>
+            )}
           </div>
           {openDate && (
             <div
@@ -532,27 +572,37 @@ const BookingBarAvailability: React.FunctionComponent<IBookingBarProps> = ({
         <div className="flex h-full w-auto grow flex-col items-center justify-center space-y-4 lg:flex-row lg:space-y-0 lg:pr-10">
           <div className="flex items-center space-x-2 border-b border-dotted border-white/50 px-4 lg:border-none lg:px-10">
             <UserIcon className="my-4 h-6 w-6 text-white/50 lg:my-0" />
-            <div
-              className={`${
-                showModal && "pointer-events-none"
-              } flex cursor-pointer items-center space-x-2`}
-              onClick={() => setShowModal(true)}
-            >
-              <p className={`my-4 lg:my-0`}>
-                {options.adult === 1 || typeof options.adult == "undefined"
-                  ? `${options.adult} Adult`
-                  : `${options.adult} Adults `}{" "}
-                • {options.children} children •{" "}
-                {options.room === 1
-                  ? `${options.room} room`
-                  : `${options.room} rooms `}
-              </p>
-              {showModal ? (
-                <ChevronUpIcon className="my-4 h-5 w-5 cursor-pointer text-white/50" />
-              ) : (
-                <ChevronDownIcon className="my-4 h-5 w-5 cursor-pointer text-white/50" />
-              )}
-            </div>
+            {domLoaded ? (
+              <div
+                className={`${
+                  showModal && "pointer-events-none"
+                } flex cursor-pointer items-center space-x-2`}
+                onClick={() => setShowModal(true)}
+              >
+                <p className={`my-4 lg:my-0`}>
+                  {options.adult === 1 || typeof options.adult == "undefined"
+                    ? `${options.adult} Adult`
+                    : `${options.adult} Adults `}{" "}
+                  • {options.children} children •{" "}
+                  {options.room === 1
+                    ? `${options.room} room`
+                    : `${options.room} rooms `}
+                </p>
+                {showModal ? (
+                  <ChevronUpIcon className="my-4 h-5 w-5 cursor-pointer text-white/50" />
+                ) : (
+                  <ChevronDownIcon className="my-4 h-5 w-5 cursor-pointer text-white/50" />
+                )}
+              </div>
+            ) : (
+              <div role="status" className="max-w-lg animate-pulse space-y-2.5">
+                <div className="flex w-full items-center space-x-2">
+                  <div className="h-2.5 w-44 rounded-full bg-gray-200 dark:bg-gray-700"></div>
+                  <div className="h-2.5 w-full rounded-full bg-gray-300 dark:bg-gray-600"></div>
+                  <div className="h-2.5 w-full rounded-full bg-gray-300 dark:bg-gray-600"></div>
+                </div>
+              </div>
+            )}
           </div>
           <CompFamModal
             invisible={showModal}

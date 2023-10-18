@@ -10,10 +10,10 @@ import requests from "../utils/requests";
 import { Hotel, PropertyTypes } from "../types";
 import axios from "axios";
 const PropertyType = dynamic(() => import("../components/PropertyType"), {
-  ssr: false,
+  ssr: true,
 });
 const CardExplore = dynamic(() => import("../components/CardExplore"), {
-  ssr: false,
+  ssr: true,
 });
 import Button from "../components/Button";
 import Footer from "../components/Footer";
