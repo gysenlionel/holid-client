@@ -43,10 +43,12 @@ const Profil: React.FunctionComponent<IProfilProps> = ({ user }) => {
   const [image, setImage] = useState<any>();
   const [errors, setErrors] = useState<Error>(null);
   const [isLoading, setIsLoading] = useState(false);
-  let [width, setWidth] = useState(window.innerWidth);
+  let [width, setWidth] = useState(
+    typeof window !== "undefined" ? window.innerWidth : 0
+  );
 
   let updateDimension = () => {
-    setWidth(window.innerWidth);
+    setWidth(typeof window !== "undefined" ? window.innerWidth : 0);
   };
   useEffect(() => {
     window.addEventListener("resize", updateDimension);
