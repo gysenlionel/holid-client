@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Button from "../Button";
 import ModalUi from "./ModalUi";
 import Currency from "../Currency";
@@ -40,6 +40,7 @@ const ReserveModal: React.FunctionComponent<ILoginModalProps> = ({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const checked = e.target.checked;
     const value = e.target.value;
+
     setSelectRooms(
       checked
         ? [...selectRooms, value]
@@ -129,6 +130,11 @@ const ReserveModal: React.FunctionComponent<ILoginModalProps> = ({
     setIsLoading(false);
   };
 
+  useEffect(() => {
+    if (!isShowModal) {
+      setSelectRooms([]);
+    }
+  }, [isShowModal]);
   return (
     <ModalUi
       isShowModal={isShowModal}
