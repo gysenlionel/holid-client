@@ -37,7 +37,8 @@ const checkIfUseSessionOrInitialState = () => {
   const session = typeof window !== "undefined" ? window.sessionStorage.getItem("holid-session") : false;
   if (session) {
     const datesString = JSON.parse(session).travel.datesState as string
-    if (JSON.parse(datesString).startDate <= format(new Date(), 'dd-MM-yyyy')) {
+
+    if (JSON.parse(datesString).startDate >= format(new Date(), 'dd-MM-yyyy')) {
       return JSON.parse(session).travel as TravelState
     }
     return defaultState
