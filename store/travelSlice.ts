@@ -3,7 +3,8 @@ import { AppState } from "./store";
 import { HYDRATE } from "next-redux-wrapper";
 import { format } from "date-fns";
 import { diff } from "jsondiffpatch";
-
+import getTime from 'date-fns/getTime'
+import { stringToStartDate } from "../utils/helpers/transformToDate";
 
 // Type for our state
 export interface TravelState {
@@ -38,7 +39,7 @@ const checkIfUseSessionOrInitialState = () => {
   if (session) {
     const datesString = JSON.parse(session).travel.datesState as string
 
-    if (JSON.parse(datesString).startDate >= format(new Date(), 'dd-MM-yyyy')) {
+    if (getTime(stringToStartDate(JSON.parse(datesString).startDate)) >= getTime(stringToStartDate(format(new Date(), 'dd-MM-yyyy')))) {
       return JSON.parse(session).travel as TravelState
     }
     return defaultState
