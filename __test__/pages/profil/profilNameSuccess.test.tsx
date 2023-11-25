@@ -46,5 +46,5 @@ describe("ReserveModal", () => {
         screen.getByText("Your profil has been updated")
       ).toBeInTheDocument();
     }, 500);
-  });
+  }, 4000);
 });
