@@ -15,8 +15,8 @@ export const rooms = [
             {
                 "number": 201,
                 "unavailableDates": [
-                    startDate.toISOString().replace("T22:", "T00:"),
-                    enDate.toISOString().replace("T22:", "T00:"),
+                    startDate.toISOString().replace(/(T).*$/, "T00:00:00.000Z"),
+                    enDate.toISOString().replace(/(T).*$/, "T00:00:00.000Z"),
                     "2023-07-02T00:00:00.000Z",
                     "2023-07-03T00:00:00.000Z"
                 ],
