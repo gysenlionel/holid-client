@@ -7,7 +7,7 @@ export const resizeFile = (file, outputType: "base64" | "blob" | "file") =>
             800,
             800,
             "JPEG",
-            100,
+            50,
             0,
             (uri) => {
                 resolve(uri)
