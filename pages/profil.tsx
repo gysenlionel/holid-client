@@ -20,6 +20,7 @@ import countries from "../data/countries.json";
 import { includesTupleCountries } from "../utils/helpers/includesCountries";
 import SpinnerSVG from "../components/SVG/Spinner";
 import { usePathname, useRouter } from "next/navigation";
+import { resizeFile } from "../utils/helpers/resize-img";
 
 interface IProfilProps {
   user: IUser;
@@ -65,13 +66,15 @@ const Profil: React.FunctionComponent<IProfilProps> = ({ user }) => {
   };
 
   const onDrop = useCallback((acceptedFiles, rejectFiles) => {
-    acceptedFiles.forEach((file) => {
+    acceptedFiles.forEach(async (file) => {
+      const imgResize = await resizeFile(file, "base64");
+      const imgFile = (await resizeFile(file, "file")) as Blob;
       const reader = new FileReader();
       reader.onload = () => {
-        setImage(() => reader.result);
+        setImage(imgResize);
       };
-      reader.readAsDataURL(file);
-      setFile(file);
+      reader.readAsDataURL(imgFile);
+      setFile(imgFile);
     });
     if (rejectFiles.length > 0) {
       setErrors({ status: 400, message: rejectFiles[0]?.errors[0]?.message });
@@ -88,16 +91,17 @@ const Profil: React.FunctionComponent<IProfilProps> = ({ user }) => {
     },
   });
 
-  const handleFileChange = (event) => {
+  const handleFileChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
+      const imgResize = await resizeFile(file, "base64");
+      const imgFile = (await resizeFile(file, "file")) as Blob;
       reader.onloadend = () => {
-        const base64String = reader.result;
-        setImage(base64String);
+        setImage(imgResize);
       };
-      reader.readAsDataURL(file);
-      setFile(file);
+      reader.readAsDataURL(imgFile);
+      setFile(imgFile);
     }
   };
 
